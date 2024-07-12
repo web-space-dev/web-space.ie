@@ -28,6 +28,8 @@ const StyledShowcaseDetails = styled(motion.div)`
   height: -webkit-fill-available;
   margin: 40px auto;
   max-width: 1448px;
+  max-height: 800px;
+  overflow: hidden;
 `;
 
 const StyledShowcaseImage = styled(motion.div)`

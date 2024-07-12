@@ -177,6 +177,7 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
         </StyledGridContainer>
         <StyledMotionWrapper open={isOpen}>
           {projects.nodes.map((project, index: number) => {
+            if(index !== 0 && !isOpen && !isFinished) return null
             if (index === projects.nodes.length - 1) {
               return (
                 <ShowcaseItemFinalDesktop
