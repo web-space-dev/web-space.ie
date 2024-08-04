@@ -2,7 +2,6 @@ import React from "react";
 import { GetStaticProps } from "next";
 import { ISiteData } from "../../interfaces/site";
 import { getSiteData } from "../../lib/api";
-import { HOME_OG_IMAGE_URL } from "../../lib/constants";
 import Head from "next/head";
 
 interface IWrapper {
