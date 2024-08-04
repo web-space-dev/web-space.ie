@@ -33,7 +33,6 @@ const StyledShowcaseDetails = styled(motion.div)`
   @media all and (max-width: ${breakpoints.md}px) {
     flex-direction: column;
   }
-
 `;
 
 const StyledAllProjects = styled.div`
@@ -142,7 +141,7 @@ export default function ShowcaseItemFinalDesktop({
   const [listening, setListening] = useState(false);
 
   useEffect(() => {
-    const wiggleRoom = 200;
+    const wiggleRoom = 1400;
     const handleScrollDown = (e: WheelEvent) => {
       scrollRef.current.y += e.deltaY;
       if (scrollRef.current.y > wiggleRoom) {
@@ -164,10 +163,10 @@ export default function ShowcaseItemFinalDesktop({
             window.addEventListener("wheel", handleScrollDown);
           }
 
-          // if (entry.isIntersecting && !isOpen) {
-          //   console.log("trigger reverse scale!");
-          //   forwardScale(true);
-          // }
+          if (entry.isIntersecting && !isOpen) {
+            console.log("trigger reverse scale!");
+            forwardScale(true);
+          }
         } else {
           if (listening) {
             window.removeEventListener("wheel", handleScrollDown);

@@ -11,22 +11,23 @@ import { IShowcase } from "../showcase";
 import ShowcaseItemDesktop from "./showcase-item-desktop";
 import ShowcaseItemFinalDesktop from "./showcase-item-final-desktop";
 
-
 const StyledGridContainer = styled(GridContainer)`
-@media all and (min-width: 2000px) {
-  padding-top: 150px
-}
-`
+  @media all and (min-width: 2000px) {
+    padding-top: 90px;
+  }
+`;
 
-const StyledSpacer = styled.div<{ start: boolean }>`
-  height: 300vh;
-  
-  ${({ start }) => (!start && `
+const StyledSpacer = styled.div<{ start: string }>`
+  height: 250vh;
+
+  /* ${({ start }) =>
+    start !== "true" &&
+    `
   height: 140vh;
   @media all and (max-width: 1024px) {
     height: 160vh;
   }
-  `)}
+  `} */
 `;
 
 interface IStyledWrapper {
@@ -35,11 +36,13 @@ interface IStyledWrapper {
 
 const StyledWrapper = styled.section<IStyledWrapper>`
   position: relative;
-  height: ${({ open }) => (open ? "100vh" : "auto")};
+  /* height: ${({ open }) => (open ? "100vh" : "auto")}; */
+  height: auto;
 `;
 
 const StyledFollowingContainer = styled.div<IStyledWrapper>`
-  position: ${({ open }) => (open ? "fixed" : "sticky")};
+  /* position: ${({ open }) => (open ? "fixed" : "sticky")}; */
+  position: sticky;
   height: 100vh;
   z-index: 20;
   background-color: ${colors.black};
@@ -54,7 +57,7 @@ const StyledFollowingContainer = styled.div<IStyledWrapper>`
   }
 `;
 
-const StyledMotionWrapper = styled(motion.div)<IStyledWrapper>`
+const StyledMotionWrapper = styled(motion.div)<{ scroll: boolean }>`
   position: absolute;
   top: 0;
   bottom: 0;
@@ -62,7 +65,9 @@ const StyledMotionWrapper = styled(motion.div)<IStyledWrapper>`
   width: 100%;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
-  ${({ open }) => (open ? `height: 100vh;` : `overflow: hidden;`)}
+
+  overflow: hidden;
+  ${({ scroll }) => (scroll ? `overflow-y: scroll;` : `overflow: hidden;`)}
   @media all and (max-width: ${breakpoints.sm}px) {
     display: flex;
     align-items: center;
@@ -77,28 +82,30 @@ const StyledTitle = styled.h2<{ color: string }>`
   font-size: ${getRemSize(dimensions.headingSizes.display2.desktop)};
   text-align: center;
   /* grid-column: 1 / span 12; */
-  line-height: 225px;
+  line-height: 200px;
   color: ${({ color }) => color};
 
-
-  @media all and (max-width: 1164px) {
+  @media all and (max-width: 1380px) {
     font-size: ${getRemSize(dimensions.headingSizes.display2.desktop - 50)};
-    line-height: 195px;
+    line-height: 210px;
   }
-  @media all and (max-width: ${breakpoints.md}px) {
-    font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
-    line-height: 72px;
+  @media all and (max-width: 1100px) {
+    font-size: ${getRemSize(dimensions.headingSizes.display2.desktop - 80)};
+  }
+  @media all and (max-width: 930px) {
+    font-size: ${getRemSize(dimensions.headingSizes.display2.desktop - 100)};
   }
 `;
 
 export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isFinished, setIsFinished] = useState(false)
+  // const [isFinished, setIsFinished] = useState(false);
   const [canScale, setCanScale] = useState(false);
   const [canSnapScroll, setCanSnapScroll] = useState(false);
   const [breakpoint, setBreakpoint] = useState(0);
   const [beginScalePos, setBeginScalePos] = useState(0);
   const [fromStart, setFromStart] = useState(true);
+  const [inView, setInView] = useState(false);
 
   const ref = useRef(null);
   const { scrollY } = useScroll();
@@ -138,12 +145,25 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   }, [breakpoint, beginScalePos]);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      {
+        threshold: 1.0, // Ensure the entire section is in view
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
     }
-  }, [isOpen]);
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref]);
 
   const reverseScale = () => {
     setCanScale(true);
@@ -154,9 +174,9 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   };
 
   const forwardScale = (isOpen: boolean) => {
-    setIsOpen(isOpen);
-    setFromStart(false);
-    setIsFinished(true)
+    // setIsOpen(isOpen);
+    // setFromStart(false);
+    // setIsFinished(true);
   };
 
   return (
@@ -169,15 +189,15 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
         <StyledGridContainer>
           <Row>
             <Col start={1} span={12}>
-              <StyledTitle color={(isOpen || isFinished) ? colors.accent : colors.white}>
+              <StyledTitle color={isOpen ? colors.accent : colors.white}>
                 {title}
               </StyledTitle>
             </Col>
           </Row>
         </StyledGridContainer>
-        <StyledMotionWrapper open={isOpen}>
+        <StyledMotionWrapper scroll={inView && isOpen}>
           {projects.nodes.map((project, index: number) => {
-            if(index !== 0 && !isOpen && !isFinished) return null
+            // if (index !== 0 && !isOpen && !isFinished) return null;
             if (index === projects.nodes.length - 1) {
               return (
                 <ShowcaseItemFinalDesktop
@@ -202,7 +222,7 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
           })}
         </StyledMotionWrapper>
       </StyledFollowingContainer>
-      <StyledSpacer start={fromStart} />
+      <StyledSpacer start={fromStart.toString()} />
     </StyledWrapper>
   );
 }
