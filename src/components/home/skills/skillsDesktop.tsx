@@ -69,7 +69,7 @@ export default function SkillsDesktop({ categories }: IProps) {
             <Image
               key={index}
               src={skill.featuredImage.node.sourceUrl}
-              blurDataURL={skill.featuredImage.node.placeholderDataURI}
+              blurDataURL={skill.featuredImage.node?.placeholderDataURI}
               alt={skill.title + "Logo"}
               width={158}
               height={158}

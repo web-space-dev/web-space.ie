@@ -259,14 +259,14 @@ export function Hero({ project }: Props) {
             src={project.featuredImage?.node.sourceUrl}
             alt={`${project.title} Feature Image`}
             placeholder="blur"
-            blurDataURL={project.featuredImage.node.placeholderDataURI}
+            blurDataURL={project.featuredImage.node?.placeholderDataURI}
           />
         ) : (
           <Image
             src={project.featuredImage?.node.sourceUrl}
             alt={`${project.title} Feature Image`}
             placeholder="blur"
-            blurDataURL={project.featuredImage.node.placeholderDataURI}
+            blurDataURL={project.featuredImage.node?.placeholderDataURI}
             width={374}
             height={649}
           />

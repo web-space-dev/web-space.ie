@@ -72,13 +72,13 @@ export const baseFontSize = 22;
 
 export const dimensions = {
   headingSizes: {
-    small: {
-      desktop: 20,
-      mobile: 20,
-    },
     cta: {
       desktop: 32,
       mobile: 24,
+    },
+    small: {
+      desktop: 20,
+      mobile: 20,
     },
     medium: {
       desktop: 64,

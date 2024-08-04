@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import useIsDesktop from "../../hooks/useIsDesktop";
+import { memo } from "react";
 
 const StyledWrapper = styled(GridContainer)`
   height: 100vh;
@@ -24,7 +25,7 @@ const StyledRow = styled(Row)`
 
 const StyledHeading = styled.h1`
   color: ${colors.black};
-  font-weight: 600;
+  font-weight: 500;
 
   @media all and (max-width: ${breakpoints.md}px) {
     text-indent: 60px;
@@ -36,7 +37,7 @@ const StyledImage = styled(Image)`
   margin-bottom: -5px;
 `;
 
-export default function Hero({ title }) {
+function Hero({ title }) {
   const isDesktop = useIsDesktop();
 
   return (
@@ -61,3 +62,5 @@ export default function Hero({ title }) {
     </Background>
   );
 }
+
+export default memo(Hero);
