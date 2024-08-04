@@ -66,7 +66,7 @@ function ShowcaseItemMobile({ project }: ShowcaseItemProps) {
         <Image
           src={project.featuredImage?.node.sourceUrl}
           alt={`Cover Image for ${project.title}`}
-          blurDataURL={project.featuredImage?.node.placeholderDataURI}
+          blurDataURL={project.featuredImage?.node?.placeholderDataURI}
           width={343}
           height={440}
         />

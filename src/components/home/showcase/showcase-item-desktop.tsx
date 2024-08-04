@@ -167,7 +167,7 @@ function ShowcaseItemDesktop({
               width={1448}
               height={800}
               src={project.featuredImage.node.sourceUrl}
-              blurDataURL={project.featuredImage.node.placeholderDataURI}
+              blurDataURL={project.featuredImage.node?.placeholderDataURI}
             />
             <StyledShowcaseContent>
               <StyledShowcaseTitle>{project.title}</StyledShowcaseTitle>

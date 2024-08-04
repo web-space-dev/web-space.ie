@@ -74,7 +74,7 @@ function Skills({ title, categories, skills }: ISkills) {
                         key={index}
                         src={skill.featuredImage.node.sourceUrl}
                         blurDataURL={
-                          skill.featuredImage.node.placeholderDataURI
+                          skill.featuredImage.node?.placeholderDataURI
                         }
                         alt={skill.title + "Logo"}
                         width={87}
