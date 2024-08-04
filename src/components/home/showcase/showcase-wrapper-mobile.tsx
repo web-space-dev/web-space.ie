@@ -1,30 +1,14 @@
 import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { GridContainer } from "../../global/grid/gridContainer";
-import {
-  motion,
-  useInView,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
-  useViewportScroll,
-} from "framer-motion";
+import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { getRemSize } from "../../../styles/globalCss";
-import {
-  useState,
-  useRef,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-  Fragment,
-} from "react";
+import { useRef, useEffect } from "react";
 import { Col } from "../../global/grid/Col";
 import { Row } from "../../global/grid/Row";
 import { IShowcase } from "../showcase";
 import ShowcaseItemMobile from "./showcase-item-mobile";
 import ShowcaseItemMobileAllProjects from "./showcase-item-mobile-all-projects";
-import useDebugPanel from "../../../hooks/useDebugPanel";
 
 const StyledSpacer = styled.div<{ height: number }>`
   height: ${({ height }) => height}px;
@@ -132,7 +116,7 @@ export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
     [0, 1],
     isInView ? [0, -horizontalWidth] : [0, 0]
   );
-  const cappedTransform = useMotionValue(Math.min(transform.get(), 450));
+  const cappedTransform = useMotionValue(Math.min(transform.get(), 550));
 
   const textOpacityTransform = useTransform(scrollProgress, [0, 0.1], [1, 0]);
 
@@ -140,7 +124,7 @@ export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
 
   useEffect(() => {
     const unsubscribe = transform.onChange((value) => {
-      cappedTransform.set(Math.max(value, -1410));
+      cappedTransform.set(Math.max(value, -1465));
     });
 
     return unsubscribe;
@@ -160,7 +144,7 @@ export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
           </Col>
         </Row>
 
-        <StyledMotionWrapper ref={horizontalRef} style={{ x: cappedTransform  }}>
+        <StyledMotionWrapper ref={horizontalRef} style={{ x: cappedTransform }}>
           <StyledItemContainer>
             <StyledMobileSpacer />
             {projects.nodes.map((project, index: number) => {
