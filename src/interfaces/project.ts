@@ -8,7 +8,7 @@ export interface IProjectData {
 }
 
 export interface Projects {
-  nodes: ProjectList[];
+  nodes: Project[];
 }
 
 export interface ProjectList {
@@ -35,7 +35,7 @@ export interface Image {
 export interface Node {
   altText: string;
   sourceUrl: string;
-  placeholderDataURI: string;
+  placeholderDataURI?: string;
 }
 
 export interface ProjectCategories {
@@ -82,7 +82,7 @@ export interface Image {
 export interface Node {
   altText: string;
   sourceUrl: string;
-  placeholderDataURI: string;
+  placeholderDataURI?: string;
 }
 
 export interface Gallery {

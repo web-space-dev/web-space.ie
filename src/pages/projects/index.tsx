@@ -198,9 +198,9 @@ export default function Index({ siteData, pageData }: IIndex) {
                           <Image
                             src={project.featuredImage.node.sourceUrl}
                             blurDataURL={
-                              project.featuredImage.node.placeholderDataURI
+                              project.featuredImage.node?.placeholderDataURI
                             }
-                            placeholder="blur"
+                            // placeholder="blur"
                             width={1440}
                             height={480}
                             alt={`Cover Image for ${project.title}`}
@@ -225,9 +225,9 @@ export default function Index({ siteData, pageData }: IIndex) {
                             <Image
                               src={project.featuredImage.node.sourceUrl}
                               blurDataURL={
-                                project.featuredImage.node.placeholderDataURI
+                                project.featuredImage.node?.placeholderDataURI
                               }
-                              placeholder="blur"
+                              // placeholder="blur"
                               alt={`Cover Image for ${project.title}`}
                               fill
                               style={{ objectFit: "cover" }}

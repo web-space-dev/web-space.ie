@@ -1,6 +1,7 @@
 "use client";
+
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import { breakpoints, colors } from "../styles/variables";
 import ArrowUpRight from "../icons/arrowUpRight";
 import Image from "next/image";
@@ -36,23 +37,17 @@ const WrapperContent = styled.div`
   margin-top: 35px;
 
   @media all and (max-width: ${breakpoints.md}px) {
-    margin-top: 28px;
-  }
-
-  @media (max-width: 600px) {
-    transform: scale(0.95);
-    margin-top: 28px;
-    justify-content: flex-start;
+    margin-top: 0px;
   }
 
   @media (max-width: 500px) {
-    transform: scale(0.96);
-    margin-top: 28px;
+    /* transform: scale(0.96); */
+    /* margin-top: 28px; */
   }
 
   @media (max-width: 375px) {
-    transform: scale(0.95);
-    margin-top: 28px;
+    /* transform: scale(0.95); */
+    /* margin-top: 28px; */
   }
 `;
 
@@ -83,6 +78,8 @@ const StyledBox = styled.div`
     max-width: 100%;
     padding: 25px;
     height: auto;
+    margin-top: 50px;
+    overflow-y: scroll;
   }
   @media (max-width: 375px) {
     margin-top: 8px;
@@ -221,6 +218,7 @@ const StyledButton = styled.button`
     width: 100%;
     height: 63px;
     padding: 10px;
+    margin-bottom: 20px;
   }
 
   @media (max-width: ${breakpoints.sm}px) {
@@ -281,11 +279,30 @@ const StyledSquare = styled.div<StyledSquareProps>`
   }
 `;
 
+const StyledHelperText = styled.p<{ error?: string }>`
+  font-size: 16px;
+  color: ${(props) => (props.error === "true" ? "red" : colors.black)};
+  margin: 0 0 0 5px;
+`;
+
+// const StyledPopup = styled.div`
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   background-color: white;
+//   color: black;
+//   padding: 50px;
+//   border-radius: 20px;
+//   z-index: 1000;
+//   text-align: center;
+//   `;
+
 interface StyledSquareProps {
   dark: boolean;
 }
 
-const InputField = ({ type, id, name, placeholder }) => {
+const InputField = ({ value, type, id, name, placeholder, onChange }) => {
   const [isActive, setIsActive] = useState(false);
 
   const handleFocus = () => {
@@ -306,6 +323,8 @@ const InputField = ({ type, id, name, placeholder }) => {
         name={name}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        value={value}
+        onChange={onChange}
       />
       <Label htmlFor={id} className={isActive ? "active" : ""}>
         {placeholder}
@@ -315,13 +334,121 @@ const InputField = ({ type, id, name, placeholder }) => {
 };
 
 export function Contact({ isOpen, onClose, dark }) {
+  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [number, setNumber] = useState("");
+  const [numberError, setNumberError] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageError, setMessageError] = useState("");
+  const [submitStatus, setSubmitStatus] = useState("idle");
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isOpen]);
+
   if (!isOpen) {
     return null;
   }
+
   const stopPropagation = (e) => {
     e.stopPropagation();
   };
+  const handleSubmit = async (event: FormEvent) => {
+    setSubmitStatus("idle");
 
+    setLoading(true);
+
+    event.preventDefault();
+
+    // Validate the form
+    let isValid = true;
+
+    // Name validation
+    if (name.trim() === "") {
+      setNameError("Name is required");
+      isValid = false;
+    } else {
+      setNameError("");
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Invalid email");
+      isValid = false;
+    } else {
+      setEmailError("");
+    }
+
+    // Number validation
+    const numberRegex = /^[0-9]+$/;
+    if (!numberRegex.test(number)) {
+      setNumberError("Invalid number");
+      isValid = false;
+    } else {
+      setNumberError("");
+    }
+
+    // Message validation
+    if (message.trim() === "") {
+      setMessageError("Message is required");
+      isValid = false;
+    } else {
+      setMessageError("");
+    }
+
+    if (!isValid) {
+      setLoading(false);
+
+      return;
+    }
+
+    const body = {
+      name,
+      email,
+      number,
+      message,
+    };
+
+    // Send a message to Slack
+    try {
+      const response = await fetch("/api/slack", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      const responseData = await response.json();
+      console.log(responseData);
+      setLoading(false);
+
+      if (responseData.success) {
+        setSubmitStatus("success");
+        setName("");
+        setEmail("");
+        setNumber("");
+        setMessage("");
+      } else {
+        setSubmitStatus("error");
+      }
+
+      // Optionally, you can handle success (e.g., show a success message)
+      // console.log('Form submitted successfully');
+    } catch (error) {
+      // Handle error
+      console.error("Error submitting form:", error);
+      setSubmitStatus("error");
+    }
+  };
   return (
     <StyledWrapper onClick={onClose}>
       <Link href="/">
@@ -336,33 +463,55 @@ export function Contact({ isOpen, onClose, dark }) {
               Get in contact and leave a little description of your request and
               one of our team will get back to you.
             </StyledHeading>
-            <StyledForm>
+            <StyledForm onSubmit={handleSubmit}>
               <InputField
                 type="text"
                 id="name"
                 name="name"
                 placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
+              <StyledHelperText error="true">{nameError}</StyledHelperText>
+
               <InputField
                 type="email"
                 id="email"
                 name="email"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
+              <StyledHelperText error="true">{emailError}</StyledHelperText>
               <InputField
                 type="tel"
                 id="number"
                 name="number"
                 placeholder="Number"
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
               />
+              <StyledHelperText error="true">{numberError}</StyledHelperText>
               <InputField
                 type="text"
                 id="message"
                 name="message"
                 placeholder="Message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
               />
-              <StyledButton>
-                Submit
+              <StyledHelperText error="true">{messageError}</StyledHelperText>
+
+              <StyledHelperText
+                error={submitStatus === "error" ? "true" : "false"}
+              >
+                {submitStatus === "error"
+                  ? "There was a problem sending your message"
+                  : submitStatus === "success" &&
+                    "Thank you, your message has been sent!"}
+              </StyledHelperText>
+              <StyledButton disabled={loading}>
+                {loading ? "Sending" : "Send"}
                 <StyledIcon className="styled-icon" />
               </StyledButton>
             </StyledForm>
