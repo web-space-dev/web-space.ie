@@ -3,7 +3,8 @@ import { Project } from "../../../interfaces/project";
 import Image from "next/image";
 import { IconButton } from "../../global/iconButton";
 import { getRemSize } from "../../../styles/globalCss";
-import { colors, dimensions } from "../../../styles/variables";
+import { dimensions } from "../../../styles/variables";
+import { memo } from "react";
 
 const StyledShowcaseWrapper = styled.div`
   display: flex;
@@ -16,7 +17,6 @@ const StyledShowcaseWrapper = styled.div`
 `;
 
 const StyledShowcaseImage = styled.div`
-  /* Add your styles for StyledShowcaseImage here */
   height: 440px;
   & img {
     object-fit: cover;
@@ -25,7 +25,6 @@ const StyledShowcaseImage = styled.div`
 `;
 
 const StyledShowcaseDetails = styled.div`
-  /* Add your styles for StyledShowcaseDetails here */
   width: 100%;
   height: 86px;
   display: flex;
@@ -37,18 +36,12 @@ const StyledShowcaseDetails = styled.div`
   padding: 8px 8px 8px 24px;
 `;
 
-const StyledShowcaseContentWrapper = styled.div`
-  /* Add your styles for StyledShowcaseContentWrapper here */
-`;
-
 const StyledShowcaseTitle = styled.h3`
-  /* Add your styles for StyledShowcaseTitle here */
   margin: 0;
   font-size: ${getRemSize(dimensions.headingSizes.small.mobile)};
 `;
 
 const StyledShowcaseCategory = styled.p`
-  /* Add your styles for StyledShowcaseCategory here */
   margin: 0;
   font-size: ${getRemSize(dimensions.headingSizes.small.mobile)};
 `;
@@ -64,13 +57,9 @@ const StyledLink = styled.a`
 
 interface ShowcaseItemProps {
   project: Project;
-  // isOpen: boolean;
-  // canSnapScroll: boolean;
-  // showAllProjects: boolean;
-  // reverseScale: () => void;
 }
 
-export default function ShowcaseItemMobile({ project }: ShowcaseItemProps) {
+function ShowcaseItemMobile({ project }: ShowcaseItemProps) {
   return (
     <StyledShowcaseWrapper>
       <StyledShowcaseImage>
@@ -83,14 +72,14 @@ export default function ShowcaseItemMobile({ project }: ShowcaseItemProps) {
         />
       </StyledShowcaseImage>
       <StyledShowcaseDetails>
-        <StyledShowcaseContentWrapper>
+        <div>
           {/* Title */}
           <StyledShowcaseTitle>{project.title}</StyledShowcaseTitle>
           {/* Category */}
           <StyledShowcaseCategory>
             {project.projectCategories?.nodes[0]?.name}
           </StyledShowcaseCategory>
-        </StyledShowcaseContentWrapper>
+        </div>
         {/* ArrowIcon */}
         <StyledLink href={`/projects/${project.slug}`}>
           <IconButton />
@@ -99,3 +88,5 @@ export default function ShowcaseItemMobile({ project }: ShowcaseItemProps) {
     </StyledShowcaseWrapper>
   );
 }
+
+export default memo(ShowcaseItemMobile);

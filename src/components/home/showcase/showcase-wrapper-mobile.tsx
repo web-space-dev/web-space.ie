@@ -3,7 +3,7 @@ import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { GridContainer } from "../../global/grid/gridContainer";
 import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { getRemSize } from "../../../styles/globalCss";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, memo } from "react";
 import { Col } from "../../global/grid/Col";
 import { Row } from "../../global/grid/Row";
 import { IShowcase } from "../showcase";
@@ -12,7 +12,6 @@ import ShowcaseItemMobileAllProjects from "./showcase-item-mobile-all-projects";
 
 const StyledSpacer = styled.div<{ height: number }>`
   height: ${({ height }) => height}px;
-  /* width: 100vw; */
   visibility: hidden;
 `;
 
@@ -101,7 +100,7 @@ const useScrollProgress = (ref) => {
   return scrollProgress;
 };
 
-export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
+function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
   const ghostRef = useRef(null);
   const horizontalRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -119,8 +118,6 @@ export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
   const cappedTransform = useMotionValue(Math.min(transform.get(), 550));
 
   const textOpacityTransform = useTransform(scrollProgress, [0, 0.1], [1, 0]);
-
-  // const cappedTransform = useMotionValue(transform.get());
 
   useEffect(() => {
     const unsubscribe = transform.onChange((value) => {
@@ -158,3 +155,5 @@ export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
     </div>
   );
 }
+
+export default memo(ShowcaseWrapperMobile);

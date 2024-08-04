@@ -1,6 +1,4 @@
 import styled from "@emotion/styled";
-import { Project } from "../../../interfaces/project";
-import Image from "next/image";
 import { IconButton } from "../../global/iconButton";
 import { getRemSize } from "../../../styles/globalCss";
 import { colors, dimensions } from "../../../styles/variables";
@@ -10,7 +8,6 @@ const StyledShowcaseWrapper = styled.div`
   align-items: center;
   min-width: 343px;
   height: 537px;
-  /* flex-direction: column; */
   justify-content: space-between;
   margin: 0 8px 0 12px;
   scroll-snap-align: center;
@@ -21,7 +18,6 @@ const StyledShowcaseWrapper = styled.div`
 `;
 
 const StyledShowcaseTitle = styled.h3`
-  /* Add your styles for StyledShowcaseTitle here */
   margin: 0;
   font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
 `;
