@@ -6,7 +6,7 @@ import { getRemSize } from "../../../styles/globalCss";
 import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 interface IStyledShowcaseWrapper {
   open: boolean;
@@ -124,79 +124,11 @@ const StyledLink = styled(Link)`
 interface ShowcaseItemProps {
   project: Project;
   isOpen: boolean;
-  forwardScale: (param: boolean) => void;
 }
 
-export default function ShowcaseItemFinalDesktop({
-  project,
-  isOpen,
-  forwardScale,
-}: ShowcaseItemProps) {
-  const ref = useRef(null);
-  const scrollRef = useRef(
-    typeof window !== "undefined"
-      ? { y: window.pageYOffset, direction: null }
-      : { y: 0, direction: null }
-  );
-  const [listening, setListening] = useState(false);
-
-  useEffect(() => {
-    const wiggleRoom = 1400;
-    const handleScrollDown = (e: WheelEvent) => {
-      scrollRef.current.y += e.deltaY;
-      if (scrollRef.current.y > wiggleRoom) {
-        console.log("trigger!");
-        forwardScale(false);
-        scrollRef.current.y = 0; // Reset the counter
-        window.removeEventListener("wheel", handleScrollDown);
-        setListening(false);
-      }
-    };
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !listening) {
-          if (typeof window !== "undefined") {
-            console.log("is in view", entry.intersectionRatio);
-            setListening(true);
-
-            window.addEventListener("wheel", handleScrollDown);
-          }
-
-          if (entry.isIntersecting && !isOpen) {
-            console.log("trigger reverse scale!");
-            forwardScale(true);
-          }
-        } else {
-          if (listening) {
-            window.removeEventListener("wheel", handleScrollDown);
-            setListening(false);
-          }
-        }
-      },
-      {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.9,
-      }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-      if (typeof window !== "undefined") {
-        window.removeEventListener("wheel", handleScrollDown);
-      }
-    };
-  }, []);
-
+function ShowcaseItemFinalDesktop({ project, isOpen }: ShowcaseItemProps) {
   return (
-    <StyledShowcaseWrapper open={isOpen} ref={ref}>
+    <StyledShowcaseWrapper open={isOpen}>
       <StyledShowcaseDetails>
         <StyledShowcaseImage>
           <Link href={`/projects/${project.slug}`}>
@@ -226,3 +158,5 @@ export default function ShowcaseItemFinalDesktop({
     </StyledShowcaseWrapper>
   );
 }
+
+export default memo(ShowcaseItemFinalDesktop);

@@ -3,7 +3,7 @@ import { Pill as IPill, WhatWeDo as IWhatWeDo } from "../../interfaces/home";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import { GridContainer } from "../global/grid/gridContainer";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { css } from "@emotion/react";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
@@ -182,7 +182,7 @@ interface WhatWeDoProps {
   items: IWhatWeDo[];
 }
 
-export default function WhatWeDo({ items }: WhatWeDoProps) {
+function WhatWeDo({ items }: WhatWeDoProps) {
   const [hoverItems, setHoverItems] = useState(
     new Array(items.length).fill(false)
   );
@@ -220,3 +220,5 @@ export default function WhatWeDo({ items }: WhatWeDoProps) {
     </StyledWrapper>
   );
 }
+
+export default memo(WhatWeDo);

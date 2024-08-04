@@ -5,7 +5,7 @@ import { dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { CustomImage } from "../../global/image";
 import { MotionValue, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 interface IStyledShowcaseWrapper {
   open: boolean;
@@ -84,7 +84,7 @@ interface ShowcaseItemProps {
   reverseScale: () => void;
 }
 
-export default function ShowcaseItemDesktop({
+function ShowcaseItemDesktop({
   project,
   scale,
   isOpen,
@@ -181,3 +181,5 @@ export default function ShowcaseItemDesktop({
     </StyledShowcaseWrapper>
   );
 }
+
+export default memo(ShowcaseItemDesktop);

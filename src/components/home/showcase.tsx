@@ -2,13 +2,14 @@ import { Projects } from "../../interfaces/project";
 import useIsMobile from "../../hooks/useIsMobile";
 import ShowcaseWrapperDesktop from "./showcase/showcase-wrapper-desktop";
 import ShowcaseWrapperMobile from "./showcase/showcase-wrapper-mobile";
+import { memo } from "react";
 
 export interface IShowcase {
   title: string;
   projects: Projects;
 }
 
-export default function Showcase({ title, projects }: IShowcase) {
+function Showcase({ title, projects }: IShowcase) {
   const isMobile = useIsMobile();
 
   if (isMobile)
@@ -16,3 +17,5 @@ export default function Showcase({ title, projects }: IShowcase) {
 
   return <ShowcaseWrapperDesktop title={title} projects={projects} />;
 }
+
+export default memo(Showcase);

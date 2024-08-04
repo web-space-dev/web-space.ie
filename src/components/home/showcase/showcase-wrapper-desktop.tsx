@@ -3,7 +3,7 @@ import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { GridContainer } from "../../global/grid/gridContainer";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { getRemSize } from "../../../styles/globalCss";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, memo } from "react";
 import useIsDesktop from "../../../hooks/useIsDesktop";
 import { Col } from "../../global/grid/Col";
 import { Row } from "../../global/grid/Row";
@@ -57,7 +57,7 @@ const StyledFollowingContainer = styled.div<IStyledWrapper>`
   }
 `;
 
-const StyledMotionWrapper = styled(motion.div)<{ scroll: boolean }>`
+const StyledMotionWrapper = styled(motion.div)<{ scroll: string }>`
   position: absolute;
   top: 0;
   bottom: 0;
@@ -66,8 +66,8 @@ const StyledMotionWrapper = styled(motion.div)<{ scroll: boolean }>`
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
 
-  overflow: hidden;
-  ${({ scroll }) => (scroll ? `overflow-y: scroll;` : `overflow: hidden;`)}
+  ${({ scroll }) =>
+    scroll === "true" ? `overflow-y: scroll;` : `overflow: hidden;`}
   @media all and (max-width: ${breakpoints.sm}px) {
     display: flex;
     align-items: center;
@@ -97,9 +97,8 @@ const StyledTitle = styled.h2<{ color: string }>`
   }
 `;
 
-export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
+function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   const [isOpen, setIsOpen] = useState(false);
-  // const [isFinished, setIsFinished] = useState(false);
   const [canScale, setCanScale] = useState(false);
   const [canSnapScroll, setCanSnapScroll] = useState(false);
   const [breakpoint, setBreakpoint] = useState(0);
@@ -173,19 +172,9 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
     setFromStart(true);
   };
 
-  const forwardScale = (isOpen: boolean) => {
-    // setIsOpen(isOpen);
-    // setFromStart(false);
-    // setIsFinished(true);
-  };
-
   return (
     <StyledWrapper open={isOpen}>
-      <StyledFollowingContainer
-        ref={ref}
-        open={isOpen}
-        // reverse={!fromStart && !isOpen}
-      >
+      <StyledFollowingContainer ref={ref} open={isOpen}>
         <StyledGridContainer>
           <Row>
             <Col start={1} span={12}>
@@ -195,16 +184,14 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
             </Col>
           </Row>
         </StyledGridContainer>
-        <StyledMotionWrapper scroll={inView && isOpen}>
+        <StyledMotionWrapper scroll={inView && isOpen ? "true" : "false"}>
           {projects.nodes.map((project, index: number) => {
-            // if (index !== 0 && !isOpen && !isFinished) return null;
             if (index === projects.nodes.length - 1) {
               return (
                 <ShowcaseItemFinalDesktop
                   key={index}
                   project={project}
                   isOpen={isOpen}
-                  forwardScale={forwardScale}
                 />
               );
             }
@@ -226,3 +213,5 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
     </StyledWrapper>
   );
 }
+
+export default memo(ShowcaseWrapperDesktop);
