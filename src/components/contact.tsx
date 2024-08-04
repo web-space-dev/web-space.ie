@@ -256,9 +256,9 @@ const StyledSquare = styled.div<StyledSquareProps>`
   }
 `;
 
-const StyledHelperText = styled.p`
+const StyledHelperText = styled.p<{ error?: string }>`
   font-size: 16px;
-  color: red;
+  color: ${(props) => (props.error === "true" ? "red" : colors.black)};
   margin: 0 0 0 5px;
 `;
 
@@ -314,7 +314,6 @@ export function Contact({ isOpen, onClose, dark }) {
   if (!isOpen) {
     return null;
   }
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
@@ -326,11 +325,16 @@ export function Contact({ isOpen, onClose, dark }) {
   const [messageError, setMessageError] = useState("");
 
   const [submitStatus, setSubmitStatus] = useState("idle");
+
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+  };
   const handleSubmit = async (event: FormEvent) => {
+    setSubmitStatus("idle");
+
+    setLoading(true);
+
     event.preventDefault();
-    const stopPropagation = (e) => {
-      e.stopPropagation();
-    };
 
     // Validate the form
     let isValid = true;
@@ -370,9 +374,10 @@ export function Contact({ isOpen, onClose, dark }) {
     }
 
     if (!isValid) {
+      setLoading(false);
+
       return;
     }
-    setError("");
 
     const body = {
       name,
@@ -393,8 +398,14 @@ export function Contact({ isOpen, onClose, dark }) {
 
       const responseData = await response.json();
       console.log(responseData);
+      setLoading(false);
+
       if (responseData.success) {
         setSubmitStatus("success");
+        setName("");
+        setEmail("");
+        setNumber("");
+        setMessage("");
       } else {
         setSubmitStatus("error");
       }
@@ -430,7 +441,7 @@ export function Contact({ isOpen, onClose, dark }) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              <StyledHelperText>{nameError}</StyledHelperText>
+              <StyledHelperText error="true">{nameError}</StyledHelperText>
 
               <InputField
                 type="email"
@@ -440,7 +451,7 @@ export function Contact({ isOpen, onClose, dark }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <StyledHelperText>{emailError}</StyledHelperText>
+              <StyledHelperText error="true">{emailError}</StyledHelperText>
               <InputField
                 type="tel"
                 id="number"
@@ -449,7 +460,7 @@ export function Contact({ isOpen, onClose, dark }) {
                 value={number}
                 onChange={(e) => setNumber(e.target.value)}
               />
-              <StyledHelperText>{numberError}</StyledHelperText>
+              <StyledHelperText error="true">{numberError}</StyledHelperText>
               <InputField
                 type="text"
                 id="message"
@@ -458,9 +469,16 @@ export function Contact({ isOpen, onClose, dark }) {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
-              <StyledHelperText>{messageError}</StyledHelperText>
+              <StyledHelperText error="true">{messageError}</StyledHelperText>
 
-              <StyledHelperText>{error}</StyledHelperText>
+              <StyledHelperText
+                error={submitStatus === "error" ? "true" : "false"}
+              >
+                {submitStatus === "error"
+                  ? "There was a problem sending your message"
+                  : submitStatus === "success" &&
+                    "Thank you, your message has been sent!"}
+              </StyledHelperText>
               <StyledButton disabled={loading}>
                 {loading ? "Sending" : "Send"}
                 <StyledIcon className="styled-icon" />

@@ -27,7 +27,7 @@ export default async function handler(
         body: JSON.stringify({ text }),
       });
 
-      res.status(200).json({ sucess: true }); // Return the data from the response
+      res.status(200).json({ success: true }); // Return the data from the response
     } catch (error) {
       console.error("Error sending message to Slack:", error);
       res.status(500).json({ success: false, error: error.message }); // Return the error message
