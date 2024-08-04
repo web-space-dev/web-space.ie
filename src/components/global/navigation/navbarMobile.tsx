@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
 import Image from "next/image";
 import styled from "@emotion/styled";
 import { colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { Contact } from "../../../components/contact";
+import ChatIcon from "../../../icons/chatIcon";
+import CloseIcon from "../../../icons/closeIcon";
+import BurgerIcon from "../../../icons/burgerIcon";
+import LogoIcon from "../../../icons/logoIcon";
+import Link from "next/link";
 
-const StyledImageWrapper = styled.div<{ dark: boolean }>`
+const StyledImageWrapper = styled(Link)`
   position: fixed;
   top: 14px;
   left: 8px;
   z-index: 999;
-  color: ${(props) =>
-    props.dark
-      ? colors.white
-      : colors.black}; // Changes the color based on the dark prop
-
-  img {
-    fill: currentColor; // Makes the SVG inherit the color property
-  }
 `;
 
 const StyledNavMobile = styled.nav<{ dark: boolean; isMenuOpen: boolean }>`
@@ -43,6 +39,8 @@ const StyledNavMobile = styled.nav<{ dark: boolean; isMenuOpen: boolean }>`
 const StyledBtnMobile = styled.button<{ isOpen: boolean }>`
   all: unset;
   display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 25px;
   width: 2rem;
   height: 2rem;
@@ -154,7 +152,7 @@ interface NavbarMobileProps {
   links: {
     name: string;
     path: string;
-    icon?: string | undefined;
+    icon?: JSX.Element | undefined;
   }[];
 }
 
@@ -164,8 +162,23 @@ interface IStyledDivMobileProps {
 
 export function NavbarMobile({ dark, links }: NavbarMobileProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathname = usePathname();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [topDark, setTopDark] = useState(dark);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setTopDark(window.scrollY > window.innerHeight * 0.9);
+    };
+
+    if (!dark) {
+      window.addEventListener("scroll", handleScroll);
+    }
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -179,50 +192,40 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
     setIsContactModalOpen(true);
   };
 
-  const iconStyleMenu = {
-    margin: "auto",
-  };
-
-  const iconStyle = {
-    width: "1rem",
-    margin: "-0.25rem 0",
-  };
-
   return (
     <>
-      <StyledImageWrapper dark={dark}>
-        <img src="/logo-icon-black.svg" alt="Logo" width={40} height={40} />
+      <StyledImageWrapper href="/">
+        <LogoIcon dark={topDark} />
       </StyledImageWrapper>
-      <StyledNavMobile isMenuOpen={isMenuOpen} dark={dark}>
+      <StyledNavMobile
+        isMenuOpen={isMenuOpen}
+        dark={dark}
+        onClick={() => setIsMenuOpen(false)}
+      >
         <StyledBtnMobile
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsMenuOpen(!isMenuOpen);
+          }}
           isOpen={isMenuOpen}
         >
           {isMenuOpen ? (
-            <Image
-              src={"/svg/icon-close-black.svg"}
-              alt="close icon"
-              style={iconStyleMenu}
-              width={20}
-              height={20}
-            />
+            <CloseIcon dark={topDark} />
           ) : (
-            <Image
-              src={"/svg/icon-burger.svg"}
-              alt="burger icon"
-              style={iconStyleMenu}
-              width={20}
-              height={20}
-            />
+            <BurgerIcon dark={topDark} />
           )}
         </StyledBtnMobile>
-        <StyledWrapperMobile isMenuOpen={isMenuOpen}>
+
+        <StyledWrapperMobile
+          isMenuOpen={isMenuOpen}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsMenuOpen(!isMenuOpen);
+          }}
+        >
           {links.slice(0, -1).map((link, index) => (
             <StyledDivMobile key={index} index={index}>
               <StyledLinkMobile href={`/${link.path}`} dark={dark}>
-                {link.icon && (
-                  <Image src={link.icon} alt={link.name} style={iconStyle} />
-                )}
                 {!link.icon && link.name}
               </StyledLinkMobile>
             </StyledDivMobile>
@@ -235,14 +238,7 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
               dark={dark}
               onClick={isMenuOpen ? undefined : openContactModal}
             >
-              {links[links.length - 1].icon && (
-                <Image
-                  src={links[links.length - 1].icon}
-                  alt={links[links.length - 1].name}
-                  style={{ width: "20px", height: "20px" }}
-                />
-              )}
-              {!links[links.length - 1].icon && links[links.length - 1].name}
+              <ChatIcon dark={dark} />
             </StyledLinkContactMobile>
           </StyledDivContactMobile>
         )}
@@ -250,7 +246,7 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
       <Contact
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
-        dark={undefined}
+        dark={dark}
       />
     </>
   );

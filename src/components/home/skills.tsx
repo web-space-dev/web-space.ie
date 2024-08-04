@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { SkillCategories, Skills as IAllSkills } from "../../interfaces/home";
 import { GridContainer } from "../global/grid/gridContainer";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { getRemSize } from "../../styles/globalCss";
 import SkillsDesktop from "./skills/skillsDesktop";
@@ -51,7 +51,7 @@ interface ISkills {
   skills: IAllSkills;
 }
 
-export default function Skills({ title, categories, skills }: ISkills) {
+function Skills({ title, categories, skills }: ISkills) {
   const isDesktop = useIsDesktop();
   return (
     <StyledWrapper>
@@ -74,7 +74,7 @@ export default function Skills({ title, categories, skills }: ISkills) {
                         key={index}
                         src={skill.featuredImage.node.sourceUrl}
                         blurDataURL={
-                          skill.featuredImage.node.placeholderDataURI
+                          skill.featuredImage.node?.placeholderDataURI
                         }
                         alt={skill.title + "Logo"}
                         width={87}
@@ -92,3 +92,5 @@ export default function Skills({ title, categories, skills }: ISkills) {
     </StyledWrapper>
   );
 }
+
+export default memo(Skills);

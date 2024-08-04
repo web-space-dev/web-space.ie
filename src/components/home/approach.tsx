@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { Approach as IApproach } from "../../interfaces/home";
 import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
@@ -267,7 +267,7 @@ interface StyledCardProps {
   marginLeft?: string;
 }
 
-export default function Approach({ items }: ApproachProps) {
+function Approach({ items }: ApproachProps) {
   const boxRef = useRef(null);
   const borderLeftRef = useRef();
   const borderRightRef = useRef();
@@ -340,3 +340,5 @@ export default function Approach({ items }: ApproachProps) {
     </>
   );
 }
+
+export default memo(Approach);

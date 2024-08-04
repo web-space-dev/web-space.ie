@@ -21,7 +21,7 @@ export interface PageFeaturedImage {
 export interface PurpleNode {
   sourceUrl: string;
   altText: string;
-  placeholderDataURI: string;
+  placeholderDataURI?: string;
 }
 
 export interface HomeFields {

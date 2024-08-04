@@ -90,7 +90,7 @@ export async function getHomeData(): Promise<IHomePage> {
           node {
             altText
             sourceUrl
-            placeholderDataURI
+            
           }
         }
         homeFields {
@@ -123,7 +123,7 @@ export async function getHomeData(): Promise<IHomePage> {
             node {
               altText
               sourceUrl
-              placeholderDataURI
+              
             }
           }
         }
@@ -138,7 +138,7 @@ export async function getHomeData(): Promise<IHomePage> {
                 node {
                   altText
                   sourceUrl
-                  placeholderDataURI
+                  
                 }
               }
             }
@@ -152,7 +152,7 @@ export async function getHomeData(): Promise<IHomePage> {
             node {
               altText
               sourceUrl
-              placeholderDataURI
+              
             }
           }
         }
@@ -181,7 +181,7 @@ export async function getProjectsData(): Promise<IProjectsData> {
             node {
               altText
               sourceUrl
-              placeholderDataURI
+              
             }
           }
         }
@@ -204,7 +204,7 @@ export async function getProjectAndMoreProjects(
             node {
               altText
               sourceUrl
-              placeholderDataURI
+              
             }
           }
           tags {
@@ -243,7 +243,7 @@ export async function getProjectAndMoreProjects(
                 gallery1 {
                   nodes {
                     sourceUrl
-                    placeholderDataURI
+                    
                     altText
                   }
                 }
@@ -253,7 +253,7 @@ export async function getProjectAndMoreProjects(
                 gallery2 {
                   nodes {
                     sourceUrl
-                    placeholderDataURI
+                    
                     altText
                   }
                 }
@@ -272,7 +272,7 @@ export async function getProjectAndMoreProjects(
                       node {
                         altText
                         sourceUrl
-                        placeholderDataURI
+                        
                       }
                     }
                   }
@@ -313,7 +313,7 @@ export async function getProjectAndMoreProjects(
               node {
                 altText
                 sourceUrl
-                placeholderDataURI
+                
               }
             }
           }

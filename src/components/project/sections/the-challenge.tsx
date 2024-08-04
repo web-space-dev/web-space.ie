@@ -160,7 +160,7 @@ export default function DynamicTextAndImages({ content }: IProps) {
                   src={content[hoverIndex].image.node.sourceUrl}
                   placeholder="blur"
                   blurDataURL={
-                    content[hoverIndex].image.node.placeholderDataURI
+                    content[hoverIndex].image.node?.placeholderDataURI
                   }
                 />
               )}
@@ -195,7 +195,7 @@ export default function DynamicTextAndImages({ content }: IProps) {
                         // loader={() => item.image.node.sourceUrl}
                         src={item.image.node.sourceUrl}
                         placeholder="blur"
-                        blurDataURL={item.image.node.placeholderDataURI}
+                        blurDataURL={item.image.node?.placeholderDataURI}
                         key={item.text}
                       />
                     )

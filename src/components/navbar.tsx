@@ -1,16 +1,28 @@
 "use client";
 import styled from "@emotion/styled";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import chatIcon from "../../public/svg/icon-chat.svg";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { dimensions } from "../styles/variables";
-import { colors } from "../styles/variables";
+import { useState } from "react";
+import { breakpoints, colors, dimensions } from "../styles/variables";
+import { getRemSize } from "../styles/globalCss";
 import { NavbarMobile } from "./global/navigation/navbarMobile";
 import useIsDesktop from "../hooks/useIsDesktop";
 import { Contact } from "./contact";
-import { getRemSize } from "../styles/globalCss";
+import ArrowLeft from "../icons/arrowLeft";
+import { SVGProps } from "react";
+import ChatIcon from "../icons/chatIcon";
+import Link from "next/link";
+import Image from "next/image";
+
+const StyledLogoImage = styled.div<{ dark: boolean }>`
+  position: fixed;
+  top: 14px;
+  left: 8px;
+  z-index: 1005;
+  color: ${(props) => (props.dark ? colors.white : colors.black)};
+  img {
+    fill: currentColor;
+  }
+`;
 
 const StyledNav = styled.nav`
   display: flex;
@@ -41,15 +53,15 @@ const StyledDiv = styled.div`
   flex-direction: column;
   align-items: center;
 
-  & a:first-child {
+  & a:first-of-type {
     margin: 0.3rem 0.4rem 0.3rem 0.2rem;
   }
 
-  & a:last-child {
-    margin: 0.3rem 0.1rem 0.3rem 0.4rem;
+  & a:last-of-type {
+    margin: 0.3rem 0.5rem 0.3rem 0.4rem;
   }
 
-  & a:not(:first-child):not(:last-child) {
+  & a:not(:first-of-type):not(:last-of-type) {
     margin: 0.3rem 0.4rem;
   }
 `;
@@ -77,6 +89,57 @@ const StyledLink = styled.a<NavbarProps>`
   }
 `;
 
+const StyledBackbutton = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+`;
+
+const StyledBackLink = styled.a<NavbarProps>`
+  padding: 9px 35px 9px 20px;
+  margin-left: 20px;
+  letter-spacing: 0.05455rem;
+  border-radius: 18px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+  background-color: rgba(57, 151, 156, 0.2);
+  backdrop-filter: blur(5px);
+  color: ${(props) => (props.dark ? colors.white : colors.black)};
+  text-decoration: none;
+  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
+  position: relative;
+  position: fixed;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &:hover {
+    color: ${(props) => (props.dark ? colors.white : colors.black)};
+    z-index: 2;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(57, 151, 156, 0);
+    border-radius: 18px;
+    transition: background-color 0.3s ease;
+    z-index: -1;
+  }
+
+  &:hover::before {
+    background-color: rgba(57, 151, 156, 0.2);
+  }
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+`;
+
 type StyledSpanProps = {
   isActive: boolean;
 };
@@ -100,11 +163,6 @@ export default function Navbar({ dark }) {
   const isDesktop = useIsDesktop();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
-  const iconStyle = {
-    // width: "1rem",
-    margin: "-0.25rem 0",
-  };
-
   const openContactModal = () => {
     setIsContactModalOpen(true);
   };
@@ -113,46 +171,77 @@ export default function Navbar({ dark }) {
     { name: "About", path: "" },
     { name: "Projects", path: "projects" },
     { name: "Client space", path: "#" },
-    { name: "chat", path: "#", icon: chatIcon, onClick: openContactModal },
+    {
+      name: "chat",
+      path: "#",
+      icon: <ChatIcon dark={dark} />,
+      onClick: openContactModal,
+    },
   ];
+
+  const projectsPageElements = (
+    <StyledBackbutton>
+      <StyledBackLink href="/projects" dark={dark}>
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginRight: "30px",
+          }}
+        >
+          <ArrowLeft dark={dark} />
+        </span>
+        Projects
+      </StyledBackLink>
+    </StyledBackbutton>
+  );
 
   return (
     <>
       {/* desktop */}
       {isDesktop ? (
-        <StyledNav>
-          {links.map((link, index) => (
-            <StyledDiv key={index}>
-              <StyledLink
-                href={`/${link.path}`}
-                dark={dark}
-                onClick={(event) => {
-                  if (link.onClick) {
-                    event.preventDefault();
-                    link.onClick();
-                  }
-                }}
-              >
-                {link.icon ? (
-                  <Image src={link.icon} alt={link.name} style={iconStyle} />
-                ) : (
-                  link.name
-                )}
-              </StyledLink>
-              <StyledNavSpan
-                isActive={pathname === `/${link.path}`}
-                dark={dark}
+        <>
+          <StyledLogoImage dark={false}>
+            <Link href="/">
+              <Image
+                src="/svg/logo-icon-white.svg"
+                alt="Logo"
+                width={40}
+                height={40}
               />
-            </StyledDiv>
-          ))}
-        </StyledNav>
+            </Link>
+          </StyledLogoImage>
+          <StyledNav>
+            {links.map((link, index) => (
+              <StyledDiv key={index}>
+                <StyledLink
+                  href={`/${link.path}`}
+                  dark={dark}
+                  onClick={(event) => {
+                    if (link.onClick) {
+                      event.preventDefault();
+                      link.onClick();
+                    }
+                  }}
+                >
+                  {index === links.length - 1 ? link.icon : link.name}
+                </StyledLink>
+                <StyledNavSpan
+                  isActive={pathname === `/${link.path}`}
+                  dark={dark}
+                />
+              </StyledDiv>
+            ))}
+          </StyledNav>
+          {pathname.startsWith("/projects/") && projectsPageElements}
+        </>
       ) : (
         <NavbarMobile dark={dark} links={links} />
       )}
       <Contact
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
-        dark={undefined}
+        dark={dark}
       />
     </>
   );

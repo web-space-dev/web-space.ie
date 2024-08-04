@@ -1,11 +1,9 @@
-import { EXAMPLE_PATH } from "../../lib/constants";
 import styled from "@emotion/styled";
 import { GridContainer } from "../global/grid/gridContainer";
 import { PillIconButton as OriginalPillIconButton } from "../global/pillIconButton";
 import Pill from "../global/pill";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import ChatIcon from "../../icons/chatIcon";
-import chatIcon from "../../../public/svg/icon-chat.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { getRemSize } from "../../styles/globalCss";
@@ -322,7 +320,7 @@ export default function Footer() {
               </StyledParagraphWrapper>
               {!isDesktop && (
                 <StyledPillIconButton
-                  text="Check out more"
+                  text="Chat with us"
                   onClick={openContactModal}
                 >
                   <StyledChatIcon />
@@ -333,7 +331,7 @@ export default function Footer() {
           <Contact
             isOpen={isModalOpen}
             onClose={closeContactModal}
-            dark={undefined}
+            dark={true}
           />
         </Row>
       </StyledWrapper>
@@ -359,7 +357,4 @@ export default function Footer() {
       </StyledSlider>
     </footer>
   );
-}
-function setIsContactModalOpen(arg0: boolean) {
-  throw new Error("Function not implemented.");
 }

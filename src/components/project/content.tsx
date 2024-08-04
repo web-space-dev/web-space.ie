@@ -5,6 +5,7 @@ import Gallery1 from "./sections/gallery-1";
 import Gallery2 from "./sections/gallery-2";
 import LargeTextArea from "./sections/largeTextArea";
 import DynamicTextAndImages from "./sections/the-challenge";
+import Project from "../../pages/projects/[slug]";
 
 interface IProps {
   content: Content[];

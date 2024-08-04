@@ -11,6 +11,7 @@ import Showcase from "../components/home/showcase";
 import Skills from "../components/home/skills";
 import Approach from "../components/home/approach";
 import Navbar from "../components/navbar";
+import { useEffect, useState } from "react";
 
 interface IIndex {
   siteData: ISiteData;
@@ -19,10 +20,24 @@ interface IIndex {
 
 export default function Index({ siteData, pageData }: IIndex) {
   const { page, projects, skillCategories, skills } = pageData;
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setDark(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <Layout pageTitle={page.title} siteData={siteData}>
-      <Navbar dark={true} />
+      <Navbar dark={dark} />
 
       {/* Hero section */}
       <Hero title={page.homeFields.heroTitle} />

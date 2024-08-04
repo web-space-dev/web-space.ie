@@ -178,7 +178,7 @@ export default function Gallery1Desktop({ images }: IProps) {
             paginate(-1);
           }}
         >
-          <ArrowLeft fill={colors.white} />
+          <ArrowLeft />
         </StyledArrowButton>
         <StyledArrowButton
           onClick={(e) => {
@@ -186,7 +186,7 @@ export default function Gallery1Desktop({ images }: IProps) {
             paginate(1);
           }}
         >
-          <ArrowRight fill={colors.white} />
+          <ArrowRight />
         </StyledArrowButton>
       </StyledButtonsWrapper>
     </StyledGalleryWrapper>

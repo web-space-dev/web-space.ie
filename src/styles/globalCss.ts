@@ -72,7 +72,7 @@ export const theme = css`
     margin-top: 1.414rem;
     margin-bottom: 0.5rem;
     color: ${colors.white};
-    font-weight: 600;
+    font-weight: 500;
     line-height: ${dimensions.lineHeight.heading};
     text-rendering: optimizeLegibility;
     letter-spacing: 1px;
@@ -147,6 +147,7 @@ export const theme = css`
     border: 1px solid ${colors.blackLight};
     color: ${colors.black};
     padding: 0.4rem 0.5rem;
+    // margin-bottom: 1rem;
     width: 100%;
 
     &::placeholder,
