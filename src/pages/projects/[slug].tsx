@@ -33,7 +33,6 @@ export default function Project({ siteData, project, projects }: IProject) {
       ) : (
         <>
           <GridContainer>
-            <Navbar dark={true} />
             <Hero project={project} />
             {/* <Content */}
             <ProjectBody content={project.projectFields.content} />

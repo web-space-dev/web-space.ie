@@ -1,7 +1,7 @@
 "use client";
 import styled from "@emotion/styled";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { breakpoints, colors, dimensions } from "../styles/variables";
 import { getRemSize } from "../styles/globalCss";
 import { NavbarMobile } from "./global/navigation/navbarMobile";
@@ -12,6 +12,7 @@ import { SVGProps } from "react";
 import ChatIcon from "../icons/chatIcon";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const StyledLogoImage = styled.div<{ dark: boolean }>`
   position: fixed;
@@ -24,7 +25,7 @@ const StyledLogoImage = styled.div<{ dark: boolean }>`
   }
 `;
 
-const StyledNav = styled.nav`
+const StyledNav = styled(motion.nav)<{ sticky: string }>`
   display: flex;
   position: fixed;
   padding: 0px 0px 0px 3px;
@@ -46,6 +47,14 @@ const StyledNav = styled.nav`
       display: none;
     }
   }
+
+  ${(props) =>
+    props.sticky === "false" &&
+    `
+    position: absolute;
+    // top: 230px;
+    bottom:90vh!important;
+  `}
 `;
 
 const StyledDiv = styled.div`
@@ -72,7 +81,7 @@ const StyledLink = styled.a<NavbarProps>`
   letter-spacing: 0.05455rem;
   border-radius: 0.5rem;
   font-weight: 500;
-  transition: all 0.3s ease-in-out;
+
   color: ${(props) => (props.dark ? colors.white : colors.black)};
   text-decoration: none;
   font-size: ${getRemSize(dimensions.headingSizes.medium.mobile)};
@@ -102,7 +111,7 @@ const StyledBackLink = styled.a<NavbarProps>`
   letter-spacing: 0.05455rem;
   border-radius: 18px;
   font-weight: 500;
-  transition: all 0.3s ease-in-out;
+
   background-color: rgba(57, 151, 156, 0.2);
   backdrop-filter: blur(5px);
   color: ${(props) => (props.dark ? colors.white : colors.black)};
@@ -111,6 +120,14 @@ const StyledBackLink = styled.a<NavbarProps>`
   position: relative;
   position: fixed;
   bottom: 16px;
+
+  ${(props) =>
+    props.sticky === "false" &&
+    `
+    position: absolute;
+    bottom:90vh!important;
+  `}
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -146,6 +163,7 @@ type StyledSpanProps = {
 
 interface NavbarProps {
   dark: boolean;
+  sticky?: string;
 }
 
 export const StyledNavSpan = styled.span<StyledSpanProps & NavbarProps>`
@@ -158,7 +176,12 @@ export const StyledNavSpan = styled.span<StyledSpanProps & NavbarProps>`
   }
 `;
 
-export default function Navbar({ dark }) {
+interface IProps {
+  dark: boolean;
+  sticky?: boolean;
+}
+
+export default function Navbar({ dark, sticky = true }: IProps) {
   const pathname = usePathname();
   const isDesktop = useIsDesktop();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -181,7 +204,11 @@ export default function Navbar({ dark }) {
 
   const projectsPageElements = (
     <StyledBackbutton>
-      <StyledBackLink href="/projects" dark={dark}>
+      <StyledBackLink
+        href="/projects"
+        dark={dark}
+        sticky={sticky ? "true" : "false"}
+      >
         <span
           style={{
             display: "flex",
@@ -197,7 +224,7 @@ export default function Navbar({ dark }) {
   );
 
   return (
-    <>
+    <header>
       {/* desktop */}
       {isDesktop ? (
         <>
@@ -211,7 +238,7 @@ export default function Navbar({ dark }) {
               />
             </Link>
           </StyledLogoImage>
-          <StyledNav>
+          <StyledNav sticky={sticky ? "true" : "false"}>
             {links.map((link, index) => (
               <StyledDiv key={index}>
                 <StyledLink
@@ -243,6 +270,6 @@ export default function Navbar({ dark }) {
         onClose={() => setIsContactModalOpen(false)}
         dark={dark}
       />
-    </>
+    </header>
   );
 }

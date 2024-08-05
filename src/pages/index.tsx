@@ -37,7 +37,7 @@ export default function Index({ siteData, pageData }: IIndex) {
 
   return (
     <Layout pageTitle={page.title} siteData={siteData}>
-      <Navbar dark={dark} />
+      {/* <Navbar dark={dark} /> */}
 
       {/* Hero section */}
       <Hero title={page.homeFields.heroTitle} />

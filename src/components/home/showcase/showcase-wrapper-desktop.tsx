@@ -19,15 +19,6 @@ const StyledGridContainer = styled(GridContainer)`
 
 const StyledSpacer = styled.div<{ start: string }>`
   height: 250vh;
-
-  /* ${({ start }) =>
-    start !== "true" &&
-    `
-  height: 140vh;
-  @media all and (max-width: 1024px) {
-    height: 160vh;
-  }
-  `} */
 `;
 
 interface IStyledWrapper {
@@ -36,12 +27,10 @@ interface IStyledWrapper {
 
 const StyledWrapper = styled.section<IStyledWrapper>`
   position: relative;
-  /* height: ${({ open }) => (open ? "100vh" : "auto")}; */
   height: auto;
 `;
 
 const StyledFollowingContainer = styled.div<IStyledWrapper>`
-  /* position: ${({ open }) => (open ? "fixed" : "sticky")}; */
   position: sticky;
   height: 100vh;
   z-index: 20;
@@ -94,6 +83,16 @@ const StyledTitle = styled.h2<{ color: string }>`
   }
   @media all and (max-width: 930px) {
     font-size: ${getRemSize(dimensions.headingSizes.display2.desktop - 100)};
+  }
+
+  @media all and (max-width: 700px) {
+    font-size: ${getRemSize(dimensions.headingSizes.display2.desktop - 130)};
+    /* line-height: 190px; */
+  }
+
+  @media all and (max-width: 600px) {
+    font-size: ${getRemSize(dimensions.headingSizes.display2.desktop - 150)};
+    line-height: 160px;
   }
 `;
 
@@ -163,6 +162,14 @@ function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
       }
     };
   }, [ref]);
+
+  // useEffect(() => {
+  //   if (inView &&isOpen) {
+  //     document.body.style.overflow = "hidden";
+  //   } else {
+  //     document.body.style.overflow = "auto";
+  //   }
+  // }, [isOpen]);
 
   const reverseScale = () => {
     setCanScale(true);
