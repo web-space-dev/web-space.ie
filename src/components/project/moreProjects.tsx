@@ -54,6 +54,7 @@ const StyledProjectCard = styled.div`
   justify-content: flex-end;
   position: relative;
   & img {
+    max-width: 100%;
     border-radius: 26px;
     position: absolute;
     top: 0;

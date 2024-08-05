@@ -16,11 +16,18 @@ import {
 import useIsDesktop from "../../hooks/useIsDesktop";
 import { Row } from "./grid/Row";
 import { Col } from "./grid/Col";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Contact } from "../contact";
+
+const StyledFooter = styled.footer`
+  position: relative;
+`;
 
 const StyledWrapper = styled(GridContainer)`
   margin: 300px auto 260px auto;
+  /* margin: 0 auto; */
+  /* padding: 300px 0 260px 0; */
+  /* margin-top:50 */
 
   @media all and (max-width: ${breakpoints.md}px) {
     margin: 159px 0;
@@ -282,9 +289,37 @@ const StyledChatIcon = styled(ChatIcon)`
   position: relative;
   top: -10px;
 `;
-export default function Footer() {
+
+interface IProps {
+  setFooterInView: (value: boolean) => void;
+}
+
+export default function Footer({ setFooterInView }: IProps) {
   const [isModalOpen, setModalOpen] = useState(false);
   const isDesktop = useIsDesktop();
+  const footerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setFooterInView(entry.isIntersecting);
+      },
+      {
+        root: null, // Use the viewport as the root
+        threshold: 0.1, // Trigger when 10% of the footer is in view
+      }
+    );
+
+    if (footerRef.current) {
+      observer.observe(footerRef.current);
+    }
+
+    return () => {
+      if (footerRef.current) {
+        observer.unobserve(footerRef.current);
+      }
+    };
+  }, []);
 
   const openContactModal = () => {
     setModalOpen(true);
@@ -295,7 +330,7 @@ export default function Footer() {
   };
 
   return (
-    <footer>
+    <StyledFooter ref={footerRef}>
       <StyledWrapper>
         <Row>
           <Col start={2} span={10}>
@@ -355,6 +390,6 @@ export default function Footer() {
           </StyledSlide>
         </StyledSlideTrack>
       </StyledSlider>
-    </footer>
+    </StyledFooter>
   );
 }

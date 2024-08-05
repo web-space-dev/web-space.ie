@@ -170,7 +170,6 @@ export default function Index({ siteData, pageData }: IIndex) {
 
   return (
     <Layout pageTitle={"Projects"} siteData={siteData}>
-      <Navbar dark={true} />
       <GridContainer>
         <Row>
           <Col span={12}>

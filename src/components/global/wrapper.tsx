@@ -2,7 +2,6 @@ import React from "react";
 import { GetStaticProps } from "next";
 import { ISiteData } from "../../interfaces/site";
 import { getSiteData } from "../../lib/api";
-import { HOME_OG_IMAGE_URL } from "../../lib/constants";
 import Head from "next/head";
 
 interface IWrapper {
@@ -53,7 +52,11 @@ export default function Wrapper({ pageTitle, siteData }: IWrapper) {
       <meta name="theme-color" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <meta name="description" content={renderDescription} />
-      <meta property="og:image" content={HOME_OG_IMAGE_URL} />
+      <meta property="og:image" content={"/preview.png"} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={renderTitle} />
+      <meta name="twitter:description" content={renderDescription} />
+      <meta name="twitter:image" content="/preview.png" />
     </Head>
   );
 }

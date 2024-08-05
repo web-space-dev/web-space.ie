@@ -6,7 +6,7 @@ import { getRemSize } from "../../../styles/globalCss";
 import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
 import { motion } from "framer-motion";
-import { memo, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface IStyledShowcaseWrapper {
   open: boolean;
@@ -126,7 +126,10 @@ interface ShowcaseItemProps {
   isOpen: boolean;
 }
 
-function ShowcaseItemFinalDesktop({ project, isOpen }: ShowcaseItemProps) {
+export default function ShowcaseItemFinalDesktop({
+  project,
+  isOpen,
+}: ShowcaseItemProps) {
   return (
     <StyledShowcaseWrapper open={isOpen}>
       <StyledShowcaseDetails>
@@ -137,7 +140,7 @@ function ShowcaseItemFinalDesktop({ project, isOpen }: ShowcaseItemProps) {
               width={1448}
               height={800}
               src={project.featuredImage.node.sourceUrl}
-              blurDataURL={project.featuredImage.node?.placeholderDataURI}
+              blurDataURL={project.featuredImage.node.placeholderDataURI}
             />
             <StyledShowcaseContent>
               <StyledShowcaseTitle>{project.title}</StyledShowcaseTitle>
@@ -158,5 +161,3 @@ function ShowcaseItemFinalDesktop({ project, isOpen }: ShowcaseItemProps) {
     </StyledShowcaseWrapper>
   );
 }
-
-export default memo(ShowcaseItemFinalDesktop);

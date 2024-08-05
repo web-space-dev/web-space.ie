@@ -4,7 +4,7 @@ import { darkerGrotesque } from "./variables";
 
 export function StyledWrapper({ children }) {
   return (
-    <div className={darkerGrotesque.className}>
+    <div className={darkerGrotesque.className} style={{ position: "relative" }}>
       <Global styles={() => css(theme)} />
       {children}
     </div>
