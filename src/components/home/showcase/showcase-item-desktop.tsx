@@ -14,8 +14,6 @@ const StyledShowcaseWrapper = styled(motion.div)<IStyledShowcaseWrapper>`
   height: 100vh;
   display: flex;
   align-items: center;
-  perspective: 500px;
-  scroll-snap-align: ${({ open }) => (open ? "start" : "none")};
 `;
 
 const StyledShowcaseDetails = styled(motion.div)`
@@ -44,7 +42,7 @@ const StyledShowcaseImage = styled(motion.div)`
   & img {
     width: 100%;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 36px;
   }
 `;
 
