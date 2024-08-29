@@ -9,8 +9,6 @@ const { protocol, hostname, port, pathname } = new URL(
   process.env.WORDPRESS_API_URL
 );
 
-console.log(`WordPress API URL: ${protocol}//${hostname}:${port}${pathname}`);
-
 /** @type {import('next').NextConfig} */
 module.exports = {
   images: {
