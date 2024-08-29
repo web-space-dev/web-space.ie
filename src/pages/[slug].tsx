@@ -12,7 +12,7 @@ import { Col } from "../components/global/grid/Col";
 import PageBody from "../components/page/content";
 import styled from "@emotion/styled";
 import { getRemSize } from "../styles/globalCss";
-import { dimensions } from "../styles/variables";
+import { breakpoints, dimensions } from "../styles/variables";
 
 interface IProject {
   siteData: ISiteData;
@@ -21,6 +21,10 @@ interface IProject {
 const StyledTitle = styled.h1`
   font-size: ${getRemSize(dimensions.textSizes.xLarge.desktop)};
   margin: 200px 0px 140px 32px;
+  @media all and (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
+    margin: 120px 16px;
+  }
 `;
 export default function Project({ siteData, page }: IProject) {
   const router = useRouter();
