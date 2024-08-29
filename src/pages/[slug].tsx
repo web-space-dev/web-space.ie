@@ -9,6 +9,7 @@ import { getAllPagesWithSlug, getPageData, getSiteData } from "../lib/api";
 import { GridContainer } from "../components/global/grid/gridContainer";
 import { Row } from "../components/global/grid/Row";
 import { Col } from "../components/global/grid/Col";
+import Pill from "../components/global/pill";
 
 interface IProject {
   siteData: ISiteData;
@@ -37,49 +38,65 @@ export default function Project({ siteData, page }: IProject) {
         <>
           <GridContainer>
             <Row>
-              <Col span={12}>
-                <h1>{page.title}</h1>
-                <div>
-                  {paragraphs.map((paragraph, index) => {
-                    const tag = paragraph.match(/^<(\w+)/)?.[1];
-                    const content = paragraph.replace(
-                      /^<\w+>(.*)<\/\w+>$/,
-                      "$1"
+              {paragraphs.map((paragraph, index) => {
+                const tag = paragraph.match(/^<(\w+)/)?.[1];
+                const content = paragraph.replace(/^<\w+>(.*)<\/\w+>$/, "$1");
+
+                switch (tag) {
+                  case "h2":
+                    const headingContent = content.replace(
+                      /<\/?[^>]+(>|$)/g,
+                      ""
+                    );
+                    return (
+                      <Col span={4} key={index}>
+                        <h2>{headingContent}</h2>
+                      </Col>
+                    );
+                  case "h4":
+                    const pillContent = content.replace(/<\/?[^>]+(>|$)/g, "");
+                    return (
+                      <>
+                        <Col span={8} key={index}>
+                          <Pill pillText={pillContent}></Pill>
+                        </Col>
+                        <br />
+                      </>
+                    );
+                  case "p":
+                    const paragraphContent = content.replace(
+                      /<\/?[^>]+(>|$)/g,
+                      ""
+                    );
+                    return (
+                      <>
+                        <Col span={8} key={index}>
+                          <p>{paragraphContent}</p>
+                        </Col>
+                        <br />
+                      </>
+                    );
+                  case "ul":
+                    const ulContent = content.replace(/<\/?[^>]+(>|$)/g, "");
+                    return (
+                      <Col span={8} key={index}>
+                        <p>{ulContent}</p>
+                      </Col>
+                    );
+                  case "li":
+                    const liContent = content.replace(/<\/?[^>]+(>|$)/g, "");
+                    return (
+                      <Col span={8} key={index}>
+                        <p>{liContent}</p>
+                      </Col>
                     );
 
-                    switch (tag) {
-                      case "h1":
-                        return (
-                          <h1
-                            key={index}
-                            dangerouslySetInnerHTML={{ __html: content }}
-                          />
-                        );
-                      case "h2":
-                        return (
-                          <h2
-                            key={index}
-                            dangerouslySetInnerHTML={{ __html: content }}
-                          />
-                        );
-                      case "h3":
-                        return (
-                          <h3
-                            key={index}
-                            dangerouslySetInnerHTML={{ __html: content }}
-                          />
-                        );
-                      default:
-                        return (
-                          <p
-                            key={index}
-                            dangerouslySetInnerHTML={{ __html: content }}
-                          />
-                        );
-                    }
-                  })}
-                </div>
-              </Col>
+                  default:
+                    return (
+                      <div dangerouslySetInnerHTML={{ __html: content }} />
+                    );
+                }
+              })}
             </Row>
           </GridContainer>
         </>

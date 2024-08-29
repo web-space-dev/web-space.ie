@@ -9,6 +9,8 @@ const { protocol, hostname, port, pathname } = new URL(
   process.env.WORDPRESS_API_URL
 );
 
+console.log(`WordPress API URL: ${protocol}//${hostname}:${port}${pathname}`);
+
 /** @type {import('next').NextConfig} */
 module.exports = {
   images: {
@@ -18,6 +20,12 @@ module.exports = {
         hostname,
         port,
         pathname: `/**`,
+      },
+      {
+        protocol: "https",
+        hostname: "server.web-space.ie",
+        port: "",
+        pathname: "/wp-content/uploads/**",
       },
     ],
   },
