@@ -20,7 +20,6 @@ export default function PageBody({ content }: IProps) {
       case "PageFieldsContentSubHeroLargeTextLayout":
         return <SubHero text={item.subHeroLargeText} />;
       case "PageFieldsContentSimpleSectionLayout":
-        // @TODO Create a component for this
         return (
           <PageSection
             title={item.title}

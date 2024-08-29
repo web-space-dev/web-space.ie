@@ -10,12 +10,18 @@ import { GridContainer } from "../components/global/grid/gridContainer";
 import { Row } from "../components/global/grid/Row";
 import { Col } from "../components/global/grid/Col";
 import PageBody from "../components/page/content";
+import styled from "@emotion/styled";
+import { getRemSize } from "../styles/globalCss";
+import { dimensions } from "../styles/variables";
 
 interface IProject {
   siteData: ISiteData;
   page: PageBySlug;
 }
-
+const StyledTitle = styled.h1`
+  font-size: ${getRemSize(dimensions.textSizes.xLarge.desktop)};
+  margin: 200px 0px 140px 32px;
+`;
 export default function Project({ siteData, page }: IProject) {
   const router = useRouter();
 
@@ -34,7 +40,7 @@ export default function Project({ siteData, page }: IProject) {
           <GridContainer>
             <Row>
               <Col span={12}>
-                <h1>{page.title}</h1>
+                <StyledTitle>{page.title}</StyledTitle>
                 <PageBody content={page.pageFields.content} />
               </Col>
             </Row>
