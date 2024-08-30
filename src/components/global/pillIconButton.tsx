@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { colors, breakpoints } from "../../styles/variables";
-import ArrowUpRight from "../../icons/arrowUpRight";
+// import ArrowUpRight from "../../icons/arrowUpRight";
 import { motion } from "framer-motion";
 
 const StyledIcon = styled.div`
