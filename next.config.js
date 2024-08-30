@@ -19,6 +19,12 @@ module.exports = {
         port,
         pathname: `/**`,
       },
+      {
+        protocol: "https",
+        hostname: "server.web-space.ie",
+        port: "",
+        pathname: "/wp-content/uploads/**",
+      },
     ],
   },
 };
