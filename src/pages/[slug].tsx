@@ -23,7 +23,7 @@ const StyledTitle = styled.h1`
   margin: 200px 0px 140px 32px;
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
-    margin: 120px 16px;
+    margin: 120px 0;
   }
 `;
 export default function Project({ siteData, page }: IProject) {

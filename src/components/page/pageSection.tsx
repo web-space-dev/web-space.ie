@@ -20,7 +20,7 @@ const StyledTitle = styled.h2`
 const StyledParagraph = styled.p`
   margin-top: 40px;
   @media all and (max-width: ${breakpoints.md}px) {
-    margin-top: 10px;
+    margin-top: 15px;
     font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
   }
 `;
