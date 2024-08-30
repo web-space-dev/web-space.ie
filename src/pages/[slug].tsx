@@ -9,23 +9,29 @@ import { getAllPagesWithSlug, getPageData, getSiteData } from "../lib/api";
 import { GridContainer } from "../components/global/grid/gridContainer";
 import { Row } from "../components/global/grid/Row";
 import { Col } from "../components/global/grid/Col";
+import PageBody from "../components/page/content";
+import styled from "@emotion/styled";
+import { getRemSize } from "../styles/globalCss";
+import { breakpoints, dimensions } from "../styles/variables";
 
 interface IProject {
   siteData: ISiteData;
   page: PageBySlug;
 }
-
+const StyledTitle = styled.h1`
+  font-size: ${getRemSize(dimensions.textSizes.xLarge.desktop)};
+  margin: 200px 0px 140px 32px;
+  @media all and (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
+    margin: 120px 0;
+  }
+`;
 export default function Project({ siteData, page }: IProject) {
   const router = useRouter();
 
   if (!page || (!router.isFallback && !page?.slug)) {
     return <ErrorPage statusCode={404} />;
   }
-
-  const content = page.content;
-  const paragraphs = content
-    .split("\n")
-    .filter((paragraph) => paragraph.trim() !== "");
 
   return (
     <Layout pageTitle={page?.title} siteData={siteData}>
@@ -38,47 +44,8 @@ export default function Project({ siteData, page }: IProject) {
           <GridContainer>
             <Row>
               <Col span={12}>
-                <h1>{page.title}</h1>
-                <div>
-                  {paragraphs.map((paragraph, index) => {
-                    const tag = paragraph.match(/^<(\w+)/)?.[1];
-                    const content = paragraph.replace(
-                      /^<\w+>(.*)<\/\w+>$/,
-                      "$1"
-                    );
-
-                    switch (tag) {
-                      case "h1":
-                        return (
-                          <h1
-                            key={index}
-                            dangerouslySetInnerHTML={{ __html: content }}
-                          />
-                        );
-                      case "h2":
-                        return (
-                          <h2
-                            key={index}
-                            dangerouslySetInnerHTML={{ __html: content }}
-                          />
-                        );
-                      case "h3":
-                        return (
-                          <h3
-                            key={index}
-                            dangerouslySetInnerHTML={{ __html: content }}
-                          />
-                        );
-                      default:
-                        return (
-                          <p
-                            key={index}
-                            dangerouslySetInnerHTML={{ __html: content }}
-                          />
-                        );
-                    }
-                  })}
-                </div>
+                <StyledTitle>{page.title}</StyledTitle>
+                <PageBody content={page.pageFields.content} />
               </Col>
             </Row>
           </GridContainer>
