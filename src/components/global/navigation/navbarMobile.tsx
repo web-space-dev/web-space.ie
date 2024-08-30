@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import styled from "@emotion/styled";
 import { colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
@@ -9,6 +8,8 @@ import CloseIcon from "../../../icons/closeIcon";
 import BurgerIcon from "../../../icons/burgerIcon";
 import LogoIcon from "../../../icons/logoIcon";
 import Link from "next/link";
+import { motion, useAnimation } from "framer-motion";
+import { set } from "date-fns";
 
 const StyledImageWrapper = styled(Link)`
   position: fixed;
@@ -36,7 +37,10 @@ const StyledNavMobile = styled.nav<{ dark: boolean; isMenuOpen: boolean }>`
       ? "linear-gradient(to bottom, #000000 0%, #000000 50%, #000000a3 75%, #00000045 100%)"
       : "none"};
 `;
-const StyledBtnMobile = styled.button<{ isOpen: boolean }>`
+const StyledBtnMobile = styled(motion.button)<{
+  open: boolean;
+  dark: boolean;
+}>`
   all: unset;
   display: flex;
   justify-content: center;
@@ -44,7 +48,8 @@ const StyledBtnMobile = styled.button<{ isOpen: boolean }>`
   border-radius: 25px;
   width: 2rem;
   height: 2rem;
-  background-color: ${colors.accentLight};
+  /* background-color: ${(props) =>
+    props.dark ? colors.white : colors.accentLight}; */
   padding: 0.25rem;
   margin-bottom: 1rem;
   cursor: pointer;
@@ -54,7 +59,7 @@ const StyledBtnMobile = styled.button<{ isOpen: boolean }>`
   }
 
   ${(props) =>
-    props.isOpen &&
+    props.open &&
     `
   background-color: ${colors.blackLight};
   &:hover {
@@ -116,20 +121,20 @@ const StyledDivContactMobile = styled.div`
   right: 22px;
 `;
 
-const StyledLinkContactMobile = styled.a<{
+const StyledLinkContactMobile = styled(motion.a)<{
   dark: boolean;
   isMenuOpen: boolean;
 }>`
   display: flex; // Centers the icon
   justify-content: center; // Centers the icon horizontally
   align-items: center; // Centers the icon vertically
-  background-color: ${colors.accentLight};
+  background-color: ${(props) =>
+    props.dark ? colors.white : colors.accentLight};
   padding: 12px 10px 10px 10px;
   border-radius: 25px;
   width: 55px;
   height: 55px;
   margin-bottom: 1rem;
-  color: ${(props) => (props.dark ? colors.white : colors.black)};
   cursor: ${(props) => (props.isMenuOpen ? "default" : "pointer")};
 
   ${(props) =>
@@ -164,13 +169,16 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [topDark, setTopDark] = useState(dark);
+  const topControls = useAnimation();
+  const bottomControls = useAnimation();
 
   useEffect(() => {
     const handleScroll = () => {
       setTopDark(window.scrollY > window.innerHeight * 0.9);
     };
-
-    if (!dark) {
+    if (window.location.pathname !== "/") {
+      setTopDark(true);
+    } else if (!dark) {
       window.addEventListener("scroll", handleScroll);
     }
 
@@ -192,6 +200,20 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
     setIsContactModalOpen(true);
   };
 
+  useEffect(() => {
+    topControls.start({
+      backgroundColor: topDark ? colors.white : colors.accentLight,
+      transition: { duration: 0.3 },
+    });
+  }, [topDark, topControls]);
+
+  useEffect(() => {
+    bottomControls.start({
+      backgroundColor: dark ? colors.white : colors.accentLight,
+      transition: { duration: 0.3 },
+    });
+  }, [dark, bottomControls]);
+
   return (
     <>
       <StyledImageWrapper href="/">
@@ -203,16 +225,18 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
         onClick={() => setIsMenuOpen(false)}
       >
         <StyledBtnMobile
+          dark={topDark}
           onClick={(e) => {
             e.stopPropagation();
             setIsMenuOpen(!isMenuOpen);
           }}
-          isOpen={isMenuOpen}
+          open={isMenuOpen}
+          animate={topControls}
         >
           {isMenuOpen ? (
-            <CloseIcon dark={topDark} />
+            <CloseIcon dark={false} />
           ) : (
-            <BurgerIcon dark={topDark} />
+            <BurgerIcon dark={false} />
           )}
         </StyledBtnMobile>
 
@@ -237,8 +261,9 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
               isMenuOpen={isMenuOpen}
               dark={dark}
               onClick={isMenuOpen ? undefined : openContactModal}
+              animate={bottomControls}
             >
-              <ChatIcon dark={dark} />
+              <ChatIcon dark={false} />
             </StyledLinkContactMobile>
           </StyledDivContactMobile>
         )}
