@@ -7,6 +7,8 @@ import { getRemSize } from "../styles/globalCss";
 import Layout from "../components/layout";
 import Navbar from "../components/navbar";
 import ArrowRight from "../icons/arrowRight";
+import { Col } from "../components/global/grid/Col";
+
 const StyledWrapper = styled.div`
   display: flex;
   gap: 40px;
@@ -43,24 +45,30 @@ export default function Custom404() {
   return (
     <Layout pageTitle="404 - Page Not Found">
       <Navbar dark={true} />
-      <StyledWrapper>
-        <StyledTextWrapper>
-          <StyledText>404 error</StyledText>
-          <StyledH1>Whoops, not too sure what happened</StyledH1>
-          <StyledText>
-            There seems to be a missing link or a connection issue
-          </StyledText>
-          <StyledButtonWrapper>
-            <PillIconButton
-              text={"Return to home"}
-              onClick={() => router.push("/")}
-            >
-              <StyledArrowRight />{" "}
-            </PillIconButton>
-          </StyledButtonWrapper>
-        </StyledTextWrapper>
-        <Image src="/public/404image.png" alt="404" width={400} height={400} />
-      </StyledWrapper>
+      <Row>
+        <StyledWrapper>
+          <Col span={6}>
+            <StyledTextWrapper>
+              <StyledText>404 error</StyledText>
+              <StyledH1>Whoops, not too sure what happened</StyledH1>
+              <StyledText>
+                There seems to be a missing link or a connection issue
+              </StyledText>
+              <StyledButtonWrapper>
+                <PillIconButton
+                  text={"Return to home"}
+                  onClick={() => router.push("/")}
+                >
+                  <StyledArrowRight />{" "}
+                </PillIconButton>
+              </StyledButtonWrapper>
+            </StyledTextWrapper>
+          </Col>
+          <Col span={6}>
+            <Image src="/404image.png" alt="404" width={400} height={400} />
+          </Col>
+        </StyledWrapper>
+      </Row>
     </Layout>
   );
 }
