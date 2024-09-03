@@ -2,6 +2,11 @@ import { IHomePage } from "../interfaces/home";
 import { IPageData } from "../interfaces/page";
 import { IProjectData, IProjectsData } from "../interfaces/project";
 import { ISiteData } from "../interfaces/site";
+import { GET_HOME_DATA_QUERY } from "./queries/home";
+import { GET_PAGE_DATA_QUERY } from "./queries/page";
+import { GET_PROJECT_DATA_QUERY } from "./queries/project";
+import { GET_PROJECTS_DATA_QUERY } from "./queries/projects";
+import { GET_SITE_DATA_QUERY } from "./queries/site";
 
 const API_URL = process.env.WORDPRESS_API_URL;
 
@@ -65,128 +70,19 @@ export async function getAllPagesWithSlug() {
 }
 
 export async function getSiteData(): Promise<ISiteData> {
-  const data = await fetchAPI(
-    `
-    query {
-      generalSettings {
-        title
-        description
-      }
-    }
-    `
-  );
+  const data = await fetchAPI(GET_SITE_DATA_QUERY);
 
   return data;
 }
 
 export async function getHomeData(): Promise<IHomePage> {
-  const data = await fetchAPI(
-    `
-    query HomePage {
-      page(id: "cG9zdDo5") {
-        id
-        title
-        featuredImage {
-          node {
-            altText
-            sourceUrl
-            
-          }
-        }
-        homeFields {
-          heroTitle
-          whatWeDo {
-            title
-            pills {
-              pillText
-            }
-          }
-          showcaseTitle
-          skillsTitle
-          approach {
-            title
-            paragraph
-          }
-        }
-      }
-      projects(first: 3) {
-        nodes {
-          title
-          slug
-          projectCategories {
-            nodes {
-              name
-              slug
-            }
-          }
-          featuredImage {
-            node {
-              altText
-              sourceUrl
-              
-            }
-          }
-        }
-      }
-      skillCategories {
-        nodes {
-          name
-          skills {
-            nodes {
-              title
-              featuredImage {
-                node {
-                  altText
-                  sourceUrl
-                  
-                }
-              }
-            }
-          }
-        }
-      }
-      skills(first: 6) {
-        nodes {
-          title
-          featuredImage {
-            node {
-              altText
-              sourceUrl
-              
-            }
-          }
-        }
-      }
-    }
-  `
-  );
+  const data = await fetchAPI(GET_HOME_DATA_QUERY);
 
   return data;
 }
 
 export async function getProjectsData(): Promise<IProjectsData> {
-  const data = await fetchAPI(`
-    query ProjectsPage {
-      projects {
-        nodes {
-          title
-          slug
-          projectCategories {
-            nodes {
-              name
-              slug
-            }
-          }
-          featuredImage {
-            node {
-              altText
-              sourceUrl
-              
-            }
-          }
-        }
-      }
-    }`);
+  const data = await fetchAPI(GET_PROJECTS_DATA_QUERY);
 
   return data;
 }
@@ -194,139 +90,11 @@ export async function getProjectsData(): Promise<IProjectsData> {
 export async function getProjectAndMoreProjects(
   slug: string
 ): Promise<IProjectData> {
-  const data = await fetchAPI(
-    `
-      query PostBySlug($slug: String!) {
-        projectBy(slug: $slug) {
-          title
-          slug
-          featuredImage {
-            node {
-              altText
-              sourceUrl
-              
-            }
-          }
-          tags {
-            nodes {
-              name
-              slug
-            }
-          }
-          projectCategories {
-            nodes {
-              name
-              slug
-            }
-          }
-          projectFields {
-            stat1 {
-              field
-              value
-            }
-            stat2 {
-              field
-              value
-            }
-            stat3 {
-              field
-              value
-            }
-            content {
-              fieldGroupName
-              ... on ProjectFieldsContentLargeTextAreaLayout {
-                __typename
-                largeTextArea
-              }
-              ... on ProjectFieldsContentGallery1Layout {
-                __typename
-                gallery1 {
-                  nodes {
-                    sourceUrl
-                    
-                    altText
-                  }
-                }
-              }
-              ... on ProjectFieldsContentGallery2Layout {
-                __typename
-                gallery2 {
-                  nodes {
-                    sourceUrl
-                    
-                    altText
-                  }
-                }
-              }
-              ... on ProjectFieldsContentTheChallengeLayout {
-                __typename
-                dynamicTextAndImage {
-                  ... on ProjectFieldsContentDynamicTextAndImageTextLayout {
-                    __typename
-                    text
-                  }
-                  ... on ProjectFieldsContentDynamicTextAndImageTextAndImageLayout {
-                    __typename
-                    text
-                    image {
-                      node {
-                        altText
-                        sourceUrl
-                        
-                      }
-                    }
-                  }
-                }
-              }
-              ... on ProjectFieldsContentParagraphFieldLayout {
-                __typename
-                paragraphItem {
-                  ... on ProjectFieldsContentParagraphItemTitleLayout {
-                    __typename
-                    title
-                  }
-                  ... on ProjectFieldsContentParagraphItemParagraphLayout {
-                    __typename
-                    paragraph
-                  }
-                  ... on ProjectFieldsContentParagraphItemLargeParagraphLayout {
-                    __typename
-                    largeParagraph
-                  }
-                }
-              }
-            }
-          }
-
-        }
-        projects(first: 3, where: { orderby: { field: DATE, order: DESC } }) {
-          nodes {
-            title
-            slug
-                   projectCategories {
-            nodes {
-              name
-              slug
-            }
-          }
-            featuredImage {
-              node {
-                altText
-                sourceUrl
-                
-              }
-            }
-          }
-        }
-      }
-
-  `,
-    {
-      variables: {
-        slug,
-      },
-    }
-  );
+  const data = await fetchAPI(GET_PROJECT_DATA_QUERY, {
+    variables: {
+      slug,
+    },
+  });
 
   // Filter out the main project
   data.projects.nodes = data.projects.nodes.filter(
@@ -339,24 +107,11 @@ export async function getProjectAndMoreProjects(
 }
 
 export async function getPageData(slug: string): Promise<IPageData> {
-  const data = await fetchAPI(
-    `
-  query PageBySlug($slug: String!) {
-
-    pageBySlug(slug: $slug) {
-      id
-      title
-      slug
-      content
-    }
-  }
-  `,
-    {
-      variables: {
-        slug,
-      },
-    }
-  );
+  const data = await fetchAPI(GET_PAGE_DATA_QUERY, {
+    variables: {
+      slug,
+    },
+  });
 
   return data;
 }
