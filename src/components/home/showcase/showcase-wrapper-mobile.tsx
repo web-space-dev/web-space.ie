@@ -9,6 +9,7 @@ import { Row } from "../../global/grid/Row";
 import { IShowcase } from "../showcase";
 import ShowcaseItemMobile from "./showcase-item-mobile";
 import ShowcaseItemMobileAllProjects from "./showcase-item-mobile-all-projects";
+import useScrollProgress from "../../../hooks/useScrollProgress";
 
 const StyledSpacer = styled.div<{ height: number }>`
   height: ${({ height }) => height}px;
@@ -79,26 +80,6 @@ const StyledMobileSpacer = styled.div`
   margin-right: 343px;
   scroll-snap-align: center;
 `;
-
-const useScrollProgress = (ref) => {
-  const scrollProgress = useMotionValue(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const rect = ref.current.getBoundingClientRect();
-      const start = rect.top + window.scrollY;
-      const end = start + rect.height;
-      const scrollPos = window.scrollY - start;
-      const progress = Math.max(0, Math.min(scrollPos / (end - start), 1));
-      scrollProgress.set(progress);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [ref, scrollProgress]);
-
-  return scrollProgress;
-};
 
 function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
   const ghostRef = useRef(null);
