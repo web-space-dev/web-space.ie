@@ -46,23 +46,6 @@ const StyledWrapper = styled(GridContainer)`
   }
 `;
 
-const StyledItemContainer = styled.div`
-  overflow-y: scroll;
-  display: flex;
-  align-items: start;
-  overflow-x: scroll;
-  position: relative;
-  height: 100vh;
-  width: max-content;
-  scrollbar-width: none;
-
-  @media all and (max-width: ${breakpoints.md}px) {
-    height: auto;
-    flex-direction: column;
-    overflow-x: visible;
-  }
-`;
-
 const StyledMotionWrapper = styled(motion.div)`
   display: flex;
   width: max-content;
@@ -77,23 +60,6 @@ const StyledMotionWrapper = styled(motion.div)`
     width: 100%;
     justify-content: center;
   }
-`;
-
-const StyledMobileSpacer = styled.div`
-  margin-right: 343px;
-  scroll-snap-align: center;
-`;
-
-const StyledFollowingContainer = styled.div`
-  position: sticky;
-  height: 100vh;
-  z-index: 20;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const StyledHeadingWrapper = styled(GridContainer)`
@@ -111,56 +77,6 @@ const StyledHeading2 = styled.h2`
   grid-column: 1 / span 5;
   @media all and (max-width: ${breakpoints.md}px) {
     display: none;
-  }
-`;
-
-const StyledBoxWrapper = styled.div`
-  position: relative;
-  overflow: hidden;
-`;
-
-const StyledScrollContainer = styled(motion.div)`
-  display: flex;
-  height: 100%;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-`;
-
-// const StyledMotionWrapper = styled(motion.div)`
-//   display: flex;
-//   width: max-content;
-//   height: 100vh;
-//   overflow: auto;
-//   position: absolute;
-//   top: 0;
-//   bottom: 0;
-//   left: 0;
-// `;
-
-const StyledBox = styled(motion.div)`
-  padding-left: 20px;
-  display: flex;
-  width: 100%;
-  border: 0px 0px 5px 0px;
-  flex-direction: row;
-  height: 100%;
-  overflow-x: auto;
-  scrollbar-width: none;
-  position: relative;
-  overflow-y: hidden;
-
-  @media all and (max-width: ${breakpoints.md}px) {
-    height: auto;
-    flex-direction: column;
-    overflow-x: visible;
-    padding-right: 20px;
-  }
-  @media all and (max-width: ${breakpoints.sm}px) {
-    height: auto;
-    flex-direction: column;
-    overflow-x: visible;
-    padding-right: 20px;
   }
 `;
 
