@@ -12,6 +12,7 @@ import { getRemSize } from "../../styles/globalCss";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import ArrowUpRight from "../../icons/arrowUpRight";
 import useScrollProgress from "../../hooks/useScrollProgress";
+import useIsIntersecting from "../../hooks/useIsIntersecting";
 
 interface ApproachProps {
   items: IApproach[];
@@ -53,6 +54,7 @@ const StyledItemContainer = styled.div`
   position: relative;
   height: 100vh;
   width: max-content;
+  scrollbar-width: none;
 
   @media all and (max-width: ${breakpoints.md}px) {
     height: auto;
@@ -286,7 +288,7 @@ const StyledApproachBorderLeft = styled.div<IStyledApproachBorder>`
   position: absolute;
   width: 12px;
   left: 0;
-  top: 0;
+  top: 140px;
   transition: 0.2s ease;
   opacity: ${(props) => (props.isVisible ? 1 : 0)};
   @media all and (max-width: ${breakpoints.md}px) {
@@ -303,7 +305,7 @@ const StyledApproachBorderRight = styled.div<IStyledApproachBorder>`
   position: absolute;
   width: 12px;
   right: 0;
-  top: 0;
+  top: 140px;
   transition: 0.2s ease;
   opacity: ${(props) => (props.isVisible ? 1 : 0)};
 
@@ -317,10 +319,15 @@ interface StyledCardProps {
 }
 
 function Approach({ items }: ApproachProps) {
-  const cardsRef = useRef([]);
   const ghostRef = useRef(null);
   const horizontalRef = useRef(null);
   const wrapperRef = useRef(null);
+
+  const boxRef = useRef();
+  const borderLeftRef = useRef();
+  const borderRightRef = useRef();
+  const cardsRef = useRef([]);
+
   const horizontalWidth = 5500;
   const isDesktop = useIsDesktop();
 
@@ -336,6 +343,26 @@ function Approach({ items }: ApproachProps) {
   const cappedTransform = useMotionValue(Math.min(transform.get(), 1550));
 
   useEffect(() => {
+    cardsRef.current = cardsRef.current.slice(0, items.length + 1);
+  }, [items]);
+
+  const isLeftIntersecting = useIsIntersecting(
+    borderLeftRef,
+    cardsRef,
+    horizontalRef
+  );
+  const isRightIntersecting = useIsIntersecting(
+    borderRightRef,
+    cardsRef,
+    horizontalRef
+  );
+
+  useEffect(() => {
+    console.log("isLeftIntersecting", isRightIntersecting);
+    console.log("isRightIntersecting", isRightIntersecting);
+  }, [isLeftIntersecting, isRightIntersecting]);
+
+  useEffect(() => {
     const unsubscribe = transform.onChange((value) => {
       cappedTransform.set(Math.max(value, -3770));
     });
@@ -349,11 +376,17 @@ function Approach({ items }: ApproachProps) {
         <StyledHeadingWrapper>
           <StyledHeading2>Our Approach</StyledHeading2>
         </StyledHeadingWrapper>
+        <StyledApproachBorderLeft
+          ref={borderLeftRef}
+          isVisible={isLeftIntersecting}
+        />
         <StyledMotionWrapper ref={horizontalRef} style={{ x: cappedTransform }}>
-          <StyledItemContainer>
-            <Cards items={items} cardsRef={cardsRef} />
-          </StyledItemContainer>
+          <Cards items={items} cardsRef={cardsRef} />
         </StyledMotionWrapper>
+        <StyledApproachBorderRight
+          ref={borderRightRef}
+          isVisible={isRightIntersecting}
+        />
       </StyledWrapper>
       <StyledSpacer ref={ghostRef} height={horizontalWidth} />
     </div>
