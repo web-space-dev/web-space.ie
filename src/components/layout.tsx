@@ -35,7 +35,7 @@ export default function Layout({ pageTitle, siteData, children }: ILayout) {
   return (
     <StyledWrapper>
       <Wrapper pageTitle={pageTitle} siteData={siteData} />
-      <Navbar dark={dark} sticky={!footerInView} />
+      <Navbar dark={dark} sticky={true} />
 
       <main>{children}</main>
 

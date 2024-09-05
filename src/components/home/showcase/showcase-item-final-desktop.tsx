@@ -6,11 +6,11 @@ import { getRemSize } from "../../../styles/globalCss";
 import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
 
 interface IStyledShowcaseWrapper {
   open: boolean;
 }
+
 const StyledShowcaseWrapper = styled.div<IStyledShowcaseWrapper>`
   height: 100vh;
   display: flex;
@@ -29,7 +29,8 @@ const StyledShowcaseDetails = styled(motion.div)`
   height: -webkit-fill-available;
   margin: 40px auto;
   max-width: 1448px;
-  /* height: 100%; */
+  max-height: 800px;
+
   @media all and (max-width: ${breakpoints.md}px) {
     flex-direction: column;
   }
