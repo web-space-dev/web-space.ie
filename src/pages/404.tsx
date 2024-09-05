@@ -11,11 +11,18 @@ import { Row } from "../components/global/grid/Row";
 import { GridContainer } from "../components/global/grid/gridContainer";
 import useIsDesktop from "../hooks/useIsDesktop";
 
+const StyledGridContainer = styled(GridContainer)`
+  margin-top: 100px;
+`;
+
+const StyledRow = styled(Row)`
+  align-items: center;
+`;
+
 const StyledTextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 108px;
-  margin bottom: 60px;
+  margin-bottom: 60px;
   margin-left: 90px;
   margin-right: 10px;
 `;
@@ -36,7 +43,6 @@ const StyledImageWrapper = styled.div`
   position: relative;
   height: 620px;
   width: 100%;
-  margin-top: 70px;
   margin-bottom: 125px;
   margin-right: 32px;
 
@@ -45,15 +51,15 @@ const StyledImageWrapper = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: right;
+    object-position: left;
   }
 `;
 
 const StyledMobileTextWrapper = styled.div`
-display: flex;
+  display: flex;
   flex-direction: column;
   margin-top: 70px;
-  margin bottom: 35px;
+  margin-bottom: 35px;
 `;
 
 const StyledMobileImageWrapper = styled.div`
@@ -81,8 +87,8 @@ export default function Custom404() {
   const isDesktop = useIsDesktop();
   return (
     <Layout pageTitle="404 - Page Not Found">
-      <GridContainer>
-        <Row>
+      <StyledGridContainer>
+        <StyledRow>
           {isDesktop ? (
             <>
               <Col span={7}>
@@ -125,12 +131,12 @@ export default function Custom404() {
                     There seems to be a missing link or a connection issue
                   </StyledMobileText>
                   <StyledButtonWrapper>
-                    {/* <PillIconButton
+                    <PillIconButton
                       text={"Return to home"}
                       onClick={() => router.push("/")}
                     >
                       <ArrowUpRight />
-                    </PillIconButton> */}
+                    </PillIconButton>
                   </StyledButtonWrapper>
                 </StyledMobileTextWrapper>
               </Col>
@@ -146,8 +152,8 @@ export default function Custom404() {
               </Col>
             </>
           )}
-        </Row>
-      </GridContainer>
+        </StyledRow>
+      </StyledGridContainer>
     </Layout>
   );
 }
