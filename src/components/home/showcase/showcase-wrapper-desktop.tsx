@@ -1,10 +1,9 @@
+import { useState, useRef, useEffect, memo } from "react";
 import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { GridContainer } from "../../global/grid/gridContainer";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { getRemSize } from "../../../styles/globalCss";
-import { useState, useRef, useEffect, memo } from "react";
-import useIsDesktop from "../../../hooks/useIsDesktop";
 import { Col } from "../../global/grid/Col";
 import { Row } from "../../global/grid/Row";
 import { IShowcase } from "../showcase";
@@ -12,6 +11,9 @@ import ShowcaseItemDesktop from "./showcase-item-desktop";
 import ShowcaseItemFinalDesktop from "./showcase-item-final-desktop";
 
 const StyledGridContainer = styled(GridContainer)`
+  height: 100vh;
+  display: flex;
+  align-items: center;
   @media all and (min-width: 2000px) {
     padding-top: 90px;
   }
@@ -53,15 +55,12 @@ const StyledMotionWrapper = styled(motion.div)<{ scroll: string }>`
   left: 0;
   width: 100%;
   overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-
   ${({ scroll }) =>
     scroll === "true" ? `overflow-y: scroll;` : `overflow: hidden;`}
   @media all and (max-width: ${breakpoints.sm}px) {
     display: flex;
     align-items: center;
     overflow-x: scroll;
-    scroll-snap-type: x mandatory;
   }
 `;
 
@@ -87,7 +86,6 @@ const StyledTitle = styled.h2<{ color: string }>`
 
   @media all and (max-width: 700px) {
     font-size: ${getRemSize(dimensions.headingSizes.display2.desktop - 130)};
-    /* line-height: 190px; */
   }
 
   @media all and (max-width: 600px) {
@@ -110,7 +108,7 @@ function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   const scale = useTransform(
     scrollY,
     [beginScalePos, beginScalePos + 1200],
-    canScale ? [0.2, 1] : canSnapScroll ? [1, 1] : [0.2, 0.2]
+    canScale ? [0.1, 1] : canSnapScroll ? [1, 1] : [0.1, 0.1]
   );
 
   useEffect(() => {

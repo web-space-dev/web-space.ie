@@ -31,16 +31,30 @@ export default function useIsIntersecting(
       }
     }
 
-    function watchScroll() {
-      listener.current.addEventListener(
-        "scroll",
-        checkIfElementsAreOverlapping
-      );
+    function watchTransform() {
+      const observer = new MutationObserver(() => {
+        checkIfElementsAreOverlapping();
+      });
+
+      if (listener.current) {
+        observer.observe(listener.current, {
+          attributes: true,
+          attributeFilter: ["style"],
+        });
+      }
+
+      return () => {
+        observer.disconnect();
+      };
     }
-    if (listener.current) {
-      watchScroll();
-    }
-  }, []);
+
+    const unwatchTransform = watchTransform();
+    checkIfElementsAreOverlapping(); // Initial check
+
+    return () => {
+      unwatchTransform();
+    };
+  }, [element, otherElements, listener]);
 
   return isOverlapping;
 }

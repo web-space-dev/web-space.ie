@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { colors, dimensions } from "../../../styles/variables";
+import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { Contact } from "../../../components/contact";
 import ChatIcon from "../../../icons/chatIcon";
@@ -9,16 +9,18 @@ import BurgerIcon from "../../../icons/burgerIcon";
 import LogoIcon from "../../../icons/logoIcon";
 import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
-import { set } from "date-fns";
 
 const StyledImageWrapper = styled(Link)`
   position: fixed;
   top: 14px;
   left: 8px;
   z-index: 999;
+  @media all and (min-width: ${breakpoints.md}px) {
+    display: none;
+  }
 `;
 
-const StyledNavMobile = styled.nav<{ dark: boolean; isMenuOpen: boolean }>`
+const StyledNavMobile = styled.nav<{ dark: string; open: string }>`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -27,19 +29,18 @@ const StyledNavMobile = styled.nav<{ dark: boolean; isMenuOpen: boolean }>`
   right: 0;
   padding: 1rem;
   z-index: 999;
-  backdrop-filter: ${(props) => (props.isMenuOpen ? "blur(15px)" : "0")};
-  width: ${(props) => (props.isMenuOpen ? "100vw" : "auto")};
-  height: ${(props) => (props.isMenuOpen ? "100vh" : "auto")};
+  backdrop-filter: ${(props) => (props.open === "true" ? "blur(15px)" : "0")};
+  width: ${(props) => (props.open === "true" ? "100vw" : "auto")};
+  height: ${(props) => (props.open === "true" ? "100vh" : "auto")};
   transition: ${(props) =>
-    props.isMenuOpen ? "backdrop-filter 0.3s ease-in-out" : "none"};
+    props.open === "true" ? "backdrop-filter 0.3s ease-in-out" : "none"};
   mask-image: ${(props) =>
-    props.isMenuOpen
+    props.open === "true"
       ? "linear-gradient(to bottom, #000000 0%, #000000 50%, #000000a3 75%, #00000045 100%)"
       : "none"};
 `;
 const StyledBtnMobile = styled(motion.button)<{
-  open: boolean;
-  dark: boolean;
+  open: string;
 }>`
   all: unset;
   display: flex;
@@ -48,8 +49,6 @@ const StyledBtnMobile = styled(motion.button)<{
   border-radius: 25px;
   width: 2rem;
   height: 2rem;
-  /* background-color: ${(props) =>
-    props.dark ? colors.white : colors.accentLight}; */
   padding: 0.25rem;
   margin-bottom: 1rem;
   cursor: pointer;
@@ -59,7 +58,7 @@ const StyledBtnMobile = styled(motion.button)<{
   }
 
   ${(props) =>
-    props.open &&
+    props.open === "true" &&
     `
   background-color: ${colors.blackLight};
   &:hover {
@@ -122,23 +121,23 @@ const StyledDivContactMobile = styled.div`
 `;
 
 const StyledLinkContactMobile = styled(motion.a)<{
-  dark: boolean;
-  isMenuOpen: boolean;
+  dark: string;
+  open: string;
 }>`
   display: flex; // Centers the icon
   justify-content: center; // Centers the icon horizontally
   align-items: center; // Centers the icon vertically
   background-color: ${(props) =>
-    props.dark ? colors.white : colors.accentLight};
+    props.dark === "true" ? colors.white : colors.accentLight};
   padding: 12px 10px 10px 10px;
   border-radius: 25px;
   width: 55px;
   height: 55px;
   margin-bottom: 1rem;
-  cursor: ${(props) => (props.isMenuOpen ? "default" : "pointer")};
+  cursor: ${(props) => (props.open === "true" ? "default" : "pointer")};
 
   ${(props) =>
-    !props.isMenuOpen &&
+    props.open === "false" &&
     `
   &:hover {
     background-color: ${colors.accent};
@@ -220,17 +219,16 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
         <LogoIcon dark={topDark} />
       </StyledImageWrapper>
       <StyledNavMobile
-        isMenuOpen={isMenuOpen}
-        dark={dark}
+        open={isMenuOpen.toString()}
+        dark={dark.toString()}
         onClick={() => setIsMenuOpen(false)}
       >
         <StyledBtnMobile
-          dark={topDark}
           onClick={(e) => {
             e.stopPropagation();
             setIsMenuOpen(!isMenuOpen);
           }}
-          open={isMenuOpen}
+          open={isMenuOpen.toString()}
           animate={topControls}
         >
           {isMenuOpen ? (
@@ -258,8 +256,8 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
         {links.length > 0 && (
           <StyledDivContactMobile>
             <StyledLinkContactMobile
-              isMenuOpen={isMenuOpen}
-              dark={dark}
+              open={isMenuOpen.toString()}
+              dark={dark.toString()}
               onClick={isMenuOpen ? undefined : openContactModal}
               animate={bottomControls}
             >

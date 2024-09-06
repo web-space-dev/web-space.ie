@@ -4,24 +4,70 @@ import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
 import Pill from "../global/pill";
-import { motion } from "framer-motion";
+import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { IconButton } from "../global/iconButton";
 import { PillIconButton } from "../global/pillIconButton";
 import Link from "next/link";
 import { getRemSize } from "../../styles/globalCss";
-import useIsIntersecting from "../../hooks/useIsIntersecting";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import ArrowUpRight from "../../icons/arrowUpRight";
+import useScrollProgress from "../../hooks/useScrollProgress";
+import useIsIntersecting from "../../hooks/useIsIntersecting";
 
 interface ApproachProps {
   items: IApproach[];
 }
 
+const StyledSpacer = styled.div<{ height: number }>`
+  height: ${({ height }) => height}px;
+  visibility: hidden;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    height: 100%;
+    margin-bottom: 350px;
+  }
+`;
+
 const StyledWrapper = styled(GridContainer)`
+  position: sticky;
+  height: 100vh;
+  z-index: 20;
+  background-color: ${colors.black};
+  top: 10%;
+  left: 0;
+  will-change: transform;
+  overflow: hidden;
+  max-width: 100%;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    overflow: inherit;
+    position: relative;
+    height: 100%;
+  }
+`;
+
+const StyledMotionWrapper = styled(motion.div)`
+  display: flex;
+  width: max-content;
+  height: 100vh;
+  overflow: auto;
+  position: absolute;
+  top: 140px;
+  bottom: 0;
+  @media all and (max-width: ${breakpoints.md}px) {
+    height: fit-content;
+    position: relative;
+    width: 100%;
+    justify-content: center;
+  }
+`;
+
+const StyledHeadingWrapper = styled(GridContainer)`
   align-items: center;
   position: relative;
-  margin: auto 0;
+  margin: 0;
   grid-column: 1 / span 12;
+  padding: 0;
 `;
 
 const StyledHeading2 = styled.h2`
@@ -31,70 +77,6 @@ const StyledHeading2 = styled.h2`
   grid-column: 1 / span 5;
   @media all and (max-width: ${breakpoints.md}px) {
     display: none;
-  }
-`;
-
-const StyledBoxWrapper = styled.div`
-  position: relative;
-`;
-interface IStyledApproachBorder {
-  isVisible: boolean;
-}
-
-const StyledApproachBorderLeft = styled.div<IStyledApproachBorder>`
-  height: 303px;
-  background: linear-gradient(to left, rgba(255, 255, 255, 0), ${colors.white});
-  position: absolute;
-  width: 12px;
-  left: 0;
-  top: 0;
-  transition: 0.2s ease;
-  opacity: ${(props) => (props.isVisible ? 1 : 0)};
-  @media all and (max-width: ${breakpoints.md}px) {
-    display: none;
-  }
-`;
-const StyledApproachBorderRight = styled.div<IStyledApproachBorder>`
-  height: 303px;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0),
-    ${colors.white}
-  );
-  position: absolute;
-  width: 12px;
-  right: 0;
-  top: 0;
-  transition: 0.2s ease;
-  opacity: ${(props) => (props.isVisible ? 1 : 0)};
-
-  @media all and (max-width: ${breakpoints.md}px) {
-    display: none;
-  }
-`;
-
-const StyledBox = styled(motion.div)`
-  padding-left: 20px;
-  display: flex;
-  width: 100%;
-  height: 331px;
-  border: 0px 0px 5px 0px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  position: relative;
-  overflow-y: hidden;
-
-  @media all and (max-width: ${breakpoints.md}px) {
-    height: auto;
-    flex-direction: column;
-    overflow-x: visible;
-    padding-right: 20px;
-  }
-  @media all and (max-width: ${breakpoints.sm}px) {
-    height: auto;
-    flex-direction: column;
-    overflow-x: visible;
-    padding-right: 20px;
   }
 `;
 
@@ -171,7 +153,6 @@ const StyledCardPill = styled(motion.div)`
   margin-left: 20px;
   margin-bottom: 10px;
   width: 714px;
-  // min-width: 470px;
   height: 303px;
   border-radius: 20px;
   padding: 30px 38px;
@@ -213,132 +194,160 @@ const SmallerIconButton = styled.div`
   }
 `;
 
-// const StyledIcon = styled(ArrowUpRight)`
-//   width: 30px;
-//   height: 30px;
-//   margin-left: -2px;
-//   position: absolute;
-//   top: 25%;
-//   right: 6%;
+interface IStyledApproachBorder {
+  isVisible: boolean;
+}
 
-//   transition: 0.3s ease;
+const StyledApproachBorderLeft = styled.div<IStyledApproachBorder>`
+  height: 303px;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), ${colors.white});
+  position: absolute;
+  width: 12px;
+  left: 0;
+  top: 140px;
+  transition: 0.2s ease;
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  @media all and (max-width: ${breakpoints.md}px) {
+    display: none;
+  }
+`;
+const StyledApproachBorderRight = styled.div<IStyledApproachBorder>`
+  height: 303px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0),
+    ${colors.white}
+  );
+  position: absolute;
+  width: 12px;
+  right: 0;
+  top: 140px;
+  transition: 0.2s ease;
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
 
-//   @media all and (max-width: ${breakpoints.md}px) {
-//     top: 38%;
-//     right: 6%;
-//   }
-
-//   @media all and (max-width: ${breakpoints.sm}px) {
-//     top: 30%;
-//     right: 4%;
-// `;
-
-// const StyledPillButton = styled(motion.div)`
-//   width: 47%;
-//   max-width: 777px;
-//   min-width: 237px;
-//   margin-left: auto;
-//   margin-right: auto;
-//   margin-top: 24px;
-//   background-color: ${colors.white};
-//   color: ${colors.black};
-//   font-weight: 500;
-//   border-radius: 26px;
-//   padding: 4vw;
-//   font-size: 25px;
-//   letter-spacing: 2px;
-//   display: flex;
-//   align-items: center;
-//   position: relative;
-//   border: 2px solid rgba(29, 29, 29, 0.1);
-
-//   &:hover .styled-icon {
-//     transform: rotate(45deg);
-//   }
-
-//   @media all and (max-width: ${breakpoints.sm}px) {
-//     min-width: 237px;
-//     padding: 4vw;
-//     font-size: 25px;
-//   }
-// `;
+  @media all and (max-width: ${breakpoints.md}px) {
+    display: none;
+  }
+`;
 
 interface StyledCardProps {
   marginLeft?: string;
 }
 
 function Approach({ items }: ApproachProps) {
-  const boxRef = useRef(null);
+  const ghostRef = useRef(null);
+  const horizontalRef = useRef(null);
+  const wrapperRef = useRef(null);
+
+  const boxRef = useRef();
   const borderLeftRef = useRef();
   const borderRightRef = useRef();
+  const cardsRef = useRef([]);
+
+  const horizontalWidth = 5500;
   const isDesktop = useIsDesktop();
 
-  const cardsRef = useRef([]);
+  const scrollProgress = useScrollProgress(ghostRef);
+
+  const isInView = useInView(wrapperRef);
+
+  const transform = useTransform(
+    scrollProgress,
+    [0, 1],
+    isInView && isDesktop ? [0, -horizontalWidth] : [0, 0]
+  );
+  const cappedTransform = useMotionValue(Math.min(transform.get(), 1550));
 
   useEffect(() => {
     cardsRef.current = cardsRef.current.slice(0, items.length + 1);
   }, [items]);
 
-  const isLeftIntersecting = useIsIntersecting(borderLeftRef, cardsRef, boxRef);
+  const isLeftIntersecting = useIsIntersecting(
+    borderLeftRef,
+    cardsRef,
+    horizontalRef
+  );
   const isRightIntersecting = useIsIntersecting(
     borderRightRef,
     cardsRef,
-    boxRef
+    horizontalRef
   );
 
+  useEffect(() => {
+    console.log("isLeftIntersecting", isRightIntersecting);
+    console.log("isRightIntersecting", isRightIntersecting);
+  }, [isLeftIntersecting, isRightIntersecting]);
+
+  useEffect(() => {
+    const unsubscribe = transform.onChange((value) => {
+      cappedTransform.set(Math.max(value, -3770));
+    });
+
+    return unsubscribe;
+  }, [transform, cappedTransform]);
+
   return (
-    <>
-      <StyledWrapper>
-        <StyledHeading2>Our approach</StyledHeading2>
-      </StyledWrapper>
-      <StyledBoxWrapper>
+    <div style={{ position: "relative" }}>
+      <StyledWrapper ref={wrapperRef}>
+        <StyledHeadingWrapper>
+          <StyledHeading2>Our Approach</StyledHeading2>
+        </StyledHeadingWrapper>
         <StyledApproachBorderLeft
           ref={borderLeftRef}
           isVisible={isLeftIntersecting}
         />
-        <StyledBox ref={boxRef}>
-          {items.map((item, index) => (
-            <StyledCard
-              key={index}
-              ref={(el) => (cardsRef.current[index + 1] = el)}
-              marginLeft={index === 0 ? "0px" : "20px"}
-            >
-              <StyledParagraphWrapper>
-                <StyledTextSpacer>{item.title}</StyledTextSpacer>
-                <StyledPillWrapper>
-                  <Pill pillText={item.title} />
-                </StyledPillWrapper>
-                <StyledParagraphText>{item.paragraph}</StyledParagraphText>
-              </StyledParagraphWrapper>
-            </StyledCard>
-          ))}
-
-          {isDesktop ? (
-            <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
-              <StyledParagraphWrapper>
-                <StyledParagraphText>
-                  Check out <br /> our work.
-                </StyledParagraphText>
-              </StyledParagraphWrapper>
-              <SmallerIconButton>
-                <Link href="/projects">
-                  <IconButton />
-                </Link>
-              </SmallerIconButton>
-            </StyledCardPill>
-          ) : (
-            <PillIconButton text="Check out more" onClick={() => {}}>
-              <ArrowUpRight />
-            </PillIconButton>
-          )}
-        </StyledBox>
+        <StyledMotionWrapper ref={horizontalRef} style={{ x: cappedTransform }}>
+          <Cards items={items} cardsRef={cardsRef} />
+        </StyledMotionWrapper>
         <StyledApproachBorderRight
           ref={borderRightRef}
           isVisible={isRightIntersecting}
         />
-      </StyledBoxWrapper>
-    </>
+      </StyledWrapper>
+      <StyledSpacer ref={ghostRef} height={horizontalWidth} />
+    </div>
   );
 }
 
 export default memo(Approach);
+
+const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
+  const isDesktop = useIsDesktop();
+  return (
+    <>
+      {items.map((item, index) => (
+        <StyledCard
+          key={index}
+          ref={(el) => (cardsRef.current[index + 1] = el)}
+          marginLeft={index === 0 ? "0px" : "20px"}
+        >
+          <StyledParagraphWrapper>
+            <StyledTextSpacer>{item.title}</StyledTextSpacer>
+            <StyledPillWrapper>
+              <Pill pillText={item.title} />
+            </StyledPillWrapper>
+            <StyledParagraphText>{item.paragraph}</StyledParagraphText>
+          </StyledParagraphWrapper>
+        </StyledCard>
+      ))}
+      {isDesktop ? (
+        <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
+          <StyledParagraphWrapper>
+            <StyledParagraphText>
+              Check out <br /> our work.
+            </StyledParagraphText>
+          </StyledParagraphWrapper>
+          <SmallerIconButton>
+            <Link href="/projects">
+              <IconButton />
+            </Link>
+          </SmallerIconButton>
+        </StyledCardPill>
+      ) : (
+        <PillIconButton text="Check out more" onClick={() => {}}>
+          <ArrowUpRight />
+        </PillIconButton>
+      )}
+    </>
+  );
+};
