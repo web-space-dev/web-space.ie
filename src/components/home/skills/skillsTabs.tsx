@@ -15,13 +15,24 @@ const StyledLogoWrapper = styled(motion.div)`
   margin: auto;
   height: auto;
   gap: 20px;
-  height: 235px;
+  height: 500px;
+  align-content: center;
+
   & img {
     /* margin: 10px; */
     border-radius: 14px;
   }
 
+  @media (max-width: 1200px) {
+    & img {
+      width: 120px;
+      height: 120px;
+    }
+  }
+
   @media (max-width: ${breakpoints.md}px) {
+    height: 235px;
+    max-width: 90%;
     & img {
       width: 100px;
       height: 100px;
@@ -64,17 +75,21 @@ const Bubble = styled(motion.span)`
 `;
 
 const StyledTabs = styled.div`
-  margin-top: 80px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   border: 1px solid ${colors.accentLight};
   border-radius: 20px;
   padding: 10px;
   width: fit-content;
+
+  @media (max-width: 550px) {
+    margin-top: 60px;
+  }
+
   @media (max-width: ${breakpoints.sm}px) {
     width: 100%;
     flex-wrap: wrap;
-    margin-top: 100px;
   }
 `;
 const StyledTab = styled.button<{ isActive: boolean }>`
@@ -104,7 +119,6 @@ export default function SkillsTabs({
   activeTab,
   setActiveTab,
 }: IProps) {
-  // const [activeTab, setActiveTab] = useState(0);
   const [hoveredSkill, setHoveredSkill] = useState<number | null>(null);
 
   return (

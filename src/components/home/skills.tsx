@@ -5,7 +5,7 @@ import { breakpoints, dimensions } from "../../styles/variables";
 import { memo, useState } from "react";
 import { motion } from "framer-motion";
 import { getRemSize } from "../../styles/globalCss";
-import SkillsTabs from "./skills/skillsDesktop";
+import SkillsTabs from "./skills/skillsTabs";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
