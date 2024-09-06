@@ -34,7 +34,6 @@ const StyledSkillsWrapper = styled.div`
 `;
 
 interface ISkills {
-  title: string;
   categories: SkillCategories;
 }
 

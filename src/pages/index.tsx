@@ -18,7 +18,7 @@ interface IIndex {
 }
 
 export default function Index({ siteData, pageData }: IIndex) {
-  const { page, projects, skillCategories, skills } = pageData;
+  const { page, projects, skillCategories } = pageData;
   // const [dark, setDark] = useState(false);
 
   // useEffect(() => {
@@ -47,11 +47,7 @@ export default function Index({ siteData, pageData }: IIndex) {
       <Showcase title={page.homeFields.showcaseTitle} projects={projects} />
 
       {/* Skills */}
-      <Skills
-        title={page.homeFields.skillsTitle}
-        categories={skillCategories}
-        skills={skills}
-      />
+      <Skills categories={skillCategories} />
 
       {/* Approach */}
       <Approach items={page.homeFields.approach} />
