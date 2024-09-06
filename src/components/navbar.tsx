@@ -2,13 +2,12 @@
 import styled from "@emotion/styled";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { breakpoints, colors, dimensions } from "../styles/variables";
+import { colors, dimensions } from "../styles/variables";
 import { getRemSize } from "../styles/globalCss";
 import { NavbarMobile } from "./global/navigation/navbarMobile";
 import useIsDesktop from "../hooks/useIsDesktop";
 import { Contact } from "./contact";
 import ArrowLeft from "../icons/arrowLeft";
-import { SVGProps } from "react";
 import ChatIcon from "../icons/chatIcon";
 import Link from "next/link";
 import Image from "next/image";
