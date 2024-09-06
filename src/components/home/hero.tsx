@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors, breakpoints } from "../../styles/variables";
+import { colors, breakpoints, dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
 import Image from "next/image";
 import { Row } from "../global/grid/Row";
@@ -28,7 +28,16 @@ const StyledHeading = styled(motion.h1)`
   font-weight: 500;
 
   @media all and (max-width: ${breakpoints.md}px) {
+    font-size: ${dimensions.headingSizes.medium.desktop}px;
+  }
+
+  @media all and (max-width: 800px) {
+    font-size: ${dimensions.headingSizes.medium.desktop - 10}px;
+  }
+
+  @media all and (max-width: ${breakpoints.sm}px) {
     text-indent: 60px;
+    font-size: ${dimensions.headingSizes.medium.mobile}px;
   }
 `;
 
