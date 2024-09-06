@@ -116,7 +116,7 @@ const StyledCard = styled.div<StyledCardProps>`
   }
 `;
 
-export const StyledParagraphWrapper = styled.p`
+export const StyledParagraphWrapper = styled(motion.p)`
   position: relative;
   overflow: hidden;
   padding: 0;
