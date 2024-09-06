@@ -2,7 +2,7 @@ import router from "next/router";
 import { PillIconButton } from "../components/global/pillIconButton";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { dimensions } from "../styles/variables";
+import { breakpoints, dimensions } from "../styles/variables";
 import { getRemSize } from "../styles/globalCss";
 import Layout from "../components/layout";
 import ArrowUpRight from "../icons/arrowUpRight";
@@ -13,6 +13,9 @@ import useIsDesktop from "../hooks/useIsDesktop";
 
 const StyledGridContainer = styled(GridContainer)`
   margin-top: 100px;
+  @media (max-width: ${breakpoints.md}px) {
+    margin-top: 0px;
+  }
 `;
 
 const StyledRow = styled(Row)`
@@ -51,7 +54,7 @@ const StyledImageWrapper = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: left;
+    object-position: center;
   }
 `;
 
@@ -86,7 +89,7 @@ const StyledMobileText = styled.div`
 export default function Custom404() {
   const isDesktop = useIsDesktop();
   return (
-    <Layout pageTitle="404 - Page Not Found">
+    <Layout pageTitle="404 - Page Not Found" disableFooter>
       <StyledGridContainer>
         <StyledRow>
           {isDesktop ? (
@@ -111,7 +114,7 @@ export default function Custom404() {
               <Col span={5}>
                 <StyledImageWrapper>
                   <Image
-                    src="/404imagecropped.png"
+                    src="/simpsons.webp"
                     alt="404"
                     width={500}
                     height={500}
@@ -143,7 +146,7 @@ export default function Custom404() {
               <Col span={12}>
                 <StyledMobileImageWrapper>
                   <Image
-                    src="/404imagecropped.png"
+                    src="/simpsons.webp"
                     alt="404"
                     width={500}
                     height={500}
