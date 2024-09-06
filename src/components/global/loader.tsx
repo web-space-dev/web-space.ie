@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { motion, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
-import { colors, dimensions } from "../../styles/variables";
+import { breakpoints, colors, dimensions } from "../../styles/variables";
 import WebLeft from "../../icons/webLeft";
 import WebRight from "../../icons/webRight";
 import useAnimatedCounter from "../../hooks/useAnimatedCounter";
@@ -17,11 +17,12 @@ const StyledLogoIconWrapper = styled(motion.div)`
   left: 50%;
   transform: translate(-50%, -50%);
 
-  svg {
-    /* width: 150px; */
-    /* height: 150px; */
-    /* fill: red !important; */
-    /* fill: ${colors.black}; */
+  @media (max-width: ${breakpoints.sm}px) {
+    svg {
+      width: 300px;
+      /* width: 150px; */
+      /* height: 150px; */
+    }
   }
 `;
 
@@ -55,6 +56,14 @@ const StyledWebLeftWrapper = styled(motion.div)`
 
   top: -20px;
   left: -105px;
+  @media (max-width: ${breakpoints.sm}px) {
+    svg {
+      width: 48px;
+    }
+  }
+  /* svg path {
+    fill: red;
+  } */
 `;
 
 const Percentage = styled(motion.span)`
@@ -70,6 +79,16 @@ const StyledWebRightWrapper = styled(motion.div)`
 
   bottom: -20px;
   right: -105px;
+
+  @media (max-width: ${breakpoints.sm}px) {
+    svg {
+      width: 48px;
+    }
+  }
+
+  /* svg path {
+    fill: red;
+  } */
 `;
 
 interface IProps {
@@ -109,9 +128,7 @@ const Loader = ({ finishLoading }: IProps) => {
   useEffect(() => {
     if (formattedValue === "100") {
       setTimeout(() => {
-        // setShowLogo(true);
         setMorphing(true);
-        // finishLoading(true);
       }, 500);
     }
   }, [formattedValue, finishLoading]);
@@ -123,7 +140,6 @@ const Loader = ({ finishLoading }: IProps) => {
         setTimeout(() => {
           finishLoading(true);
         }, 1000);
-        // finishLoading(true);
       }, 1500);
     }
   }, [showLogo]);
