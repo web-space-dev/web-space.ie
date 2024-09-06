@@ -44,6 +44,15 @@ const StyledLogoWrapper = styled(motion.div)`
       height: 90px;
     }
   }
+
+  @media (max-width: 400px) {
+    height: 340px;
+
+    & img {
+      width: 80px;
+      height: 80px;
+    }
+  }
 `;
 
 const Popup = styled(motion.div)`
@@ -90,6 +99,10 @@ const StyledTabs = styled.div`
   @media (max-width: ${breakpoints.sm}px) {
     width: 100%;
     flex-wrap: wrap;
+  }
+
+  @media (max-width: 400px) {
+    margin-top: 0;
   }
 `;
 const StyledTab = styled.button<{ isActive: boolean }>`

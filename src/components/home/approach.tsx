@@ -59,6 +59,7 @@ const StyledMotionWrapper = styled(motion.div)`
     position: relative;
     width: 100%;
     justify-content: center;
+    flex-direction: column;
   }
 `;
 
@@ -76,7 +77,8 @@ const StyledHeading2 = styled.h2`
   font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
   grid-column: 1 / span 5;
   @media all and (max-width: ${breakpoints.md}px) {
-    display: none;
+    /* display: none; */
+    margin: 0 0 -100px 0;
   }
 `;
 
