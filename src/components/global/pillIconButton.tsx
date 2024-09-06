@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { colors, breakpoints } from "../../styles/variables";
-import ArrowUpRight from "../../icons/arrowUpRight";
+// import ArrowUpRight from "../../icons/arrowUpRight";
 import { motion } from "framer-motion";
 
 const StyledIcon = styled.div`
@@ -30,7 +30,7 @@ const StyledIcon = styled.div`
   }
 `;
 
-const StyledPillButton = styled(motion.div)`
+const StyledPillButton = styled(motion.div)<{ is404Page?: boolean }>`
   max-width: 300px;
   min-width: 257px;
   margin-left: auto;
@@ -40,7 +40,8 @@ const StyledPillButton = styled(motion.div)`
   color: ${colors.black};
   font-weight: 500;
   border-radius: 26px;
-  padding: 20px 23px 21px 20px;
+  padding: ${({ is404Page }) =>
+    is404Page ? "20px 68px 21px 50px" : "20px 23px 21px 20px"};
   font-size: 25px;
   letter-spacing: 2px;
   display: flex;
@@ -68,6 +69,7 @@ interface StyledPillButtonProps {
   children: React.ReactNode;
   className?: string;
   onClick: () => void;
+  is404Page?: boolean;
 }
 
 const StyledPillIconButton: React.FC<StyledPillButtonProps> = ({
@@ -75,10 +77,12 @@ const StyledPillIconButton: React.FC<StyledPillButtonProps> = ({
   text,
   children,
   onClick,
+  // is404Page = false,
 }) => (
   <StyledPillButton
     className={`styled-pill-button ${className}`}
     onClick={onClick}
+    // is404Page={is404Page}
   >
     <span>{text}</span>
     <StyledIcon className="styled-icon">{children}</StyledIcon>
@@ -90,9 +94,15 @@ export function PillIconButton({
   className = "",
   children,
   onClick,
+  is404Page,
 }: StyledPillButtonProps) {
   return (
-    <StyledPillIconButton text={text} className={className} onClick={onClick}>
+    <StyledPillIconButton
+      text={text}
+      className={className}
+      onClick={onClick}
+      is404Page={is404Page}
+    >
       {children}
     </StyledPillIconButton>
   );
