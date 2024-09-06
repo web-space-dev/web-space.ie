@@ -48,6 +48,7 @@ query HomePage {
   skillCategories {
     nodes {
       name
+      description
       skills {
         nodes {
           title
@@ -58,18 +59,6 @@ query HomePage {
               
             }
           }
-        }
-      }
-    }
-  }
-  skills(first: 6) {
-    nodes {
-      title
-      featuredImage {
-        node {
-          altText
-          sourceUrl
-          
         }
       }
     }

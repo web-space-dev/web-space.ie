@@ -4,7 +4,6 @@ export interface IHomePage {
   page: Page;
   projects: Projects;
   skillCategories: SkillCategories;
-  skills: Skills;
 }
 
 export interface Page {
@@ -28,7 +27,6 @@ export interface HomeFields {
   heroTitle: string;
   whatWeDo: WhatWeDo[];
   showcaseTitle: string;
-  skillsTitle: string;
   approach: Approach[];
 }
 
@@ -53,6 +51,7 @@ export interface SkillCategories {
 
 export interface SkillCategoriesNode {
   name: string;
+  description: string;
   skills: Skills;
 }
 

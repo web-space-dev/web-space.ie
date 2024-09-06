@@ -11,12 +11,12 @@ interface IStyledShowcaseWrapper {
   open: boolean;
 }
 
-const StyledShowcaseWrapper = styled.div<IStyledShowcaseWrapper>`
+const StyledShowcaseWrapper = styled.div<{ open: string }>`
   height: 100vh;
   display: flex;
   align-items: center;
   perspective: 500px;
-  scroll-snap-align: ${({ open }) => (open ? "start" : "none")};
+  scroll-snap-align: ${({ open }) => (open === "true" ? "start" : "none")};
 `;
 
 const StyledShowcaseDetails = styled(motion.div)`
@@ -132,7 +132,7 @@ export default function ShowcaseItemFinalDesktop({
   isOpen,
 }: ShowcaseItemProps) {
   return (
-    <StyledShowcaseWrapper open={isOpen}>
+    <StyledShowcaseWrapper open={isOpen.toString()}>
       <StyledShowcaseDetails>
         <StyledShowcaseImage>
           <Link href={`/projects/${project.slug}`}>

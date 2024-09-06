@@ -47,6 +47,8 @@ export default function Layout({
   const [dark, setDark] = useState(false);
   const [footerInView, setFooterInView] = useState(false);
 
+  const isProduction = process.env.NODE_ENV === "production";
+
   useEffect(() => {
     const handleScroll = () => {
       setDark(window.scrollY > 20);
@@ -72,7 +74,7 @@ export default function Layout({
         Skip to Content
       </StyledLink>
 
-      {isLoading && isHome ? (
+      {isProduction && isLoading && isHome ? (
         <Loader finishLoading={() => setIsLoading(false)} />
       ) : (
         <>
