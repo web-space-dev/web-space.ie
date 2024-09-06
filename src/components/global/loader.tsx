@@ -1,12 +1,10 @@
 import styled from "@emotion/styled";
-import { motion, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import WebLeft from "../../icons/webLeft";
 import WebRight from "../../icons/webRight";
 import useAnimatedCounter from "../../hooks/useAnimatedCounter";
-import LogoIcon from "../../icons/logoIcon";
-import LogoFull from "../../icons/logoFull";
 import LogoFullNoIcon from "../../icons/logoFullNoIcon";
 
 const StyledLogoIconWrapper = styled(motion.div)`
@@ -20,19 +18,17 @@ const StyledLogoIconWrapper = styled(motion.div)`
   @media (max-width: ${breakpoints.sm}px) {
     svg {
       width: 300px;
-      /* width: 150px; */
-      /* height: 150px; */
     }
   }
 `;
 
-const StyledWrapper = styled(motion.div)<{ fillwhite: boolean }>`
+const StyledWrapper = styled(motion.div)<{ fillwhite: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background: ${(props) =>
-    !props.fillwhite &&
+    props.fillwhite === "false" &&
     `radial-gradient(
     circle,
     rgba(255, 255, 255, 0.1) 0%,
@@ -146,7 +142,7 @@ const Loader = ({ finishLoading }: IProps) => {
 
   return (
     <StyledWrapper
-      fillwhite={hideLogo}
+      fillwhite={hideLogo.toString()}
       animate={{ backgroundColor: hideLogo ? colors.white : colors.black }}
       transition={{ duration: 1 }}
     >
