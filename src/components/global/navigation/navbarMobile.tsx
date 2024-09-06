@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { colors, dimensions } from "../../../styles/variables";
+import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { Contact } from "../../../components/contact";
 import ChatIcon from "../../../icons/chatIcon";
@@ -9,13 +9,15 @@ import BurgerIcon from "../../../icons/burgerIcon";
 import LogoIcon from "../../../icons/logoIcon";
 import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
-import { set } from "date-fns";
 
 const StyledImageWrapper = styled(Link)`
   position: fixed;
   top: 14px;
   left: 8px;
   z-index: 999;
+  @media all and (min-width: ${breakpoints.md}px) {
+    display: none;
+  }
 `;
 
 const StyledNavMobile = styled.nav<{ dark: string; open: string }>`
