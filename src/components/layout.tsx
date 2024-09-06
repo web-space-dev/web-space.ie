@@ -34,6 +34,7 @@ interface ILayout {
   pageTitle?: string;
   siteData?: ISiteData;
   isHomePage?: boolean;
+  disableFooter?: boolean;
 }
 
 export default function Layout({
@@ -41,6 +42,7 @@ export default function Layout({
   siteData,
   children,
   isHomePage = false,
+  disableFooter = false,
 }: ILayout) {
   const isHome = isHomePage;
   const [isLoading, setIsLoading] = useState(isHome);
@@ -82,7 +84,7 @@ export default function Layout({
 
           <main id="content">{children}</main>
 
-          <Footer setFooterInView={setFooterInView} />
+          {!disableFooter && <Footer setFooterInView={setFooterInView} />}
         </>
       )}
     </StyledWrapper>
