@@ -6,6 +6,7 @@ import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import { memo } from "react";
 import { motion } from "framer-motion";
+import { getRemSize } from "../../styles/globalCss";
 
 const StyledWrapper = styled(GridContainer)`
   height: 100vh;
@@ -38,6 +39,27 @@ const StyledHeading = styled(motion.h1)`
   @media all and (max-width: ${breakpoints.sm}px) {
     text-indent: 60px;
     font-size: ${dimensions.headingSizes.medium.mobile}px;
+  }
+
+  @media all and (max-height: 700px) {
+    font-size: ${getRemSize(dimensions.headingSizes.medium.desktop - 15)};
+
+    img {
+      width: 28px;
+      height: 35px;
+    }
+
+    @media all and (max-width: 750px) {
+      font-size: ${getRemSize(dimensions.headingSizes.medium.desktop - 25)};
+    }
+
+    @media all and (max-width: ${breakpoints.sm}px) {
+      font-size: ${getRemSize(dimensions.headingSizes.medium.mobile)};
+    }
+
+    @media all and (max-width: 450px) {
+      font-size: ${getRemSize(dimensions.headingSizes.medium.mobile - 5)};
+    }
   }
 `;
 

@@ -8,7 +8,7 @@ import { css } from "@emotion/react";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import useIsDesktop from "../../hooks/useIsDesktop";
-import { motion, useInView } from "framer-motion";
+import { delay, motion, useInView } from "framer-motion";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px 0;
@@ -123,6 +123,12 @@ const StyledPill = styled.span<{ index: number }>`
       font-size: 25px;
     }
   }
+
+  @media all and (max-height: 700px) {
+    @media all and (max-width: ${breakpoints.md}px) {
+      font-size: ${getRemSize(dimensions.textSizes.normal.mobile - 5)};
+    }
+  }
 `;
 
 interface IProcessItem {
@@ -189,6 +195,7 @@ const variants = {
     opacity: 1,
     transition: {
       y: { stiffness: 1000, velocity: -100 },
+      delay: 0.4,
     },
   },
   closed: {
@@ -202,7 +209,7 @@ const variants = {
 
 function WhatWeDo({ items }: WhatWeDoProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref);
+  const isInView = useInView(ref, { once: true });
 
   const [hoverItems, setHoverItems] = useState(
     new Array(items.length).fill(false)
@@ -220,7 +227,7 @@ function WhatWeDo({ items }: WhatWeDoProps) {
   return (
     <StyledWrapper>
       <Row>
-        <Col start={1} span={2}>
+        <Col start={1} span={2} spanMobile={6}>
           <StyledTitle
             ref={ref}
             initial="closed"
