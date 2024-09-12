@@ -14,6 +14,7 @@ import ArrowUpRight from "../../icons/arrowUpRight";
 import Image from "next/image";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import { motion } from "framer-motion";
+import AnimateInView from "../global/animation/animateInView";
 
 const StyledDivImage = styled.div`
   overflow: hidden;
@@ -272,6 +273,15 @@ const variants = {
   },
 };
 
+const fadeInVariants = {
+  hidden: { opacity: 0, backgroundColor: colors.black }, // Initial state with background color: ;
+  visible: {
+    opacity: 1,
+    backgroundColor: "transparent",
+    transition: { duration: 1 },
+  }, // Fade-in effect
+};
+
 export function Hero({ project }: Props) {
   // const isDesktop = useIsDesktop();
 
@@ -279,13 +289,20 @@ export function Hero({ project }: Props) {
     <>
       <StyledDivImage>
         <DesktopOnly>
-          <Image
-            fill
-            src={project.featuredImage?.node.sourceUrl}
-            alt={`${project.title} Feature Image`}
-            // placeholder="blur"
-            blurDataURL={project.featuredImage.node?.placeholderDataURI}
-          />
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeInVariants}
+            style={{ width: "100%", height: "100%" }} // Ensure the motion div covers the image
+          >
+            <Image
+              fill
+              src={project.featuredImage?.node.sourceUrl}
+              alt={`${project.title} Feature Image`}
+              // placeholder="blur"
+              blurDataURL={project.featuredImage.node?.placeholderDataURI}
+            />
+          </motion.div>
         </DesktopOnly>
 
         <MobileAndTabletOnly>

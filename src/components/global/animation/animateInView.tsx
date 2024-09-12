@@ -1,9 +1,25 @@
 import React, { useEffect, useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 
+const variants = {
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  closed: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
 interface AnimateInViewProps {
   children: React.ReactNode;
-  variants: any;
   initial?: string;
   animate?: string;
   className?: string;
@@ -11,9 +27,8 @@ interface AnimateInViewProps {
 
 const AnimateInView: React.FC<AnimateInViewProps> = ({
   children,
-  variants,
-  initial = "hidden",
-  animate = "visible",
+  initial = "closed",
+  animate = "open",
   className,
 }) => {
   const controls = useAnimation();

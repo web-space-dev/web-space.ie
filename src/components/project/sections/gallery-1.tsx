@@ -5,6 +5,7 @@ import Gallery1Desktop from "./gallery-1/gallery-1-desktop";
 import Gallery1Mobile from "./gallery-1/gallery-1-mobile";
 import { Row } from "../../global/grid/Row";
 import { Col } from "../../global/grid/Col";
+import AnimateInView from "../../global/animation/animateInView";
 
 interface IProps {
   images: Gallery;
@@ -16,11 +17,13 @@ export default function Gallery1({ images }: IProps) {
   return (
     <Row>
       <Col span={12}>
-        {isDesktop ? (
-          <Gallery1Desktop images={images} />
-        ) : (
-          <Gallery1Mobile images={images} />
-        )}
+        <AnimateInView>
+          {isDesktop ? (
+            <Gallery1Desktop images={images} />
+          ) : (
+            <Gallery1Mobile images={images} />
+          )}
+        </AnimateInView>
       </Col>
     </Row>
   );
