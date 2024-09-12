@@ -57,6 +57,7 @@ export interface ProjectFields {
 export interface Stat {
   field: string;
   value: string;
+  link?: string;
 }
 
 export interface Content {

@@ -15,6 +15,7 @@ import Image from "next/image";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import { motion } from "framer-motion";
 import AnimateInView from "../global/animation/animateInView";
+import Link from "next/link";
 
 const StyledDivImage = styled.div`
   overflow: hidden;
@@ -333,7 +334,15 @@ export function Hero({ project }: Props) {
               {project.projectFields.stat1.field}
             </StyledProjectFieldName>
             <StyledProjectFieldValue>
-              {project.projectFields.stat1.value}
+              {project.projectFields.stat1.link ? (
+                <Link href={project.projectFields.stat1.link} target="_blank">
+                  {project.projectFields.stat1.value}
+
+                  <StyledArrowUpRight className="styled-icon" fill="#fff" />
+                </Link>
+              ) : (
+                project.projectFields.stat1.value
+              )}
             </StyledProjectFieldValue>
           </StyledProjectField>
           <StyledProjectField>
@@ -341,7 +350,15 @@ export function Hero({ project }: Props) {
               {project.projectFields.stat2.field}
             </StyledProjectFieldName>
             <StyledProjectFieldValue>
-              {project.projectFields.stat2.value}
+              {project.projectFields.stat2.link ? (
+                <Link href={project.projectFields.stat2.link} target="_blank">
+                  {project.projectFields.stat2.value}
+
+                  <StyledArrowUpRight className="styled-icon" fill="#fff" />
+                </Link>
+              ) : (
+                project.projectFields.stat2.value
+              )}
             </StyledProjectFieldValue>
           </StyledProjectField>
           <StyledProjectField>
@@ -349,7 +366,15 @@ export function Hero({ project }: Props) {
               {project.projectFields.stat3.field}
             </StyledProjectFieldName>
             <StyledProjectFieldValue>
-              {project.projectFields.stat3.value}
+              {project.projectFields.stat3.link ? (
+                <Link href={project.projectFields.stat3.link} target="_blank">
+                  {project.projectFields.stat3.value}
+
+                  <StyledArrowUpRight className="styled-icon" fill="#fff" />
+                </Link>
+              ) : (
+                project.projectFields.stat3.value
+              )}
             </StyledProjectFieldValue>
           </StyledProjectField>
         </StyledProjectFieldsDiv>

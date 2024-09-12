@@ -25,14 +25,17 @@ query PostBySlug($slug: String!) {
       stat1 {
         field
         value
+        link
       }
       stat2 {
         field
         value
+        link
       }
       stat3 {
         field
         value
+        link
       }
       content {
         fieldGroupName

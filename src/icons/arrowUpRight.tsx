@@ -10,7 +10,7 @@ const ArrowUpRight = (props: SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <path
-      fill="#000"
+      fill={props.fill ? props.fill : "#000"}
       fillRule="evenodd"
       d="M18.13 8.646H9.292v1.25H19.38l-1.25-1.25Zm1.951 1.95L9.033 21.645l.883.884L20.965 11.48l-.884-.884Zm1.585 1.585V22.27h1.25V13.43l-1.25-1.25Z"
       clipRule="evenodd"
