@@ -1,5 +1,11 @@
 import { Project } from "../../interfaces/project";
-import { colors, dimensions, breakpoints } from "../../styles/variables";
+import {
+  colors,
+  dimensions,
+  breakpoints,
+  DesktopOnly,
+  MobileAndTabletOnly,
+} from "../../styles/variables";
 import styled from "@emotion/styled";
 import { getRemSize } from "../../styles/globalCss";
 import { Row } from "../global/grid/Row";
@@ -7,6 +13,7 @@ import { Col } from "../global/grid/Col";
 import ArrowUpRight from "../../icons/arrowUpRight";
 import Image from "next/image";
 import useIsDesktop from "../../hooks/useIsDesktop";
+import { motion } from "framer-motion";
 
 const StyledDivImage = styled.div`
   overflow: hidden;
@@ -21,6 +28,7 @@ const StyledDivImage = styled.div`
   & img {
     width: auto;
     height: inherit;
+    object-fit: cover;
   }
 
   @media (max-width: ${breakpoints.md}px) {
@@ -31,7 +39,7 @@ const StyledDivImage = styled.div`
   }
 `;
 
-const StyledHeading1 = styled.h1`
+const StyledHeading1 = styled(motion.h1)`
   font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
   font-weight: 400;
   letter-spacing: 6px;
@@ -71,7 +79,7 @@ const StyledHeading2 = styled.h2`
   }
 `;
 
-const StyledTitleRow = styled(Row)`
+const StyledTitleRow = styled(motion(Row))`
   margin: 239px 0 112px 0;
 
   @media (max-width: 1100px) {
@@ -247,13 +255,30 @@ interface Props {
   project: Project;
 }
 
+const variants = {
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  closed: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
 export function Hero({ project }: Props) {
-  const isDesktop = useIsDesktop();
+  // const isDesktop = useIsDesktop();
 
   return (
     <>
       <StyledDivImage>
-        {isDesktop ? (
+        <DesktopOnly>
           <Image
             fill
             src={project.featuredImage?.node.sourceUrl}
@@ -261,7 +286,9 @@ export function Hero({ project }: Props) {
             // placeholder="blur"
             blurDataURL={project.featuredImage.node?.placeholderDataURI}
           />
-        ) : (
+        </DesktopOnly>
+
+        <MobileAndTabletOnly>
           <Image
             src={project.featuredImage?.node.sourceUrl}
             alt={`${project.title} Feature Image`}
@@ -270,9 +297,9 @@ export function Hero({ project }: Props) {
             width={374}
             height={649}
           />
-        )}
+        </MobileAndTabletOnly>
       </StyledDivImage>
-      <StyledTitleRow>
+      <StyledTitleRow variants={variants} initial="closed" animate="open">
         <Col start={2} span={7}>
           <StyledHeading1>{project.title}</StyledHeading1>
         </Col>

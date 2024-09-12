@@ -40,7 +40,7 @@ const StyledShowcaseImage = styled(motion.div)`
   justify-content: center;
 
   & img {
-    width: 100%;
+    width: -webkit-fill-available;
     object-fit: cover;
     border-radius: 36px;
   }

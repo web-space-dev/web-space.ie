@@ -12,6 +12,7 @@ import useIsTablet from "../../../hooks/useIsTablet";
 import { motion } from "framer-motion";
 
 interface IProps {
+  title: string;
   content: DynamicTextAndImage[];
 }
 
@@ -108,7 +109,7 @@ const variants = {
   },
 };
 
-export default function DynamicTextAndImages({ content }: IProps) {
+export default function DynamicTextAndImages({ title, content }: IProps) {
   const isDesktop = useIsDesktop();
   const isTablet = useIsTablet();
   const [hoverIndex, setHoverIndex] = useState(null);
@@ -127,7 +128,7 @@ export default function DynamicTextAndImages({ content }: IProps) {
         {isDesktop ? (
           <>
             <Col start={1} span={4}>
-              <Pill pillText="The challenge" />
+              {title && title !== "" && <Pill pillText={title} />}
             </Col>
             <Col start={5} span={8}>
               <StyledParagraph>
@@ -142,7 +143,7 @@ export default function DynamicTextAndImages({ content }: IProps) {
                       <span>{item.text}</span>
                     </StyledParagraphImage>
                   ) : (
-                    <Fragment key={index}>{item.text}</Fragment>
+                    <Fragment key={index}>{" " + item.text}</Fragment>
                   );
                 })}
               </StyledParagraph>
@@ -169,7 +170,7 @@ export default function DynamicTextAndImages({ content }: IProps) {
         ) : (
           <>
             <Col start={1} span={12}>
-              <Pill pillText="The challenge" />
+              <Pill pillText={title} />
             </Col>
             <Col start={1} span={12}>
               <StyledMobileParagraph>

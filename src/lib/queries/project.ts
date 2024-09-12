@@ -7,7 +7,6 @@ query PostBySlug($slug: String!) {
       node {
         altText
         sourceUrl
-        
       }
     }
     tags {
@@ -46,7 +45,6 @@ query PostBySlug($slug: String!) {
           gallery1 {
             nodes {
               sourceUrl
-              
               altText
             }
           }
@@ -56,13 +54,13 @@ query PostBySlug($slug: String!) {
           gallery2 {
             nodes {
               sourceUrl
-              
               altText
             }
           }
         }
-        ... on ProjectFieldsContentTheChallengeLayout {
+        ... on ProjectFieldsContentDynamicTextImageLayout {
           __typename
+          title
           dynamicTextAndImage {
             ... on ProjectFieldsContentDynamicTextAndImageTextLayout {
               __typename
@@ -75,7 +73,6 @@ query PostBySlug($slug: String!) {
                 node {
                   altText
                   sourceUrl
-                  
                 }
               }
             }
@@ -100,27 +97,24 @@ query PostBySlug($slug: String!) {
         }
       }
     }
-
   }
-  projects(first: 3, where: { orderby: { field: DATE, order: DESC } }) {
+  projects(first: 3, where: {orderby: {field: DATE, order: DESC}}) {
     nodes {
       title
       slug
-             projectCategories {
-      nodes {
-        name
-        slug
+      projectCategories {
+        nodes {
+          name
+          slug
+        }
       }
-    }
       featuredImage {
         node {
           altText
           sourceUrl
-          
         }
       }
     }
   }
 }
-
 `;

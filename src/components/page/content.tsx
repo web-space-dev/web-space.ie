@@ -27,19 +27,24 @@ export default function PageBody({ content }: IProps) {
             content={item.content}
           />
         );
-      case "ProjectFieldsContentLargeTextAreaLayout":
+      case "PageFieldsContentLargeTextAreaLayout":
         return <LargeTextArea text={item.largeTextArea} />;
 
-      case "ProjectFieldsContentGallery1Layout":
+      case "PageFieldsContentGallery1Layout":
         return <Gallery1 images={item.gallery1} />;
 
-      case "ProjectFieldsContentGallery2Layout":
+      case "PageFieldsContentGallery2Layout":
         return <Gallery2 images={item.gallery2} />;
 
-      case "ProjectFieldsContentTheChallengeLayout":
-        return <DynamicTextAndImages content={item.dynamicTextAndImage} />;
+      case "PageFieldsContentDynamicTextImageLayout":
+        return (
+          <DynamicTextAndImages
+            title={item.title || ""}
+            content={item.dynamicTextAndImage}
+          />
+        );
 
-      case "ProjectFieldsContentParagraphFieldLayout":
+      case "PageFieldsContentParagraphFieldLayout":
         return <ContentParagraph content={item.paragraphItem} />;
     }
   };

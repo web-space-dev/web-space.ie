@@ -35,8 +35,6 @@ export default function Project({ siteData, page }: IProject) {
 
   return (
     <Layout pageTitle={page?.title} siteData={siteData}>
-      <Navbar dark={true} />
-
       {router.isFallback ? (
         <h2>Loading</h2>
       ) : (

@@ -62,6 +62,7 @@ export interface Stat {
 export interface Content {
   __typename: string;
   fieldGroupName: string;
+  title: string;
   largeTextArea?: string;
   gallery1?: Gallery;
   dynamicTextAndImage?: DynamicTextAndImage[];

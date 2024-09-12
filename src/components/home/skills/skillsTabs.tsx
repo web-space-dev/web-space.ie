@@ -152,8 +152,8 @@ export default function SkillsTabs({
               style={{ position: "relative" }}
             >
               <Image
-                src={skill.featuredImage.node.sourceUrl}
-                blurDataURL={skill.featuredImage.node?.placeholderDataURI}
+                src={skill.featuredImage?.node?.sourceUrl}
+                blurDataURL={skill.featuredImage?.node?.placeholderDataURI}
                 alt={skill.title}
                 width={158}
                 height={158}

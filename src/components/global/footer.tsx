@@ -317,7 +317,7 @@ export default function Footer({ setFooterInView }: IProps) {
   const [isModalOpen, setModalOpen] = useState(false);
   const isDesktop = useIsDesktop();
   const footerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(footerRef);
+  const isInView = useInView(footerRef, { once: true });
 
   useEffect(() => {
     const observer = new IntersectionObserver(

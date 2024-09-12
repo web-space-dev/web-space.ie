@@ -15,7 +15,7 @@ const StyledWrapper = styled(GridContainer)`
 `;
 
 const StyledTitle = styled(motion.h2)`
-  font-size: ${getRemSize(dimensions.headingSizes.small.desktop)};
+  font-size: ${getRemSize(dimensions.headingSizes.medium.mobile)};
   font-weight: 400;
   @media all and (max-width: ${breakpoints.md}px) {
     grid-column: 1 / span 12;
@@ -195,7 +195,7 @@ const variants = {
     opacity: 1,
     transition: {
       y: { stiffness: 1000, velocity: -100 },
-      delay: 0.4,
+      delay: 0.1,
     },
   },
   closed: {

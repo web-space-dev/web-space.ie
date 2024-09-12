@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { Darker_Grotesque } from "next/font/google";
 
 export const colors = {
@@ -103,7 +104,7 @@ export const dimensions = {
       mobile: 16,
     },
     normal: {
-      desktop: 30,
+      desktop: 35,
       mobile: 20,
     },
     large: {
@@ -127,3 +128,17 @@ export const dimensions = {
 export const heights = {
   header: 60,
 };
+
+export const DesktopOnly = styled.div`
+  display: block;
+  @media (max-width: ${breakpoints.md}px) {
+    display: none;
+  }
+`;
+
+export const MobileAndTabletOnly = styled.div`
+  display: none;
+  @media (max-width: ${breakpoints.md}px) {
+    display: block;
+  }
+`;

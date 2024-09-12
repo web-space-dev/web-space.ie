@@ -19,7 +19,6 @@ query HomePage {
         }
       }
       showcaseTitle
-      skillsTitle
       approach {
         title
         paragraph
