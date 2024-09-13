@@ -33,7 +33,7 @@ const AnimateInView: React.FC<AnimateInViewProps> = ({
 }) => {
   const controls = useAnimation();
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
+  const inView = useInView(ref, { once: true, amount: 0.6 });
 
   useEffect(() => {
     if (inView) {

@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { breakpoints, colors } from "../../../styles/variables";
 import styled from "@emotion/styled";
 import Image from "next/image";
+import Link from "next/link";
+import ArrowUpRight from "../../../icons/arrowUpRight";
 
 const StyledLogoWrapper = styled(motion.div)`
   display: flex;
@@ -67,8 +69,16 @@ const Popup = styled(motion.div)`
   padding: 5px 10px;
   border-radius: 5px;
   white-space: nowrap;
-  pointer-events: none;
   z-index: 10;
+`;
+
+const StyledPopupLink = styled(Link)`
+  padding: 0 5px;
+  display: flex;
+  width: fit-content;
+  :hover {
+    color: ${colors.white};
+  }
 `;
 
 const Bubble = styled(motion.span)`
@@ -143,12 +153,13 @@ export default function SkillsTabs({
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -10, opacity: 0 }}
           transition={{ duration: 0.2 }}
+          onMouseLeave={() => setHoveredSkill(null)}
         >
           {categories.nodes[activeTab].skills.nodes.map((skill, index) => (
             <div
               key={index}
               onMouseEnter={() => setHoveredSkill(index)}
-              onMouseLeave={() => setHoveredSkill(null)}
+              // onMouseLeave={() => setHoveredSkill(null)}
               style={{ position: "relative" }}
             >
               <Image
@@ -165,7 +176,17 @@ export default function SkillsTabs({
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {skill.title}
+                  {skill.skillsFields?.link ? (
+                    <StyledPopupLink
+                      href={skill.skillsFields.link}
+                      target="_blank"
+                    >
+                      {skill.title}
+                      <ArrowUpRight fill="#fff" />
+                    </StyledPopupLink>
+                  ) : (
+                    skill.title
+                  )}
                 </Popup>
               )}
             </div>

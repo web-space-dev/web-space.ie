@@ -22,6 +22,7 @@ import { Col } from "../../components/global/grid/Col";
 import { Row } from "../../components/global/grid/Row";
 import { getRemSize } from "../../styles/globalCss";
 import { motion } from "framer-motion";
+import AnimateInView from "../../components/global/animation/animateInView";
 
 interface IIndex {
   siteData: ISiteData;
@@ -48,10 +49,21 @@ const StyledImageWrapper = styled(motion.div)`
   width: 100%;
   height: 100%;
 
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); // Adjust the opacity as needed
+    z-index: 1; // Ensure it is above the image but below other content
+  }
+
   @media (min-width: 1440px) {
     & img {
       width: 100%;
-      height: auto;
+      height: revert-layer;
       object-fit: cover;
     }
   }
@@ -240,12 +252,7 @@ export default function Index({ siteData, pageData }: IIndex) {
             >
               {pageData.projects.nodes.map((project) => {
                 return (
-                  <motion.div
-                    key={project.slug}
-                    variants={childVariants}
-                    initial="closed"
-                    animate="open"
-                  >
+                  <AnimateInView>
                     <DesktopOnly>
                       <StyledContainer>
                         <Link href={`/projects/${project.slug}`}>
@@ -300,7 +307,7 @@ export default function Index({ siteData, pageData }: IIndex) {
                         </StyledProjectInfo>
                       </Link>
                     </MobileAndTabletOnly>
-                  </motion.div>
+                  </AnimateInView>
                 );
               })}
             </motion.div>

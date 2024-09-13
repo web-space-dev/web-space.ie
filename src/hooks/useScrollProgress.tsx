@@ -6,6 +6,8 @@ const useScrollProgress = (ref) => {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (!ref.current) return;
+
       const rect = ref.current.getBoundingClientRect();
       const start = rect.top + window.scrollY;
       const end = start + rect.height;

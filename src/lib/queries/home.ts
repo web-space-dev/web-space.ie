@@ -52,6 +52,9 @@ query HomePage {
       skills {
         nodes {
           title
+          skillsFields {
+            link
+          }
           featuredImage {
             node {
               altText

@@ -62,4 +62,9 @@ export interface Skills {
 export interface SkillsNode {
   title: string;
   featuredImage: PageFeaturedImage;
+  skillsFields: SkillsFields;
+}
+
+export interface SkillsFields {
+  link?: string;
 }

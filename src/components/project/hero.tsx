@@ -12,9 +12,7 @@ import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import ArrowUpRight from "../../icons/arrowUpRight";
 import Image from "next/image";
-import useIsDesktop from "../../hooks/useIsDesktop";
 import { motion } from "framer-motion";
-import AnimateInView from "../global/animation/animateInView";
 import Link from "next/link";
 
 const StyledDivImage = styled.div`
@@ -31,6 +29,17 @@ const StyledDivImage = styled.div`
     width: auto;
     height: inherit;
     object-fit: cover;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); // Adjust the opacity as needed
+    z-index: 1; // Ensure it is above the image but below other content
   }
 
   @media (max-width: ${breakpoints.md}px) {

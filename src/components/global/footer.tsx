@@ -118,12 +118,13 @@ const StyledImage = styled(Image)`
   margin-left: 25px;
   vertical-align: middle;
   position: relative;
-  top: -10px;
+  /* top: -10px; */
 
   @media all and (max-width: ${breakpoints.md}px) {
     width: 60px;
     height: 60px;
-    top: -14px;
+    top: -5px;
+    /* top: -14px; */
   }
 
   @media all and (max-width: ${breakpoints.sm}px) {
@@ -368,7 +369,15 @@ export default function Footer({ setFooterInView }: IProps) {
                 </StyledTextSpacer>
                 <StyledParagraphText>
                   Get in contact, have a chat with Eoan
-                  {<StyledImage src={eoanPicture} alt="Eoan" />} or chat
+                  {
+                    <Link
+                      href="https://www.linkedin.com/in/eoanodea/"
+                      target="_blank"
+                    >
+                      <StyledImage src={eoanPicture} alt="Eoan" />
+                    </Link>
+                  }{" "}
+                  or chat
                   {isDesktop && (
                     <StyledIconButton onClick={openContactModal}>
                       <ChatIcon />

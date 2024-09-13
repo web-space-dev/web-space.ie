@@ -272,7 +272,7 @@ function Approach({ items }: ApproachProps) {
     isInView && isDesktop ? [0, -horizontalWidth] : [0, 0],
     { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
   );
-  const cappedTransform = useMotionValue(Math.min(transform.get(), 1550));
+  const cappedTransform = useMotionValue(Math.min(transform.get(), 850));
 
   useEffect(() => {
     cardsRef.current = cardsRef.current.slice(0, items.length + 1);
@@ -291,7 +291,7 @@ function Approach({ items }: ApproachProps) {
 
   useEffect(() => {
     const unsubscribe = transform.onChange((value) => {
-      cappedTransform.set(Math.max(value, -3470));
+      cappedTransform.set(Math.max(value, -3870));
     });
 
     return unsubscribe;
