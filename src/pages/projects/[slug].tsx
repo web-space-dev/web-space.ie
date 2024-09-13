@@ -12,7 +12,6 @@ import { IProjectData } from "../../interfaces/project";
 import { Hero } from "../../components/project/hero";
 import ProjectBody from "../../components/project/content";
 import { GridContainer } from "../../components/global/grid/gridContainer";
-import Navbar from "../../components/navbar";
 import { MoreProjects } from "../../components/project/moreProjects";
 
 interface IProject extends IProjectData {

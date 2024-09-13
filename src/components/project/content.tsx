@@ -23,8 +23,13 @@ export default function ProjectBody({ content }: IProps) {
       case "ProjectFieldsContentGallery2Layout":
         return <Gallery2 images={item.gallery2} />;
 
-      case "ProjectFieldsContentTheChallengeLayout":
-        return <DynamicTextAndImages content={item.dynamicTextAndImage} />;
+      case "ProjectFieldsContentDynamicTextImageLayout":
+        return (
+          <DynamicTextAndImages
+            content={item.dynamicTextAndImage}
+            title={item.title}
+          />
+        );
 
       case "ProjectFieldsContentParagraphFieldLayout":
         return <ContentParagraph content={item.paragraphItem} />;

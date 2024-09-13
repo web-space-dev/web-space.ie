@@ -18,6 +18,7 @@ import { Row } from "./grid/Row";
 import { Col } from "./grid/Col";
 import React, { useEffect, useRef, useState } from "react";
 import { Contact } from "../contact";
+import { motion, useInView } from "framer-motion";
 
 const StyledFooter = styled.footer`
   position: relative;
@@ -38,7 +39,7 @@ const StyledWrapper = styled(GridContainer)`
   }
 `;
 
-const StyledContent = styled.div`
+const StyledContent = styled(motion.div)`
   grid-column: 3 / span 8;
   padding: 0;
   margin: 0;
@@ -117,12 +118,13 @@ const StyledImage = styled(Image)`
   margin-left: 25px;
   vertical-align: middle;
   position: relative;
-  top: -10px;
+  /* top: -10px; */
 
   @media all and (max-width: ${breakpoints.md}px) {
     width: 60px;
     height: 60px;
-    top: -14px;
+    top: -5px;
+    /* top: -14px; */
   }
 
   @media all and (max-width: ${breakpoints.sm}px) {
@@ -294,10 +296,29 @@ interface IProps {
   setFooterInView: (value: boolean) => void;
 }
 
+const variants = {
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+      delay: 0.5,
+    },
+  },
+  closed: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
 export default function Footer({ setFooterInView }: IProps) {
   const [isModalOpen, setModalOpen] = useState(false);
   const isDesktop = useIsDesktop();
   const footerRef = useRef<HTMLElement>(null);
+  const isInView = useInView(footerRef, { once: true });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -334,7 +355,11 @@ export default function Footer({ setFooterInView }: IProps) {
       <StyledWrapper>
         <Row>
           <Col start={2} span={10}>
-            <StyledContent>
+            <StyledContent
+              variants={variants}
+              initial="closed"
+              animate={isInView ? "open" : "closed"}
+            >
               <StyledParagraphWrapper>
                 <StyledTextSpacer>
                   {"Interested?"}
@@ -344,7 +369,15 @@ export default function Footer({ setFooterInView }: IProps) {
                 </StyledTextSpacer>
                 <StyledParagraphText>
                   Get in contact, have a chat with Eoan
-                  {<StyledImage src={eoanPicture} alt="Eoan" />} or chat
+                  {
+                    <Link
+                      href="https://www.linkedin.com/in/eoanodea/"
+                      target="_blank"
+                    >
+                      <StyledImage src={eoanPicture} alt="Eoan" />
+                    </Link>
+                  }{" "}
+                  or chat
                   {isDesktop && (
                     <StyledIconButton onClick={openContactModal}>
                       <ChatIcon />

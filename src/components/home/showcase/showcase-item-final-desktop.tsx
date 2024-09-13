@@ -7,16 +7,12 @@ import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
 import { motion } from "framer-motion";
 
-interface IStyledShowcaseWrapper {
-  open: boolean;
-}
-
-const StyledShowcaseWrapper = styled.div<IStyledShowcaseWrapper>`
+const StyledShowcaseWrapper = styled.div<{ open: string }>`
   height: 100vh;
   display: flex;
   align-items: center;
   perspective: 500px;
-  scroll-snap-align: ${({ open }) => (open ? "start" : "none")};
+  scroll-snap-align: ${({ open }) => (open === "true" ? "start" : "none")};
 `;
 
 const StyledShowcaseDetails = styled(motion.div)`
@@ -63,7 +59,6 @@ const StyledShowcaseImage = styled(motion.div)`
   }
   & img {
     width: 100%;
-    height: 100%;
     object-fit: cover;
     border-radius: 12px;
   }
@@ -71,15 +66,20 @@ const StyledShowcaseImage = styled(motion.div)`
 
 const StyledShowcaseContent = styled.div`
   position: absolute;
-  top: 50%;
-  bottom: 50%;
+  top: 45%;
   left: 0;
-  right: 0;
-  width: 100%;
+  left: 0;
+  width: 90%;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 0 8px 8px 24px;
 
   & h3,
   p {
@@ -132,7 +132,7 @@ export default function ShowcaseItemFinalDesktop({
   isOpen,
 }: ShowcaseItemProps) {
   return (
-    <StyledShowcaseWrapper open={isOpen}>
+    <StyledShowcaseWrapper open={isOpen.toString()}>
       <StyledShowcaseDetails>
         <StyledShowcaseImage>
           <Link href={`/projects/${project.slug}`}>

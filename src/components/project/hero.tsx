@@ -1,12 +1,19 @@
 import { Project } from "../../interfaces/project";
-import { colors, dimensions, breakpoints } from "../../styles/variables";
+import {
+  colors,
+  dimensions,
+  breakpoints,
+  DesktopOnly,
+  MobileAndTabletOnly,
+} from "../../styles/variables";
 import styled from "@emotion/styled";
 import { getRemSize } from "../../styles/globalCss";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import ArrowUpRight from "../../icons/arrowUpRight";
 import Image from "next/image";
-import useIsDesktop from "../../hooks/useIsDesktop";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 const StyledDivImage = styled.div`
   overflow: hidden;
@@ -21,6 +28,18 @@ const StyledDivImage = styled.div`
   & img {
     width: auto;
     height: inherit;
+    object-fit: cover;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); // Adjust the opacity as needed
+    z-index: 1; // Ensure it is above the image but below other content
   }
 
   @media (max-width: ${breakpoints.md}px) {
@@ -31,7 +50,7 @@ const StyledDivImage = styled.div`
   }
 `;
 
-const StyledHeading1 = styled.h1`
+const StyledHeading1 = styled(motion.h1)`
   font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
   font-weight: 400;
   letter-spacing: 6px;
@@ -71,7 +90,7 @@ const StyledHeading2 = styled.h2`
   }
 `;
 
-const StyledTitleRow = styled(Row)`
+const StyledTitleRow = styled(motion(Row))`
   margin: 239px 0 112px 0;
 
   @media (max-width: 1100px) {
@@ -247,21 +266,56 @@ interface Props {
   project: Project;
 }
 
+const variants = {
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  closed: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
+const fadeInVariants = {
+  hidden: { opacity: 0, backgroundColor: colors.black }, // Initial state with background color: ;
+  visible: {
+    opacity: 1,
+    backgroundColor: "transparent",
+    transition: { duration: 1 },
+  }, // Fade-in effect
+};
+
 export function Hero({ project }: Props) {
-  const isDesktop = useIsDesktop();
+  // const isDesktop = useIsDesktop();
 
   return (
     <>
       <StyledDivImage>
-        {isDesktop ? (
-          <Image
-            fill
-            src={project.featuredImage?.node.sourceUrl}
-            alt={`${project.title} Feature Image`}
-            // placeholder="blur"
-            blurDataURL={project.featuredImage.node?.placeholderDataURI}
-          />
-        ) : (
+        <DesktopOnly>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeInVariants}
+            style={{ width: "100%", height: "100%" }} // Ensure the motion div covers the image
+          >
+            <Image
+              fill
+              src={project.featuredImage?.node.sourceUrl}
+              alt={`${project.title} Feature Image`}
+              // placeholder="blur"
+              blurDataURL={project.featuredImage.node?.placeholderDataURI}
+            />
+          </motion.div>
+        </DesktopOnly>
+
+        <MobileAndTabletOnly>
           <Image
             src={project.featuredImage?.node.sourceUrl}
             alt={`${project.title} Feature Image`}
@@ -270,9 +324,9 @@ export function Hero({ project }: Props) {
             width={374}
             height={649}
           />
-        )}
+        </MobileAndTabletOnly>
       </StyledDivImage>
-      <StyledTitleRow>
+      <StyledTitleRow variants={variants} initial="closed" animate="open">
         <Col start={2} span={7}>
           <StyledHeading1>{project.title}</StyledHeading1>
         </Col>
@@ -289,7 +343,15 @@ export function Hero({ project }: Props) {
               {project.projectFields.stat1.field}
             </StyledProjectFieldName>
             <StyledProjectFieldValue>
-              {project.projectFields.stat1.value}
+              {project.projectFields.stat1.link ? (
+                <Link href={project.projectFields.stat1.link} target="_blank">
+                  {project.projectFields.stat1.value}
+
+                  <StyledArrowUpRight className="styled-icon" fill="#fff" />
+                </Link>
+              ) : (
+                project.projectFields.stat1.value
+              )}
             </StyledProjectFieldValue>
           </StyledProjectField>
           <StyledProjectField>
@@ -297,7 +359,15 @@ export function Hero({ project }: Props) {
               {project.projectFields.stat2.field}
             </StyledProjectFieldName>
             <StyledProjectFieldValue>
-              {project.projectFields.stat2.value}
+              {project.projectFields.stat2.link ? (
+                <Link href={project.projectFields.stat2.link} target="_blank">
+                  {project.projectFields.stat2.value}
+
+                  <StyledArrowUpRight className="styled-icon" fill="#fff" />
+                </Link>
+              ) : (
+                project.projectFields.stat2.value
+              )}
             </StyledProjectFieldValue>
           </StyledProjectField>
           <StyledProjectField>
@@ -305,7 +375,15 @@ export function Hero({ project }: Props) {
               {project.projectFields.stat3.field}
             </StyledProjectFieldName>
             <StyledProjectFieldValue>
-              {project.projectFields.stat3.value}
+              {project.projectFields.stat3.link ? (
+                <Link href={project.projectFields.stat3.link} target="_blank">
+                  {project.projectFields.stat3.value}
+
+                  <StyledArrowUpRight className="styled-icon" fill="#fff" />
+                </Link>
+              ) : (
+                project.projectFields.stat3.value
+              )}
             </StyledProjectFieldValue>
           </StyledProjectField>
         </StyledProjectFieldsDiv>

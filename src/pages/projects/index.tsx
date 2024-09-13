@@ -9,20 +9,27 @@ import styled from "@emotion/styled";
 import { IconButton } from "../../components/global/iconButton";
 import React from "react";
 import ArrowDown from "../../icons/arrowDown";
-import { breakpoints, colors, dimensions } from "../../styles/variables";
+import {
+  breakpoints,
+  colors,
+  DesktopOnly,
+  dimensions,
+  MobileAndTabletOnly,
+} from "../../styles/variables";
 import Navbar from "../../components/navbar";
 import { GridContainer } from "../../components/global/grid/gridContainer";
 import { Col } from "../../components/global/grid/Col";
 import { Row } from "../../components/global/grid/Row";
 import { getRemSize } from "../../styles/globalCss";
-import useIsDesktop from "../../hooks/useIsDesktop";
+import { motion } from "framer-motion";
+import AnimateInView from "../../components/global/animation/animateInView";
 
 interface IIndex {
   siteData: ISiteData;
   pageData: IProjectsData;
 }
 
-const StyledContainer = styled.div`
+const StyledContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
@@ -37,15 +44,27 @@ const StyledContainer = styled.div`
   }
 `;
 
-const StyledImageWrapper = styled.div`
+const StyledImageWrapper = styled(motion.div)`
   position: relative;
   width: 100%;
   height: 100%;
 
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); // Adjust the opacity as needed
+    z-index: 1; // Ensure it is above the image but below other content
+  }
+
   @media (min-width: 1440px) {
     & img {
       width: 100%;
-      height: auto;
+      height: revert-layer;
+      object-fit: cover;
     }
   }
 `;
@@ -149,7 +168,7 @@ const StyledShowcaseCategory = styled.p`
   }
 `;
 
-const StyledHeader = styled.h1`
+const StyledHeader = styled(motion.h1)`
   font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
 
   text-align: center;
@@ -165,59 +184,103 @@ const StyledHeader = styled.h1`
   }
 `;
 
-export default function Index({ siteData, pageData }: IIndex) {
-  const isDesktop = useIsDesktop();
+const titleVariants = {
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  closed: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
 
+const parentVariants = {
+  open: {
+    transition: { staggerChildren: 0.07, delayChildren: 0.2 },
+  },
+  closed: {
+    transition: { staggerChildren: 0.05, staggerDirection: -1 },
+  },
+};
+
+const childVariants = {
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  closed: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
+export default function Index({ siteData, pageData }: IIndex) {
   return (
     <Layout pageTitle={"Projects"} siteData={siteData}>
       <GridContainer>
         <Row>
           <Col span={12}>
-            {isDesktop ? (
-              <StyledHeader>
-                Take a look at our - Project <StyledArrow />
-              </StyledHeader>
-            ) : (
-              <StyledHeader>
-                Take a look at our Project <StyledArrow />
-              </StyledHeader>
-            )}
+            <StyledHeader
+              variants={titleVariants}
+              initial="closed"
+              animate="open"
+            >
+              Take a look at our Projects <StyledArrow />
+            </StyledHeader>
           </Col>
         </Row>
 
         <Row>
           <Col span={12}>
-            {pageData.projects.nodes.map((project) => {
-              return (
-                <React.Fragment key={project.slug}>
-                  {isDesktop ? (
-                    <StyledContainer>
-                      <Link href={`/projects/${project.slug}`}>
-                        <StyledImageWrapper>
-                          <Image
-                            src={project.featuredImage.node.sourceUrl}
-                            blurDataURL={
-                              project.featuredImage.node?.placeholderDataURI
-                            }
-                            // placeholder="blur"
-                            width={1440}
-                            height={480}
-                            alt={`Cover Image for ${project.title}`}
-                          />
-                        </StyledImageWrapper>
-                        <StyledProjectInfo>
-                          <StyledProjectDetails>
-                            <h2>{project.title}</h2>
-                            <p>{project.projectCategories?.nodes[0]?.name}</p>
-                            <StyledLink>
-                              <IconButton />
-                            </StyledLink>
-                          </StyledProjectDetails>
-                        </StyledProjectInfo>
-                      </Link>
-                    </StyledContainer>
-                  ) : (
-                    <>
+            <motion.div
+              variants={parentVariants}
+              initial="closed"
+              animate="open"
+            >
+              {pageData.projects.nodes.map((project) => {
+                return (
+                  <AnimateInView>
+                    <DesktopOnly>
+                      <StyledContainer>
+                        <Link href={`/projects/${project.slug}`}>
+                          <StyledImageWrapper>
+                            <Image
+                              src={project.featuredImage.node.sourceUrl}
+                              blurDataURL={
+                                project.featuredImage.node?.placeholderDataURI
+                              }
+                              // placeholder="blur"
+                              width={1440}
+                              height={480}
+                              alt={`Cover Image for ${project.title}`}
+                            />
+                          </StyledImageWrapper>
+                          <StyledProjectInfo>
+                            <StyledProjectDetails>
+                              <h2>{project.title}</h2>
+                              <p>{project.projectCategories?.nodes[0]?.name}</p>
+                              <StyledLink>
+                                <IconButton />
+                              </StyledLink>
+                            </StyledProjectDetails>
+                          </StyledProjectInfo>
+                        </Link>
+                      </StyledContainer>
+                    </DesktopOnly>
+                    <MobileAndTabletOnly>
                       <Link href={`/projects/${project.slug}`}>
                         <StyledContainer>
                           <StyledImageWrapper>
@@ -243,11 +306,11 @@ export default function Index({ siteData, pageData }: IIndex) {
                           </StyledLink>
                         </StyledProjectInfo>
                       </Link>
-                    </>
-                  )}
-                </React.Fragment>
-              );
-            })}
+                    </MobileAndTabletOnly>
+                  </AnimateInView>
+                );
+              })}
+            </motion.div>
           </Col>
         </Row>
       </GridContainer>

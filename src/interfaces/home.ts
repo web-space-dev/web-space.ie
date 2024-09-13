@@ -2,9 +2,7 @@ import { Projects } from "./project";
 
 export interface IHomePage {
   page: Page;
-  projects: Projects;
   skillCategories: SkillCategories;
-  skills: Skills;
 }
 
 export interface Page {
@@ -28,7 +26,7 @@ export interface HomeFields {
   heroTitle: string;
   whatWeDo: WhatWeDo[];
   showcaseTitle: string;
-  skillsTitle: string;
+  showcaseProjects: Projects;
   approach: Approach[];
 }
 
@@ -53,6 +51,7 @@ export interface SkillCategories {
 
 export interface SkillCategoriesNode {
   name: string;
+  description: string;
   skills: Skills;
 }
 
@@ -63,4 +62,9 @@ export interface Skills {
 export interface SkillsNode {
   title: string;
   featuredImage: PageFeaturedImage;
+  skillsFields: SkillsFields;
+}
+
+export interface SkillsFields {
+  link?: string;
 }

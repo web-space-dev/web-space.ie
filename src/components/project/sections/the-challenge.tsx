@@ -10,8 +10,10 @@ import { getRemSize } from "../../../styles/globalCss";
 import useIsDesktop from "../../../hooks/useIsDesktop";
 import useIsTablet from "../../../hooks/useIsTablet";
 import { motion } from "framer-motion";
+import AnimateInView from "../../global/animation/animateInView";
 
 interface IProps {
+  title: string;
   content: DynamicTextAndImage[];
 }
 
@@ -108,7 +110,7 @@ const variants = {
   },
 };
 
-export default function DynamicTextAndImages({ content }: IProps) {
+export default function DynamicTextAndImages({ title, content }: IProps) {
   const isDesktop = useIsDesktop();
   const isTablet = useIsTablet();
   const [hoverIndex, setHoverIndex] = useState(null);
@@ -127,25 +129,31 @@ export default function DynamicTextAndImages({ content }: IProps) {
         {isDesktop ? (
           <>
             <Col start={1} span={4}>
-              <Pill pillText="The challenge" />
+              {title && title !== "" && (
+                <AnimateInView>
+                  <Pill pillText={title} />
+                </AnimateInView>
+              )}
             </Col>
             <Col start={5} span={8}>
-              <StyledParagraph>
-                {content.map((item, index) => {
-                  return item?.image ? (
-                    <StyledParagraphImage
-                      key={index}
-                      onMouseEnter={(e) => onHover(index)}
-                      onMouseLeave={(e) => onHoverOver()}
-                    >
-                      {" "}
-                      <span>{item.text}</span>
-                    </StyledParagraphImage>
-                  ) : (
-                    <Fragment key={index}>{item.text}</Fragment>
-                  );
-                })}
-              </StyledParagraph>
+              <AnimateInView>
+                <StyledParagraph>
+                  {content.map((item, index) => {
+                    return item?.image ? (
+                      <StyledParagraphImage
+                        key={index}
+                        onMouseEnter={(e) => onHover(index)}
+                        onMouseLeave={(e) => onHoverOver()}
+                      >
+                        {" "}
+                        <span>{item.text}</span>
+                      </StyledParagraphImage>
+                    ) : (
+                      <Fragment key={index}>{" " + item.text}</Fragment>
+                    );
+                  })}
+                </StyledParagraph>
+              </AnimateInView>
               {hoverIndex && (
                 <StyledImage
                   onMouseEnter={(e) => onHover(hoverIndex)}
@@ -169,7 +177,7 @@ export default function DynamicTextAndImages({ content }: IProps) {
         ) : (
           <>
             <Col start={1} span={12}>
-              <Pill pillText="The challenge" />
+              <Pill pillText={title} />
             </Col>
             <Col start={1} span={12}>
               <StyledMobileParagraph>

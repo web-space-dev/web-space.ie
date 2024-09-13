@@ -1,6 +1,6 @@
 export const GET_PROJECTS_DATA_QUERY = `
  query ProjectsPage {
-      projects {
+      projects(first: 100) {
         nodes {
           title
           slug

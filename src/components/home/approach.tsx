@@ -4,7 +4,14 @@ import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
 import Pill from "../global/pill";
-import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
+import {
+  cubicBezier,
+  easeIn,
+  motion,
+  useInView,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
 import { IconButton } from "../global/iconButton";
 import { PillIconButton } from "../global/pillIconButton";
 import Link from "next/link";
@@ -59,6 +66,7 @@ const StyledMotionWrapper = styled(motion.div)`
     position: relative;
     width: 100%;
     justify-content: center;
+    flex-direction: column;
   }
 `;
 
@@ -76,7 +84,8 @@ const StyledHeading2 = styled.h2`
   font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
   grid-column: 1 / span 5;
   @media all and (max-width: ${breakpoints.md}px) {
-    display: none;
+    /* display: none; */
+    margin: 0 0 -100px 0;
   }
 `;
 
@@ -114,7 +123,7 @@ const StyledCard = styled.div<StyledCardProps>`
   }
 `;
 
-export const StyledParagraphWrapper = styled.p`
+export const StyledParagraphWrapper = styled(motion.p)`
   position: relative;
   overflow: hidden;
   padding: 0;
@@ -244,19 +253,26 @@ function Approach({ items }: ApproachProps) {
   const borderRightRef = useRef();
   const cardsRef = useRef([]);
 
-  const horizontalWidth = 5500;
+  const horizontalWidth = 4800;
   const isDesktop = useIsDesktop();
 
+  // const scrollProgress = useScrollProgress(ghostRef);
   const scrollProgress = useScrollProgress(ghostRef);
 
-  const isInView = useInView(wrapperRef);
+  const isInView = useInView(wrapperRef, { amount: 0 });
+
+  // a use effect to console log isInView
+  useEffect(() => {
+    console.log(isInView);
+  }, [isInView]);
 
   const transform = useTransform(
     scrollProgress,
     [0, 1],
-    isInView && isDesktop ? [0, -horizontalWidth] : [0, 0]
+    isInView && isDesktop ? [0, -horizontalWidth] : [0, 0],
+    { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
   );
-  const cappedTransform = useMotionValue(Math.min(transform.get(), 1550));
+  const cappedTransform = useMotionValue(Math.min(transform.get(), 850));
 
   useEffect(() => {
     cardsRef.current = cardsRef.current.slice(0, items.length + 1);
@@ -274,13 +290,8 @@ function Approach({ items }: ApproachProps) {
   );
 
   useEffect(() => {
-    console.log("isLeftIntersecting", isRightIntersecting);
-    console.log("isRightIntersecting", isRightIntersecting);
-  }, [isLeftIntersecting, isRightIntersecting]);
-
-  useEffect(() => {
     const unsubscribe = transform.onChange((value) => {
-      cappedTransform.set(Math.max(value, -3770));
+      cappedTransform.set(Math.max(value, -3870));
     });
 
     return unsubscribe;

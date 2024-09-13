@@ -45,8 +45,9 @@ query PageBySlug($slug: String!) {
             }
           }
         }
-        ... on PageFieldsContentTheChallengeLayout {
+        ... on PageFieldsContentDynamicTextImageLayout {
           __typename
+          title
           dynamicTextAndImage {
             ... on PageFieldsContentDynamicTextAndImageTextLayout {
               __typename

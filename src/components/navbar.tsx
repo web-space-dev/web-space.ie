@@ -118,6 +118,7 @@ const StyledBackLink = styled.a<NavbarProps>`
   font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
   position: relative;
   position: fixed;
+  z-index: 999;
   bottom: 16px;
 
   ${(props) =>

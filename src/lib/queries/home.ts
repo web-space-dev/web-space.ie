@@ -7,7 +7,6 @@ query HomePage {
       node {
         altText
         sourceUrl
-        
       }
     }
     homeFields {
@@ -19,57 +18,49 @@ query HomePage {
         }
       }
       showcaseTitle
-      skillsTitle
+      showcaseProjects {
+        nodes {
+          ... on Project {
+            id
+            title
+            slug
+            projectCategories {
+              nodes {
+                name
+                slug
+              }
+            }
+            featuredImage {
+              node {
+                altText
+                sourceUrl
+              }
+            }
+          }
+        }
+      }
       approach {
         title
         paragraph
       }
     }
   }
-  projects(first: 3) {
-    nodes {
-      title
-      slug
-      projectCategories {
-        nodes {
-          name
-          slug
-        }
-      }
-      featuredImage {
-        node {
-          altText
-          sourceUrl
-          
-        }
-      }
-    }
-  }
   skillCategories {
     nodes {
       name
+      description
       skills {
         nodes {
           title
+          skillsFields {
+            link
+          }
           featuredImage {
             node {
               altText
               sourceUrl
-              
             }
           }
-        }
-      }
-    }
-  }
-  skills(first: 6) {
-    nodes {
-      title
-      featuredImage {
-        node {
-          altText
-          sourceUrl
-          
         }
       }
     }

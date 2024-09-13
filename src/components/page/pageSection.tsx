@@ -17,7 +17,7 @@ const StyledTitle = styled.h2`
     font-size: ${getRemSize(dimensions.headingSizes.cta.desktop)};
   }
 `;
-const StyledParagraph = styled.p`
+const StyledParagraph = styled.div`
   margin-top: 40px;
   @media all and (max-width: ${breakpoints.md}px) {
     margin-top: 15px;

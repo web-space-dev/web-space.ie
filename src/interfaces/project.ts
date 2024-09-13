@@ -57,11 +57,13 @@ export interface ProjectFields {
 export interface Stat {
   field: string;
   value: string;
+  link?: string;
 }
 
 export interface Content {
   __typename: string;
   fieldGroupName: string;
+  title: string;
   largeTextArea?: string;
   gallery1?: Gallery;
   dynamicTextAndImage?: DynamicTextAndImage[];

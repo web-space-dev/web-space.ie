@@ -4,6 +4,8 @@ import { breakpoints } from "../../../styles/variables";
 interface ColProps {
   start?: number;
   span: number;
+  spanMobile?: number;
+  spanTablet?: number;
 
   cssClass?: string;
   children: React.ReactNode;
@@ -11,14 +13,13 @@ interface ColProps {
 
 const StyledCol = styled.div<ColProps>`
   grid-column: ${(props: ColProps) =>
-      `${
-        props.start
-          ? `${props.start} / span ${props.span}`
-          : `span ${props.span}`
-      }`}
-    ${({ cssClass = "" }) => cssClass};
+    `${
+      props.start ? `${props.start} / span ${props.span}` : `span ${props.span}`
+    }`};
+
   @media all and (max-width: ${breakpoints.md}px) {
-    grid-column: span ${(props: ColProps) => props.span};
+    grid-column: span
+      ${(props: ColProps) => (props.spanMobile ? props.spanMobile : props.span)};
   }
 `;
 

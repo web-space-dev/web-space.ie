@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import { dimensions, breakpoints } from "../../../../src/styles/variables";
 import Pill from "../../global/pill";
 import { Row } from "../../global/grid/Row";
+import AnimateInView from "../../global/animation/animateInView";
 
 interface IProps {
   content: ParagraphItem[];
@@ -49,23 +50,31 @@ export function ContentParagraph({ content }: IProps) {
         if (paragraph.title)
           return (
             <Col start={1} span={4} key={`title-${index}`}>
-              <StyledPillWrapper>
-                <Pill pillText={paragraph.title} />
-              </StyledPillWrapper>
+              <AnimateInView>
+                <StyledPillWrapper>
+                  <Pill pillText={paragraph.title} />
+                </StyledPillWrapper>
+              </AnimateInView>
             </Col>
           );
         if (paragraph.paragraph)
           return (
             <Col start={5} span={8} key={`firstParagraph-${index}`}>
-              <StyledParagraphFirst>{paragraph.paragraph}</StyledParagraphFirst>
+              <AnimateInView>
+                <StyledParagraphFirst>
+                  {paragraph.paragraph}
+                </StyledParagraphFirst>
+              </AnimateInView>
             </Col>
           );
         if (paragraph.largeParagraph)
           return (
             <Col start={5} span={8} key={`secondParagraph-${index}`}>
-              <StyledParagraphSecond>
-                {paragraph.largeParagraph}
-              </StyledParagraphSecond>
+              <AnimateInView>
+                <StyledParagraphSecond>
+                  {paragraph.largeParagraph}
+                </StyledParagraphSecond>
+              </AnimateInView>
             </Col>
           );
       })}

@@ -92,6 +92,11 @@ const StyledTitle = styled.h2<{ color: string }>`
     font-size: ${getRemSize(dimensions.headingSizes.display2.desktop - 150)};
     line-height: 160px;
   }
+
+  @media all and (max-height: 700px) {
+    font-size: ${getRemSize(dimensions.headingSizes.display2.desktop - 120)};
+    line-height: 160px;
+  }
 `;
 
 function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {

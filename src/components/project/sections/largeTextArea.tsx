@@ -7,6 +7,7 @@ import styled from "@emotion/styled";
 import { getRemSize } from "../../../../src/styles/globalCss";
 import { Row } from "../../global/grid/Row";
 import { Col } from "../../global/grid/Col";
+import AnimateInView from "../../global/animation/animateInView";
 
 interface IProps {
   text: string;
@@ -42,7 +43,9 @@ export default function LargeTextArea({ text }: IProps) {
   return (
     <StyledTitleRow>
       <Col start={2} span={10}>
-        <StyledHeading>{text}</StyledHeading>
+        <AnimateInView>
+          <StyledHeading>{text}</StyledHeading>
+        </AnimateInView>
       </Col>
     </StyledTitleRow>
   );

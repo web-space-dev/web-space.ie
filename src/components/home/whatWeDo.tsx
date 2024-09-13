@@ -3,18 +3,19 @@ import { Pill as IPill, WhatWeDo as IWhatWeDo } from "../../interfaces/home";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import { GridContainer } from "../global/grid/gridContainer";
-import { memo, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { css } from "@emotion/react";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import useIsDesktop from "../../hooks/useIsDesktop";
+import { delay, motion, useInView } from "framer-motion";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px 0;
 `;
 
-const StyledTitle = styled.h2`
-  font-size: ${getRemSize(dimensions.headingSizes.small.desktop)};
+const StyledTitle = styled(motion.h2)`
+  font-size: ${getRemSize(dimensions.headingSizes.medium.mobile)};
   font-weight: 400;
   @media all and (max-width: ${breakpoints.md}px) {
     grid-column: 1 / span 12;
@@ -22,7 +23,7 @@ const StyledTitle = styled.h2`
   }
 `;
 
-const StyledProcessList = styled.ul`
+const StyledProcessList = styled(motion.ul)`
   list-style: none;
   padding: 0;
   margin: 0;
@@ -122,6 +123,12 @@ const StyledPill = styled.span<{ index: number }>`
       font-size: 25px;
     }
   }
+
+  @media all and (max-height: 700px) {
+    @media all and (max-width: ${breakpoints.md}px) {
+      font-size: ${getRemSize(dimensions.textSizes.normal.mobile - 5)};
+    }
+  }
 `;
 
 interface IProcessItem {
@@ -182,7 +189,28 @@ interface WhatWeDoProps {
   items: IWhatWeDo[];
 }
 
+const variants = {
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+      delay: 0.1,
+    },
+  },
+  closed: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
 function WhatWeDo({ items }: WhatWeDoProps) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
   const [hoverItems, setHoverItems] = useState(
     new Array(items.length).fill(false)
   );
@@ -199,20 +227,35 @@ function WhatWeDo({ items }: WhatWeDoProps) {
   return (
     <StyledWrapper>
       <Row>
-        <Col start={1} span={2}>
-          <StyledTitle>What we do.</StyledTitle>
+        <Col start={1} span={2} spanMobile={6}>
+          <StyledTitle
+            ref={ref}
+            initial="closed"
+            animate={isInView ? "open" : "closed"}
+            variants={variants}
+            transition={{ delay: 0.2 }}
+          >
+            What we do.
+          </StyledTitle>
         </Col>
         <Col start={3} span={10}>
-          <StyledProcessList>
+          <StyledProcessList
+            initial="closed"
+            animate={isInView ? "open" : "closed"}
+            variants={variants}
+            transition={{ delay: 1.8 }}
+          >
             {itemsWithUniqueIds.map((item, index) => (
-              <ProcessItem
-                key={index}
-                title={item.title}
-                pills={item.pills}
-                index={index}
-                hoverItems={hoverItems}
-                setHoverItems={setHoverItems}
-              />
+              <motion.div key={index}>
+                <ProcessItem
+                  key={index}
+                  title={item.title}
+                  pills={item.pills}
+                  index={index}
+                  hoverItems={hoverItems}
+                  setHoverItems={setHoverItems}
+                />
+              </motion.div>
             ))}
           </StyledProcessList>
         </Col>
