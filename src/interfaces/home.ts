@@ -2,7 +2,6 @@ import { Projects } from "./project";
 
 export interface IHomePage {
   page: Page;
-  projects: Projects;
   skillCategories: SkillCategories;
 }
 
@@ -27,6 +26,7 @@ export interface HomeFields {
   heroTitle: string;
   whatWeDo: WhatWeDo[];
   showcaseTitle: string;
+  showcaseProjects: Projects;
   approach: Approach[];
 }
 

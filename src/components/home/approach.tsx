@@ -256,9 +256,15 @@ function Approach({ items }: ApproachProps) {
   const horizontalWidth = 4800;
   const isDesktop = useIsDesktop();
 
+  // const scrollProgress = useScrollProgress(ghostRef);
   const scrollProgress = useScrollProgress(ghostRef);
 
-  const isInView = useInView(wrapperRef);
+  const isInView = useInView(wrapperRef, { amount: 0 });
+
+  // a use effect to console log isInView
+  useEffect(() => {
+    console.log(isInView);
+  }, [isInView]);
 
   const transform = useTransform(
     scrollProgress,

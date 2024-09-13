@@ -7,7 +7,6 @@ query HomePage {
       node {
         altText
         sourceUrl
-        
       }
     }
     homeFields {
@@ -19,28 +18,30 @@ query HomePage {
         }
       }
       showcaseTitle
+      showcaseProjects {
+        nodes {
+          ... on Project {
+            id
+            title
+            slug
+            projectCategories {
+              nodes {
+                name
+                slug
+              }
+            }
+            featuredImage {
+              node {
+                altText
+                sourceUrl
+              }
+            }
+          }
+        }
+      }
       approach {
         title
         paragraph
-      }
-    }
-  }
-  projects(first: 3) {
-    nodes {
-      title
-      slug
-      projectCategories {
-        nodes {
-          name
-          slug
-        }
-      }
-      featuredImage {
-        node {
-          altText
-          sourceUrl
-          
-        }
       }
     }
   }
@@ -55,7 +56,6 @@ query HomePage {
             node {
               altText
               sourceUrl
-              
             }
           }
         }

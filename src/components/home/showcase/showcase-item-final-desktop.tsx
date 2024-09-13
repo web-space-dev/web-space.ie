@@ -7,10 +7,6 @@ import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
 import { motion } from "framer-motion";
 
-interface IStyledShowcaseWrapper {
-  open: boolean;
-}
-
 const StyledShowcaseWrapper = styled.div<{ open: string }>`
   height: 100vh;
   display: flex;
@@ -70,15 +66,20 @@ const StyledShowcaseImage = styled(motion.div)`
 
 const StyledShowcaseContent = styled.div`
   position: absolute;
-  top: 50%;
-  bottom: 50%;
+  top: 45%;
   left: 0;
-  right: 0;
-  width: 100%;
+  left: 0;
+  width: 90%;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 0 8px 8px 24px;
 
   & h3,
   p {
