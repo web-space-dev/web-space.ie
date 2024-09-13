@@ -4,7 +4,14 @@ import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
 import Pill from "../global/pill";
-import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
+import {
+  cubicBezier,
+  easeIn,
+  motion,
+  useInView,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
 import { IconButton } from "../global/iconButton";
 import { PillIconButton } from "../global/pillIconButton";
 import Link from "next/link";
@@ -246,7 +253,7 @@ function Approach({ items }: ApproachProps) {
   const borderRightRef = useRef();
   const cardsRef = useRef([]);
 
-  const horizontalWidth = 5500;
+  const horizontalWidth = 4800;
   const isDesktop = useIsDesktop();
 
   const scrollProgress = useScrollProgress(ghostRef);
@@ -256,7 +263,8 @@ function Approach({ items }: ApproachProps) {
   const transform = useTransform(
     scrollProgress,
     [0, 1],
-    isInView && isDesktop ? [0, -horizontalWidth] : [0, 0]
+    isInView && isDesktop ? [0, -horizontalWidth] : [0, 0],
+    { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
   );
   const cappedTransform = useMotionValue(Math.min(transform.get(), 1550));
 
@@ -276,13 +284,8 @@ function Approach({ items }: ApproachProps) {
   );
 
   useEffect(() => {
-    console.log("isLeftIntersecting", isRightIntersecting);
-    console.log("isRightIntersecting", isRightIntersecting);
-  }, [isLeftIntersecting, isRightIntersecting]);
-
-  useEffect(() => {
     const unsubscribe = transform.onChange((value) => {
-      cappedTransform.set(Math.max(value, -3770));
+      cappedTransform.set(Math.max(value, -3470));
     });
 
     return unsubscribe;
