@@ -102,9 +102,21 @@ const marginRightValues = [
   "0px",
 ];
 
-const StyledPill = styled.span<{ index: number }>`
+const StyledPillNumber = styled.span`
   background-color: ${colors.white};
   color: ${colors.black};
+  display: inline-block;
+  text-align: center;
+  border-radius: 10px;
+  width: 33px;
+  height: 33px;
+  margin: 0 10px;
+  letter-spacing: 0px;
+`;
+
+const StyledPill = styled.span<{ index: number }>`
+  /* background-color: ${colors.white}; */
+  /* color: ${colors.black}; */
   padding: 10px 30px 12px 30px;
   margin: 0px 16px;
   border-radius: 50px;
@@ -137,6 +149,7 @@ interface IProcessItem {
   index: number;
   hoverItems: boolean[];
   setHoverItems: (items: boolean[]) => void;
+  totalPillsBefore: number;
 }
 
 const ProcessItem = ({
@@ -145,6 +158,7 @@ const ProcessItem = ({
   hoverItems,
   setHoverItems,
   index,
+  totalPillsBefore,
 }: IProcessItem) => {
   const isDesktop = useIsDesktop();
 
@@ -173,9 +187,12 @@ const ProcessItem = ({
       <StyledProcessItemExpand
         isExpanded={isDesktop ? hoverItems[index] : true}
       >
-        {pills.map((pill) => {
+        {pills.map((pill, innerIndex) => {
+          const pillNumber = totalPillsBefore + innerIndex;
           return (
             <StyledPill key={`${pill.pillText}-${pill.id}`} index={pill.id}>
+              <StyledPillNumber>{pillNumber + 1}</StyledPillNumber>
+
               {pill.pillText}
             </StyledPill>
           );
@@ -208,6 +225,7 @@ const variants = {
 };
 
 function WhatWeDo({ items }: WhatWeDoProps) {
+  let totalPillsBefore = 0;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -245,18 +263,24 @@ function WhatWeDo({ items }: WhatWeDoProps) {
             variants={variants}
             transition={{ delay: 1.8 }}
           >
-            {itemsWithUniqueIds.map((item, index) => (
-              <motion.div key={index}>
-                <ProcessItem
-                  key={index}
-                  title={item.title}
-                  pills={item.pills}
-                  index={index}
-                  hoverItems={hoverItems}
-                  setHoverItems={setHoverItems}
-                />
-              </motion.div>
-            ))}
+            {itemsWithUniqueIds.map((item, index) => {
+              const currentTotalPillsBefore = totalPillsBefore;
+              totalPillsBefore += item.pills.length;
+
+              return (
+                <motion.div key={index}>
+                  <ProcessItem
+                    key={index}
+                    title={item.title}
+                    pills={item.pills}
+                    index={index}
+                    hoverItems={hoverItems}
+                    setHoverItems={setHoverItems}
+                    totalPillsBefore={currentTotalPillsBefore}
+                  />
+                </motion.div>
+              );
+            })}
           </StyledProcessList>
         </Col>
       </Row>
