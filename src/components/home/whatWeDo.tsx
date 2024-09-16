@@ -65,7 +65,7 @@ const StyledProcessItemExpand = styled.div<IStyledProcessItemExpand>`
     flex-wrap: wrap;
     margin-left: auto;
     margin-right: auto;
-    align-items: center;
+    align-items: start;
   }
 
   ${({ isExpanded }) =>
@@ -78,16 +78,15 @@ const StyledProcessItemExpand = styled.div<IStyledProcessItemExpand>`
 `;
 
 const marginLeftValues = [
-  "90px",
   "0px",
-  "86px",
-  "0px",
-  "43px",
-  "11px",
-  "33px",
-  "0px",
-  "91px",
-  "0px",
+  "30px",
+  "00px",
+  "30px",
+  "60px",
+  "30px",
+  "30px",
+  "60px",
+  "30px",
 ];
 const marginRightValues = [
   "13px",
@@ -114,6 +113,10 @@ const StyledPillNumber = styled.span`
   letter-spacing: 0px;
 `;
 
+const StyledPillText = styled.span`
+  text-align: left;
+`;
+
 const StyledPill = styled.span<{ index: number }>`
   /* background-color: ${colors.white}; */
   /* color: ${colors.black}; */
@@ -122,18 +125,14 @@ const StyledPill = styled.span<{ index: number }>`
   border-radius: 50px;
   font-weight: 500;
   letter-spacing: 2px;
-  display: inline-block;
+  display: flex;
 
   @media all and (max-width: ${breakpoints.md}px) {
     margin: 12px 16px;
     text-align: center;
-    max-width: 350px;
-    font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
-    margin-left: ${(props) => marginLeftValues[props.index] || "0px"};
-    margin-right: ${(props) => marginRightValues[props.index] || "0px"};
-    @media all and (max-width: 385px) {
-      font-size: 25px;
-    }
+    padding: 10px 0;
+    width: 100%;
+    font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
   }
 
   @media all and (max-height: 700px) {
@@ -191,9 +190,12 @@ const ProcessItem = ({
           const pillNumber = totalPillsBefore + innerIndex;
           return (
             <StyledPill key={`${pill.pillText}-${pill.id}`} index={pill.id}>
-              <StyledPillNumber>{pillNumber + 1}</StyledPillNumber>
+              <StyledPillNumber>
+                {pillNumber < 10 && "0"}
+                {pillNumber + 1}
+              </StyledPillNumber>
 
-              {pill.pillText}
+              <StyledPillText>{pill.pillText}</StyledPillText>
             </StyledPill>
           );
         })}
