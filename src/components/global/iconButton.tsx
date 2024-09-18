@@ -23,10 +23,6 @@ const StyledIconButton = styled.button`
   &:hover .styled-up-right-icon {
     transform: rotate(45deg);
   }
-
-  &:hover .styled-down-right-icon {
-    transform: rotate(135deg);
-  }
 `;
 
 const StyledArrowUpRight = styled(ArrowUpRight)`
@@ -47,7 +43,7 @@ interface IconButtonProps {
 export function IconButton({ direction = "upRight" }: IconButtonProps) {
   return (
     <StyledIconButton>
-      {direction === "upright" ? (
+      {direction === "upRight" ? (
         <StyledArrowUpRight className="styled-up-right-icon" />
       ) : (
         <StyledArrowDownRight className="styled-down-right-icon" />

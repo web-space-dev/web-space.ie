@@ -16,7 +16,6 @@ import {
   dimensions,
   MobileAndTabletOnly,
 } from "../../styles/variables";
-import Navbar from "../../components/navbar";
 import { GridContainer } from "../../components/global/grid/gridContainer";
 import { Col } from "../../components/global/grid/Col";
 import { Row } from "../../components/global/grid/Row";

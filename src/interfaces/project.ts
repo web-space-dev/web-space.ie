@@ -51,6 +51,7 @@ export interface ProjectFields {
   stat1: Stat;
   stat2: Stat;
   stat3: Stat;
+  cta: CTA;
   content: Content[];
 }
 
@@ -58,6 +59,11 @@ export interface Stat {
   field: string;
   value: string;
   link?: string;
+}
+
+export interface CTA {
+  buttonName: string;
+  buttonUrl: string;
 }
 
 export interface Content {

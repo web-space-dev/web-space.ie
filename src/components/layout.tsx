@@ -68,6 +68,16 @@ export default function Layout({
     }
   }, []);
 
+  useEffect(() => {
+    const hasVisitedHome = localStorage.getItem("hasVisitedHome");
+
+    if (hasVisitedHome) {
+      setIsLoading(false);
+    } else {
+      localStorage.setItem("hasVisitedHome", "true");
+    }
+  }, []);
+
   return (
     <StyledWrapper>
       <Wrapper pageTitle={pageTitle} siteData={siteData} />
