@@ -264,6 +264,7 @@ export default function Index({ siteData, pageData }: IIndex) {
                               // placeholder="blur"
                               width={1440}
                               height={480}
+                              style={{ objectFit: "cover" }}
                               alt={`Cover Image for ${project.title}`}
                             />
                           </StyledImageWrapper>
