@@ -9,6 +9,7 @@ import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import { motion, useInView } from "framer-motion";
+import AnimateInView from "../global/animation/animateInView";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px 0;
@@ -27,7 +28,7 @@ const StyledTitle = styled(motion.h2)`
   }
 `;
 
-const StyledProcessList = styled(motion.ul)`
+const StyledProcessList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
@@ -248,18 +249,13 @@ function WhatWeDo({ items }: WhatWeDoProps) {
           </StyledTitle>
         </Col>
         <Col start={3} span={10} spanMobile={10}>
-          <StyledProcessList
-            initial="closed"
-            animate={isInView ? "open" : "closed"}
-            variants={variants}
-            transition={{ delay: 1.8 }}
-          >
+          <StyledProcessList>
             {itemsWithUniqueIds.map((item, index) => {
               const currentTotalPillsBefore = totalPillsBefore;
               totalPillsBefore += item.pills.length;
 
               return (
-                <motion.div key={index}>
+                <AnimateInView>
                   <ProcessItem
                     key={index}
                     title={item.title}
@@ -269,7 +265,7 @@ function WhatWeDo({ items }: WhatWeDoProps) {
                     setHoverItems={setHoverItems}
                     totalPillsBefore={currentTotalPillsBefore}
                   />
-                </motion.div>
+                </AnimateInView>
               );
             })}
           </StyledProcessList>

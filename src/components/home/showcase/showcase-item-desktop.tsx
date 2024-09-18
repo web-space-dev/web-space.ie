@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Project } from "../../../interfaces/project";
 import Link from "next/link";
-import { dimensions } from "../../../styles/variables";
+import { breakpoints, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { CustomImage } from "../../global/image";
 import { MotionValue, motion } from "framer-motion";
@@ -65,6 +65,10 @@ const StyledShowcaseContent = styled.div`
   & h3,
   p {
     margin: 0 15px;
+  }
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    width: 80%;
   }
 `;
 

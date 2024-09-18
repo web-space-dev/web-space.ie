@@ -33,7 +33,7 @@ const StyledArrowUpRight = styled(ArrowUpRight)`
   transition: 0.3s ease;
 `;
 
-const StyledArrowDownRight = styled(ArrowUpRight)`
+export const StyledArrowDownRight = styled(ArrowUpRight)`
   transform: rotate(90deg);
   &:hover {
     transform: rotate(135deg);

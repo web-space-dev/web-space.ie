@@ -115,17 +115,8 @@ function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
     return unsubscribe;
   }, [transform, cappedTransform]);
 
-  const debugWindow = useDebugPanel({
-    isInView,
-    horizontalWidth,
-    scrollProgress: scrollProgress.get(),
-    cappedTransformValue,
-    transform: transform.get(),
-  });
-
   return (
     <>
-      {/* {debugWindow} */}
       <div style={{ position: "relative" }}>
         <StyledWrapper open={false} ref={wrapperRef}>
           <Row>

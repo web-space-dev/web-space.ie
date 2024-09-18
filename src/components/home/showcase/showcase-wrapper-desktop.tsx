@@ -9,6 +9,7 @@ import { Row } from "../../global/grid/Row";
 import { IShowcase } from "../showcase";
 import ShowcaseItemDesktop from "./showcase-item-desktop";
 import ShowcaseItemFinalDesktop from "./showcase-item-final-desktop";
+import AnimateInView from "../../global/animation/animateInView";
 
 const StyledGridContainer = styled(GridContainer)`
   height: 100vh;

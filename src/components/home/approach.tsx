@@ -13,7 +13,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { IconButton } from "../global/iconButton";
+import { IconButton, StyledArrowDownRight } from "../global/iconButton";
 import { PillIconButton } from "../global/pillIconButton";
 import Link from "next/link";
 import { getRemSize } from "../../styles/globalCss";
@@ -32,6 +32,7 @@ const StyledSpacer = styled.div<{ height: number }>`
   margin-top: -150vh;
 
   @media all and (max-width: ${breakpoints.md}px) {
+    margin-top: 0;
     height: 100%;
     margin-bottom: 350px;
   }
@@ -246,6 +247,7 @@ interface StyledCardProps {
   marginLeft?: string;
 }
 
+// @TODO - fix on middle screens scrolling stuff
 function Approach({ items }: ApproachProps) {
   const ghostRef = useRef(null);
   const horizontalRef = useRef(null);
@@ -303,20 +305,28 @@ function Approach({ items }: ApproachProps) {
         <StyledHeadingWrapper>
           <StyledHeading2>Our Approach</StyledHeading2>
         </StyledHeadingWrapper>
-        <StyledApproachBorderLeft
-          ref={borderLeftRef}
-          isVisible={isLeftIntersecting}
-        />
-        <StyledMotionWrapper
-          ref={horizontalRef}
-          style={{ x: smoothCappedTransform }}
-        >
-          <Cards items={items} cardsRef={cardsRef} />
-        </StyledMotionWrapper>
-        <StyledApproachBorderRight
-          ref={borderRightRef}
-          isVisible={isRightIntersecting}
-        />
+        {isDesktop ? (
+          <>
+            <StyledApproachBorderLeft
+              ref={borderLeftRef}
+              isVisible={isLeftIntersecting}
+            />
+            <StyledMotionWrapper
+              ref={horizontalRef}
+              style={{ x: smoothCappedTransform }}
+            >
+              <Cards items={items} cardsRef={cardsRef} />
+            </StyledMotionWrapper>
+            <StyledApproachBorderRight
+              ref={borderRightRef}
+              isVisible={isRightIntersecting}
+            />
+          </>
+        ) : (
+          <StyledMotionWrapper ref={horizontalRef}>
+            <Cards items={items} cardsRef={cardsRef} />
+          </StyledMotionWrapper>
+        )}
       </StyledWrapper>
       <StyledSpacer ref={ghostRef} height={horizontalWidth} />
     </div>
@@ -370,8 +380,8 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
           </SmallerIconButton>
         </StyledCardPill>
       ) : (
-        <PillIconButton text="Check out more" onClick={() => {}}>
-          <ArrowUpRight />
+        <PillIconButton text="Get in touch" onClick={scrollToBottom}>
+          <StyledArrowDownRight />
         </PillIconButton>
       )}
     </>
