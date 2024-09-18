@@ -199,11 +199,11 @@ const SmallerIconButton = styled.div`
   width: 3rem;
   height: 3rem;
   margin-right: 10px;
-  & > * {
+  /* & button {
     width: 100%;
     height: 100%;
     transform: scale(0.7);
-  }
+  } */
 `;
 
 interface IStyledApproachBorder {
@@ -327,6 +327,16 @@ export default memo(Approach);
 
 const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
   const isDesktop = useIsDesktop();
+
+  const scrollToBottom = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <>
       {items.map((item, index) => (
@@ -352,9 +362,11 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
             </StyledParagraphText>
           </StyledParagraphWrapper>
           <SmallerIconButton>
-            <Link href="#footer">
+            {/* <Link href="#" onClick={scrollToBottom}> */}
+            <div onClick={scrollToBottom}>
               <IconButton direction="down" />
-            </Link>
+            </div>
+            {/* </Link> */}
           </SmallerIconButton>
         </StyledCardPill>
       ) : (

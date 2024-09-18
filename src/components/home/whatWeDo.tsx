@@ -11,7 +11,7 @@ import useIsDesktop from "../../hooks/useIsDesktop";
 import { motion, useInView } from "framer-motion";
 
 const StyledWrapper = styled(GridContainer)`
-  margin: 140px 0 20px 0;
+  margin: 140px 0;
 `;
 
 const StyledTitle = styled(motion.h2)`

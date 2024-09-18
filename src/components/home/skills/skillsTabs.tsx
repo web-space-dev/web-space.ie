@@ -21,11 +21,11 @@ const StyledLogoWrapper = styled(motion.div)`
   align-content: center;
 
   & img {
-    /* margin: 10px; */
     border-radius: 14px;
   }
 
   @media (max-width: 1200px) {
+    margin: 20px 0;
     & img {
       width: 120px;
       height: 120px;

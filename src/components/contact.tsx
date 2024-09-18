@@ -6,8 +6,9 @@ import { breakpoints, colors } from "../styles/variables";
 import ArrowUpRight from "../icons/arrowUpRight";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled(motion.div)`
   position: fixed;
   top: 0;
   left: 0;
@@ -28,7 +29,7 @@ const StyledImage = styled.div<{ dark: boolean }>`
   }
 `;
 
-const WrapperContent = styled.div`
+const WrapperContent = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,7 +58,7 @@ const StyledBoxContentWrapper = styled.div`
   justify-content: center;
 `;
 
-const StyledBox = styled.div`
+const StyledBox = styled(motion.div)`
   background: rgba(255, 255, 255, 1);
   margin-top: 24px;
   padding: 40px;
@@ -303,7 +304,7 @@ interface StyledSquareProps {
 }
 
 const InputField = ({ value, type, id, name, placeholder, onChange }) => {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(value !== "");
 
   const handleFocus = () => {
     setIsActive(true);
@@ -333,6 +334,23 @@ const InputField = ({ value, type, id, name, placeholder, onChange }) => {
   );
 };
 
+const variants = {
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  closed: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
 export function Contact({ isOpen, onClose, dark }) {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
@@ -353,9 +371,9 @@ export function Contact({ isOpen, onClose, dark }) {
     }
   }, [isOpen]);
 
-  if (!isOpen) {
-    return null;
-  }
+  // if (!isOpen) {
+  //   return null;
+  // }
 
   const stopPropagation = (e) => {
     e.stopPropagation();
@@ -449,6 +467,9 @@ export function Contact({ isOpen, onClose, dark }) {
       setSubmitStatus("error");
     }
   };
+  if (!isOpen) {
+    return null;
+  }
   return (
     <StyledWrapper onClick={onClose}>
       <Link href="/">
@@ -457,7 +478,13 @@ export function Contact({ isOpen, onClose, dark }) {
         </StyledImage>
       </Link>
       <WrapperContent>
-        <StyledBox onClick={stopPropagation}>
+        <StyledBox
+          variants={variants}
+          initial="closed"
+          animate={isOpen ? "open" : "closed"}
+          exit="closed"
+          onClick={stopPropagation}
+        >
           <StyledBoxContentWrapper>
             <StyledHeading>
               Get in contact and leave a little description of your request and
