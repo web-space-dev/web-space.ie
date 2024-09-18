@@ -8,10 +8,10 @@ import { css } from "@emotion/react";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import useIsDesktop from "../../hooks/useIsDesktop";
-import { delay, motion, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 const StyledWrapper = styled(GridContainer)`
-  margin: 140px 0;
+  margin: 140px 0 20px 0;
 `;
 
 const StyledTitle = styled(motion.h2)`
@@ -97,6 +97,9 @@ const StyledPillNumber = styled.span`
   height: 33px;
   margin: 0 10px;
   letter-spacing: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const StyledPillText = styled.span`
