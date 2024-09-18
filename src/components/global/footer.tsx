@@ -351,7 +351,7 @@ export default function Footer({ setFooterInView }: IProps) {
   };
 
   return (
-    <StyledFooter ref={footerRef}>
+    <StyledFooter ref={footerRef} id="footer">
       <StyledWrapper>
         <Row>
           <Col start={2} span={10}>

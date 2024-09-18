@@ -28,6 +28,7 @@ interface ApproachProps {
 const StyledSpacer = styled.div<{ height: number }>`
   height: ${({ height }) => height}px;
   visibility: hidden;
+  margin-top: -80vh;
 
   @media all and (max-width: ${breakpoints.md}px) {
     height: 100%;
@@ -345,12 +346,12 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
         <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
           <StyledParagraphWrapper>
             <StyledParagraphText>
-              Check out <br /> our work.
+              Interested? <br /> Let's have a chat.
             </StyledParagraphText>
           </StyledParagraphWrapper>
           <SmallerIconButton>
-            <Link href="/projects">
-              <IconButton />
+            <Link href="#footer">
+              <IconButton direction="down" />
             </Link>
           </SmallerIconButton>
         </StyledCardPill>
