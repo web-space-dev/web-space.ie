@@ -10,6 +10,7 @@ import {
   motion,
   useInView,
   useMotionValue,
+  useSpring,
   useTransform,
 } from "framer-motion";
 import { IconButton } from "../global/iconButton";
@@ -28,7 +29,7 @@ interface ApproachProps {
 const StyledSpacer = styled.div<{ height: number }>`
   height: ${({ height }) => height}px;
   visibility: hidden;
-  margin-top: -80vh;
+  margin-top: -150vh;
 
   @media all and (max-width: ${breakpoints.md}px) {
     height: 100%;
@@ -61,6 +62,7 @@ const StyledMotionWrapper = styled(motion.div)`
   overflow: auto;
   position: absolute;
   top: 140px;
+  /* left: 200px; */
   bottom: 0;
   @media all and (max-width: ${breakpoints.md}px) {
     height: fit-content;
@@ -254,26 +256,23 @@ function Approach({ items }: ApproachProps) {
   const borderRightRef = useRef();
   const cardsRef = useRef([]);
 
-  const horizontalWidth = 4800;
+  const horizontalWidth = 5200;
   const isDesktop = useIsDesktop();
 
-  // const scrollProgress = useScrollProgress(ghostRef);
   const scrollProgress = useScrollProgress(ghostRef);
 
   const isInView = useInView(wrapperRef, { amount: 0 });
 
-  // a use effect to console log isInView
-  useEffect(() => {
-    console.log(isInView);
-  }, [isInView]);
-
   const transform = useTransform(
     scrollProgress,
     [0, 1],
-    isInView && isDesktop ? [0, -horizontalWidth] : [0, 0],
-    { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
+    isDesktop ? (isInView ? [500, -horizontalWidth] : [500, 500]) : [0, 0]
   );
   const cappedTransform = useMotionValue(Math.min(transform.get(), 850));
+  const smoothCappedTransform = useSpring(cappedTransform, {
+    stiffness: 80,
+    damping: 20,
+  });
 
   useEffect(() => {
     cardsRef.current = cardsRef.current.slice(0, items.length + 1);
@@ -292,7 +291,7 @@ function Approach({ items }: ApproachProps) {
 
   useEffect(() => {
     const unsubscribe = transform.onChange((value) => {
-      cappedTransform.set(Math.max(value, -3870));
+      cappedTransform.set(Math.max(value, -4200));
     });
 
     return unsubscribe;
@@ -308,7 +307,10 @@ function Approach({ items }: ApproachProps) {
           ref={borderLeftRef}
           isVisible={isLeftIntersecting}
         />
-        <StyledMotionWrapper ref={horizontalRef} style={{ x: cappedTransform }}>
+        <StyledMotionWrapper
+          ref={horizontalRef}
+          style={{ x: smoothCappedTransform }}
+        >
           <Cards items={items} cardsRef={cardsRef} />
         </StyledMotionWrapper>
         <StyledApproachBorderRight
