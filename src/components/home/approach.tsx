@@ -5,8 +5,6 @@ import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
 import Pill from "../global/pill";
 import {
-  cubicBezier,
-  easeIn,
   motion,
   useInView,
   useMotionValue,
@@ -15,10 +13,8 @@ import {
 } from "framer-motion";
 import { IconButton, StyledArrowDownRight } from "../global/iconButton";
 import { PillIconButton } from "../global/pillIconButton";
-import Link from "next/link";
 import { getRemSize } from "../../styles/globalCss";
 import useIsDesktop from "../../hooks/useIsDesktop";
-import ArrowUpRight from "../../icons/arrowUpRight";
 import useScrollProgress from "../../hooks/useScrollProgress";
 import useIsIntersecting from "../../hooks/useIsIntersecting";
 

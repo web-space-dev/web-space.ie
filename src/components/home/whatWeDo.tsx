@@ -255,9 +255,8 @@ function WhatWeDo({ items }: WhatWeDoProps) {
               totalPillsBefore += item.pills.length;
 
               return (
-                <AnimateInView>
+                <AnimateInView key={index}>
                   <ProcessItem
-                    key={index}
                     title={item.title}
                     pills={item.pills}
                     index={index}

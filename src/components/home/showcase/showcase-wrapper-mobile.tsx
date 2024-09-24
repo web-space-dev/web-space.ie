@@ -18,11 +18,7 @@ const StyledSpacer = styled.div<{ height: number }>`
   margin-top: -80vh;
 `;
 
-interface IStyledWrapper {
-  open: boolean;
-}
-
-const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
+const StyledWrapper = styled(GridContainer)`
   position: sticky;
 
   height: 100vh;
@@ -118,7 +114,7 @@ function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <StyledWrapper open={false} ref={wrapperRef}>
+        <StyledWrapper ref={wrapperRef}>
           <Row>
             <Col start={1} span={12}>
               <StyledTitle

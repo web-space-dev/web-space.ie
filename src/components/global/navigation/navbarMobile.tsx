@@ -20,7 +20,7 @@ const StyledImageWrapper = styled(Link)`
   }
 `;
 
-const StyledNavMobile = styled.nav<{ dark: string; open: string }>`
+const StyledNavMobile = styled.nav<{ dark: string; open: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -29,18 +29,18 @@ const StyledNavMobile = styled.nav<{ dark: string; open: string }>`
   right: 0;
   padding: 1rem;
   z-index: 999;
-  backdrop-filter: ${(props) => (props.open === "true" ? "blur(15px)" : "0")};
-  width: ${(props) => (props.open === "true" ? "100vw" : "auto")};
-  height: ${(props) => (props.open === "true" ? "100vh" : "auto")};
+  backdrop-filter: ${(props) => (props.open ? "blur(15px)" : "0")};
+  width: ${(props) => (props.open ? "100vw" : "auto")};
+  height: ${(props) => (props.open ? "100vh" : "auto")};
   transition: ${(props) =>
-    props.open === "true" ? "backdrop-filter 0.3s ease-in-out" : "none"};
+    props.open ? "backdrop-filter 0.3s ease-in-out" : "none"};
   mask-image: ${(props) =>
-    props.open === "true"
+    props.open
       ? "linear-gradient(to bottom, #000000 0%, #000000 50%, #000000a3 75%, #00000045 100%)"
       : "none"};
 `;
 const StyledBtnMobile = styled(motion.button)<{
-  open: string;
+  open: boolean;
 }>`
   all: unset;
   display: flex;
@@ -58,7 +58,7 @@ const StyledBtnMobile = styled(motion.button)<{
   }
 
   ${(props) =>
-    props.open === "true" &&
+    props.open &&
     `
   background-color: ${colors.blackLight};
   &:hover {
@@ -122,22 +122,22 @@ const StyledDivContactMobile = styled.div`
 
 const StyledLinkContactMobile = styled(motion.a)<{
   dark: string;
-  open: string;
+  open: boolean;
 }>`
   display: flex; // Centers the icon
   justify-content: center; // Centers the icon horizontally
   align-items: center; // Centers the icon vertically
   background-color: ${(props) =>
-    props.dark === "true" ? colors.white : colors.accentLight};
+    props.dark ? colors.white : colors.accentLight};
   padding: 12px 10px 10px 10px;
   border-radius: 25px;
   width: 55px;
   height: 55px;
   margin-bottom: 1rem;
-  cursor: ${(props) => (props.open === "true" ? "default" : "pointer")};
+  cursor: ${(props) => (props.open ? "default" : "pointer")};
 
   ${(props) =>
-    props.open === "false" &&
+    !props.open &&
     `
   &:hover {
     background-color: ${colors.accent};
@@ -219,7 +219,7 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
         <LogoIcon dark={topDark} />
       </StyledImageWrapper>
       <StyledNavMobile
-        open={isMenuOpen.toString()}
+        open={isMenuOpen}
         dark={dark.toString()}
         onClick={() => setIsMenuOpen(false)}
       >
@@ -228,7 +228,7 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
             e.stopPropagation();
             setIsMenuOpen(!isMenuOpen);
           }}
-          open={isMenuOpen.toString()}
+          open={isMenuOpen}
           animate={topControls}
         >
           {isMenuOpen ? (
@@ -256,7 +256,7 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
         {links.length > 0 && (
           <StyledDivContactMobile>
             <StyledLinkContactMobile
-              open={isMenuOpen.toString()}
+              open={isMenuOpen}
               dark={dark.toString()}
               onClick={isMenuOpen ? undefined : openContactModal}
               animate={bottomControls}
