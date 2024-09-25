@@ -70,4 +70,4 @@ function Skills({ categories }: ISkills) {
   );
 }
 
-export default memo(Skills);
+export default Skills;

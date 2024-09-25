@@ -19,25 +19,9 @@ interface IIndex {
 
 export default function Index({ siteData, pageData }: IIndex) {
   const { page, skillCategories } = pageData;
-  // const [dark, setDark] = useState(false);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     setDark(window.scrollY > 20);
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   // Clean up the event listener when the component unmounts
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
 
   return (
     <Layout pageTitle={page.title} siteData={siteData} isHomePage={true}>
-      {/* <Navbar dark={dark} /> */}
-
       {/* Hero section */}
       <Hero title={page.homeFields.heroTitle} />
 

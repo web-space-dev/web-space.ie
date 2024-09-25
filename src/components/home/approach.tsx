@@ -267,10 +267,6 @@ function Approach({ items }: ApproachProps) {
     isDesktop ? (isInView ? [500, -horizontalWidth] : [500, 500]) : [0, 0]
   );
   const cappedTransform = useMotionValue(Math.min(transform.get(), 850));
-  const smoothCappedTransform = useSpring(cappedTransform, {
-    stiffness: 80,
-    damping: 20,
-  });
 
   useEffect(() => {
     cardsRef.current = cardsRef.current.slice(0, items.length + 1);
@@ -309,7 +305,7 @@ function Approach({ items }: ApproachProps) {
             />
             <StyledMotionWrapper
               ref={horizontalRef}
-              style={{ x: smoothCappedTransform }}
+              style={{ x: cappedTransform }}
             >
               <Cards items={items} cardsRef={cardsRef} />
             </StyledMotionWrapper>
@@ -329,7 +325,7 @@ function Approach({ items }: ApproachProps) {
   );
 }
 
-export default memo(Approach);
+export default Approach;
 
 const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
   const isDesktop = useIsDesktop();
