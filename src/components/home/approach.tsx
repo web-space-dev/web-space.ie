@@ -5,19 +5,16 @@ import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
 import Pill from "../global/pill";
 import {
-  cubicBezier,
-  easeIn,
   motion,
   useInView,
   useMotionValue,
+  useSpring,
   useTransform,
 } from "framer-motion";
-import { IconButton } from "../global/iconButton";
+import { IconButton, StyledArrowDownRight } from "../global/iconButton";
 import { PillIconButton } from "../global/pillIconButton";
-import Link from "next/link";
 import { getRemSize } from "../../styles/globalCss";
 import useIsDesktop from "../../hooks/useIsDesktop";
-import ArrowUpRight from "../../icons/arrowUpRight";
 import useScrollProgress from "../../hooks/useScrollProgress";
 import useIsIntersecting from "../../hooks/useIsIntersecting";
 
@@ -28,8 +25,10 @@ interface ApproachProps {
 const StyledSpacer = styled.div<{ height: number }>`
   height: ${({ height }) => height}px;
   visibility: hidden;
+  margin-top: -150vh;
 
   @media all and (max-width: ${breakpoints.md}px) {
+    margin-top: 0;
     height: 100%;
     margin-bottom: 350px;
   }
@@ -60,6 +59,7 @@ const StyledMotionWrapper = styled(motion.div)`
   overflow: auto;
   position: absolute;
   top: 140px;
+  /* left: 200px; */
   bottom: 0;
   @media all and (max-width: ${breakpoints.md}px) {
     height: fit-content;
@@ -196,11 +196,11 @@ const SmallerIconButton = styled.div`
   width: 3rem;
   height: 3rem;
   margin-right: 10px;
-  & > * {
+  /* & button {
     width: 100%;
     height: 100%;
     transform: scale(0.7);
-  }
+  } */
 `;
 
 interface IStyledApproachBorder {
@@ -243,6 +243,7 @@ interface StyledCardProps {
   marginLeft?: string;
 }
 
+// @TODO - fix on middle screens scrolling stuff
 function Approach({ items }: ApproachProps) {
   const ghostRef = useRef(null);
   const horizontalRef = useRef(null);
@@ -253,24 +254,17 @@ function Approach({ items }: ApproachProps) {
   const borderRightRef = useRef();
   const cardsRef = useRef([]);
 
-  const horizontalWidth = 4800;
+  const horizontalWidth = 5200;
   const isDesktop = useIsDesktop();
 
-  // const scrollProgress = useScrollProgress(ghostRef);
   const scrollProgress = useScrollProgress(ghostRef);
 
   const isInView = useInView(wrapperRef, { amount: 0 });
 
-  // a use effect to console log isInView
-  useEffect(() => {
-    console.log(isInView);
-  }, [isInView]);
-
   const transform = useTransform(
     scrollProgress,
     [0, 1],
-    isInView && isDesktop ? [0, -horizontalWidth] : [0, 0],
-    { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
+    isDesktop ? (isInView ? [500, -horizontalWidth] : [500, 500]) : [0, 0]
   );
   const cappedTransform = useMotionValue(Math.min(transform.get(), 850));
 
@@ -291,7 +285,7 @@ function Approach({ items }: ApproachProps) {
 
   useEffect(() => {
     const unsubscribe = transform.onChange((value) => {
-      cappedTransform.set(Math.max(value, -3870));
+      cappedTransform.set(Math.max(value, -4200));
     });
 
     return unsubscribe;
@@ -303,27 +297,48 @@ function Approach({ items }: ApproachProps) {
         <StyledHeadingWrapper>
           <StyledHeading2>Our Approach</StyledHeading2>
         </StyledHeadingWrapper>
-        <StyledApproachBorderLeft
-          ref={borderLeftRef}
-          isVisible={isLeftIntersecting}
-        />
-        <StyledMotionWrapper ref={horizontalRef} style={{ x: cappedTransform }}>
-          <Cards items={items} cardsRef={cardsRef} />
-        </StyledMotionWrapper>
-        <StyledApproachBorderRight
-          ref={borderRightRef}
-          isVisible={isRightIntersecting}
-        />
+        {isDesktop ? (
+          <>
+            <StyledApproachBorderLeft
+              ref={borderLeftRef}
+              isVisible={isLeftIntersecting}
+            />
+            <StyledMotionWrapper
+              ref={horizontalRef}
+              style={{ x: cappedTransform }}
+            >
+              <Cards items={items} cardsRef={cardsRef} />
+            </StyledMotionWrapper>
+            <StyledApproachBorderRight
+              ref={borderRightRef}
+              isVisible={isRightIntersecting}
+            />
+          </>
+        ) : (
+          <StyledMotionWrapper ref={horizontalRef}>
+            <Cards items={items} cardsRef={cardsRef} />
+          </StyledMotionWrapper>
+        )}
       </StyledWrapper>
       <StyledSpacer ref={ghostRef} height={horizontalWidth} />
     </div>
   );
 }
 
-export default memo(Approach);
+export default Approach;
 
 const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
   const isDesktop = useIsDesktop();
+
+  const scrollToBottom = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <>
       {items.map((item, index) => (
@@ -345,18 +360,20 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
         <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
           <StyledParagraphWrapper>
             <StyledParagraphText>
-              Check out <br /> our work.
+              Interested? <br /> Let's have a chat.
             </StyledParagraphText>
           </StyledParagraphWrapper>
           <SmallerIconButton>
-            <Link href="/projects">
-              <IconButton />
-            </Link>
+            {/* <Link href="#" onClick={scrollToBottom}> */}
+            <div onClick={scrollToBottom}>
+              <IconButton direction="down" />
+            </div>
+            {/* </Link> */}
           </SmallerIconButton>
         </StyledCardPill>
       ) : (
-        <PillIconButton text="Check out more" onClick={() => {}}>
-          <ArrowUpRight />
+        <PillIconButton text="Get in touch" onClick={scrollToBottom}>
+          <StyledArrowDownRight />
         </PillIconButton>
       )}
     </>

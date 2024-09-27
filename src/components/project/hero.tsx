@@ -14,6 +14,7 @@ import ArrowUpRight from "../../icons/arrowUpRight";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import AnimateInView from "../global/animation/animateInView";
 
 const StyledDivImage = styled.div`
   overflow: hidden;
@@ -25,7 +26,7 @@ const StyledDivImage = styled.div`
   z-index: -1;
   border-radius: 0px 0px 20px 20px;
 
-  & img {
+  & div img {
     width: auto;
     height: inherit;
     object-fit: cover;
@@ -43,9 +44,8 @@ const StyledDivImage = styled.div`
   }
 
   @media (max-width: ${breakpoints.md}px) {
-    height: 650px;
-    & img {
-      height: 100%;
+    & div img {
+      height: 650px;
     }
   }
 `;
@@ -168,6 +168,7 @@ const StyledProjectFieldValue = styled.p`
   margin: 0px;
   padding: 0px 0px 6px 0px;
   line-height: 0.67;
+  text-wrap: nowrap;
 
   @media (max-width: 1100px) {
     font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
@@ -220,7 +221,7 @@ const StyledArrowUpRight = styled(ArrowUpRight)`
   }
 `;
 
-const StyledOutlineArrowButton = styled.div`
+const StyledOutlineArrowButton = styled(Link)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -339,52 +340,58 @@ export function Hero({ project }: Props) {
       <Col span={12}>
         <StyledProjectFieldsDiv>
           <StyledProjectField>
-            <StyledProjectFieldName>
-              {project.projectFields.stat1.field}
-            </StyledProjectFieldName>
-            <StyledProjectFieldValue>
-              {project.projectFields.stat1.link ? (
-                <Link href={project.projectFields.stat1.link} target="_blank">
-                  {project.projectFields.stat1.value}
+            <AnimateInView>
+              <StyledProjectFieldName>
+                {project.projectFields.stat1.field}
+              </StyledProjectFieldName>
+              <StyledProjectFieldValue>
+                {project.projectFields.stat1.link ? (
+                  <Link href={project.projectFields.stat1.link} target="_blank">
+                    {project.projectFields.stat1.value}
 
-                  <StyledArrowUpRight className="styled-icon" fill="#fff" />
-                </Link>
-              ) : (
-                project.projectFields.stat1.value
-              )}
-            </StyledProjectFieldValue>
+                    <StyledArrowUpRight className="styled-icon" fill="#fff" />
+                  </Link>
+                ) : (
+                  project.projectFields.stat1.value
+                )}
+              </StyledProjectFieldValue>
+            </AnimateInView>
           </StyledProjectField>
           <StyledProjectField>
-            <StyledProjectFieldName>
-              {project.projectFields.stat2.field}
-            </StyledProjectFieldName>
-            <StyledProjectFieldValue>
-              {project.projectFields.stat2.link ? (
-                <Link href={project.projectFields.stat2.link} target="_blank">
-                  {project.projectFields.stat2.value}
+            <AnimateInView>
+              <StyledProjectFieldName>
+                {project.projectFields.stat2.field}
+              </StyledProjectFieldName>
+              <StyledProjectFieldValue>
+                {project.projectFields.stat2.link ? (
+                  <Link href={project.projectFields.stat2.link} target="_blank">
+                    {project.projectFields.stat2.value}
 
-                  <StyledArrowUpRight className="styled-icon" fill="#fff" />
-                </Link>
-              ) : (
-                project.projectFields.stat2.value
-              )}
-            </StyledProjectFieldValue>
+                    <StyledArrowUpRight className="styled-icon" fill="#fff" />
+                  </Link>
+                ) : (
+                  project.projectFields.stat2.value
+                )}
+              </StyledProjectFieldValue>
+            </AnimateInView>
           </StyledProjectField>
           <StyledProjectField>
-            <StyledProjectFieldName>
-              {project.projectFields.stat3.field}
-            </StyledProjectFieldName>
-            <StyledProjectFieldValue>
-              {project.projectFields.stat3.link ? (
-                <Link href={project.projectFields.stat3.link} target="_blank">
-                  {project.projectFields.stat3.value}
+            <AnimateInView>
+              <StyledProjectFieldName>
+                {project.projectFields.stat3.field}
+              </StyledProjectFieldName>
+              <StyledProjectFieldValue>
+                {project.projectFields.stat3.link ? (
+                  <Link href={project.projectFields.stat3.link} target="_blank">
+                    {project.projectFields.stat3.value}
 
-                  <StyledArrowUpRight className="styled-icon" fill="#fff" />
-                </Link>
-              ) : (
-                project.projectFields.stat3.value
-              )}
-            </StyledProjectFieldValue>
+                    <StyledArrowUpRight className="styled-icon" fill="#fff" />
+                  </Link>
+                ) : (
+                  project.projectFields.stat3.value
+                )}
+              </StyledProjectFieldValue>
+            </AnimateInView>
           </StyledProjectField>
         </StyledProjectFieldsDiv>
       </Col>
@@ -395,10 +402,15 @@ export function Hero({ project }: Props) {
               <span>{tag.name}</span>
             </StyledTag>
           ))}
-          <StyledOutlineArrowButton>
-            Website
-            <StyledArrowUpRight className="styled-icon" />
-          </StyledOutlineArrowButton>
+          {project.projectFields.cta?.buttonName &&
+            project.projectFields.cta?.buttonUrl && (
+              <StyledOutlineArrowButton
+                href={project.projectFields.cta.buttonUrl}
+              >
+                {project.projectFields.cta.buttonName}
+                <StyledArrowUpRight className="styled-icon" />
+              </StyledOutlineArrowButton>
+            )}
         </StyledTagsWrapper>
       </Col>
     </>

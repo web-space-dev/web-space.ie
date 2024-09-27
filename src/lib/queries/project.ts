@@ -37,6 +37,10 @@ query PostBySlug($slug: String!) {
         value
         link
       }
+      cta {
+        buttonName
+        buttonUrl
+      }
       content {
         fieldGroupName
         ... on ProjectFieldsContentLargeTextAreaLayout {

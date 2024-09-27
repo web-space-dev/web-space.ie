@@ -8,7 +8,8 @@ import { css } from "@emotion/react";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import useIsDesktop from "../../hooks/useIsDesktop";
-import { delay, motion, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import AnimateInView from "../global/animation/animateInView";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px 0;
@@ -17,13 +18,17 @@ const StyledWrapper = styled(GridContainer)`
 const StyledTitle = styled(motion.h2)`
   font-size: ${getRemSize(dimensions.headingSizes.medium.mobile)};
   font-weight: 400;
+  @media all and (max-width: 1200px) {
+    font-size: ${getRemSize(dimensions.headingSizes.medium.mobile - 10)};
+  }
+
   @media all and (max-width: ${breakpoints.md}px) {
     grid-column: 1 / span 12;
     margin-bottom: 0px;
   }
 `;
 
-const StyledProcessList = styled(motion.ul)`
+const StyledProcessList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
@@ -33,6 +38,10 @@ const StyledProcessListTitle = styled.h3`
   margin-top: 0;
   font-size: ${getRemSize(dimensions.headingSizes.large.desktop)};
   transition: 0.3s ease-in-out;
+  @media all and (max-width: 1200px) {
+    font-size: ${getRemSize(dimensions.headingSizes.large.desktop - 30)};
+  }
+
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
     font-weight: 400;
@@ -58,6 +67,8 @@ const StyledProcessItemExpand = styled.div<IStyledProcessItemExpand>`
   opacity: 0;
   overflow: hidden;
   transition: 0.3s ease-in-out;
+  display: flex;
+  flex-wrap: wrap;
   @media all and (max-width: ${breakpoints.md}px) {
     margin: 8px 0 32px 0;
     display: flex;
@@ -77,30 +88,6 @@ const StyledProcessItemExpand = styled.div<IStyledProcessItemExpand>`
     `}
 `;
 
-const marginLeftValues = [
-  "0px",
-  "30px",
-  "00px",
-  "30px",
-  "60px",
-  "30px",
-  "30px",
-  "60px",
-  "30px",
-];
-const marginRightValues = [
-  "13px",
-  "56px",
-  "0px",
-  "91px",
-  "18px",
-  "62px",
-  "76px",
-  "61px",
-  "0px",
-  "0px",
-];
-
 const StyledPillNumber = styled.span`
   background-color: ${colors.white};
   color: ${colors.black};
@@ -111,6 +98,9 @@ const StyledPillNumber = styled.span`
   height: 33px;
   margin: 0 10px;
   letter-spacing: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const StyledPillText = styled.span`
@@ -122,7 +112,7 @@ const StyledPill = styled.span<{ index: number }>`
   /* color: ${colors.black}; */
   padding: 10px 30px 12px 30px;
   margin: 0px 16px;
-  border-radius: 50px;
+  width: fit-content;
   font-weight: 500;
   letter-spacing: 2px;
   display: flex;
@@ -247,7 +237,7 @@ function WhatWeDo({ items }: WhatWeDoProps) {
   return (
     <StyledWrapper>
       <Row>
-        <Col start={1} span={2} spanMobile={6}>
+        <Col start={1} span={2} spanTablet={6} spanMobile={6}>
           <StyledTitle
             ref={ref}
             initial="closed"
@@ -258,21 +248,15 @@ function WhatWeDo({ items }: WhatWeDoProps) {
             What we do.
           </StyledTitle>
         </Col>
-        <Col start={3} span={10}>
-          <StyledProcessList
-            initial="closed"
-            animate={isInView ? "open" : "closed"}
-            variants={variants}
-            transition={{ delay: 1.8 }}
-          >
+        <Col start={3} span={10} spanMobile={10}>
+          <StyledProcessList>
             {itemsWithUniqueIds.map((item, index) => {
               const currentTotalPillsBefore = totalPillsBefore;
               totalPillsBefore += item.pills.length;
 
               return (
-                <motion.div key={index}>
+                <AnimateInView key={index}>
                   <ProcessItem
-                    key={index}
                     title={item.title}
                     pills={item.pills}
                     index={index}
@@ -280,7 +264,7 @@ function WhatWeDo({ items }: WhatWeDoProps) {
                     setHoverItems={setHoverItems}
                     totalPillsBefore={currentTotalPillsBefore}
                   />
-                </motion.div>
+                </AnimateInView>
               );
             })}
           </StyledProcessList>

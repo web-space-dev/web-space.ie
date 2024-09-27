@@ -1,12 +1,8 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 import { colors } from "../../styles/variables";
 import ArrowUpRight from "../../icons/arrowUpRight";
 
 const StyledIconButton = styled.button`
-  /* width: 58px;
-  height: 70px;
-  padding: 20px 14px; */
   margin: 0;
   width: 3.5rem;
   height: 3rem;
@@ -24,27 +20,34 @@ const StyledIconButton = styled.button`
     }
   }
 
-  &:hover .styled-icon {
+  &:hover .styled-up-right-icon {
     transform: rotate(45deg);
   }
 `;
 
-const StyledIcon = styled(ArrowUpRight)`
-  /* width: 30px;
-  height: 30px;
-  margin-left: -2px; */
-
+const StyledArrowUpRight = styled(ArrowUpRight)`
   transition: 0.3s ease;
 `;
 
+export const StyledArrowDownRight = styled(ArrowUpRight)`
+  transform: rotate(90deg);
+  &:hover {
+    transform: rotate(135deg);
+  }
+  transition: 0.3s ease;
+`;
 interface IconButtonProps {
-  link: string;
+  direction?: string;
 }
 
-export function IconButton() {
+export function IconButton({ direction = "upRight" }: IconButtonProps) {
   return (
     <StyledIconButton>
-      <StyledIcon className="styled-icon" />
+      {direction === "upRight" ? (
+        <StyledArrowUpRight className="styled-up-right-icon" />
+      ) : (
+        <StyledArrowDownRight className="styled-down-right-icon" />
+      )}
     </StyledIconButton>
   );
 }

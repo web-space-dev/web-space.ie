@@ -16,7 +16,6 @@ import {
   dimensions,
   MobileAndTabletOnly,
 } from "../../styles/variables";
-import Navbar from "../../components/navbar";
 import { GridContainer } from "../../components/global/grid/gridContainer";
 import { Col } from "../../components/global/grid/Col";
 import { Row } from "../../components/global/grid/Row";
@@ -265,6 +264,7 @@ export default function Index({ siteData, pageData }: IIndex) {
                               // placeholder="blur"
                               width={1440}
                               height={480}
+                              style={{ objectFit: "cover" }}
                               alt={`Cover Image for ${project.title}`}
                             />
                           </StyledImageWrapper>

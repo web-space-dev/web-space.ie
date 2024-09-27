@@ -3,24 +3,22 @@ import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { GridContainer } from "../../global/grid/gridContainer";
 import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { getRemSize } from "../../../styles/globalCss";
-import { useRef, useEffect, memo } from "react";
+import { useRef, useEffect, memo, useState } from "react";
 import { Col } from "../../global/grid/Col";
 import { Row } from "../../global/grid/Row";
 import { IShowcase } from "../showcase";
 import ShowcaseItemMobile from "./showcase-item-mobile";
 import ShowcaseItemMobileAllProjects from "./showcase-item-mobile-all-projects";
 import useScrollProgress from "../../../hooks/useScrollProgress";
+import useDebugPanel from "../../../hooks/useDebugPanel";
 
 const StyledSpacer = styled.div<{ height: number }>`
   height: ${({ height }) => height}px;
   visibility: hidden;
+  margin-top: -80vh;
 `;
 
-interface IStyledWrapper {
-  open: boolean;
-}
-
-const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
+const StyledWrapper = styled(GridContainer)`
   position: sticky;
 
   height: 100vh;
@@ -47,7 +45,7 @@ const StyledMotionWrapper = styled(motion.div)`
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 50px;
+  left: 5px;
 `;
 
 const StyledItemContainer = styled.div`
@@ -85,55 +83,65 @@ function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
   const ghostRef = useRef(null);
   const horizontalRef = useRef(null);
   const wrapperRef = useRef(null);
-  const horizontalWidth = 2500;
+  const horizontalWidth = 3000;
 
   const scrollProgress = useScrollProgress(ghostRef);
 
-  const isInView = useInView(wrapperRef);
+  const isInView = useInView(wrapperRef, { amount: 0.1 });
 
   const transform = useTransform(
     scrollProgress,
     [0, 1],
     isInView ? [0, -horizontalWidth] : [0, 0]
   );
-  const cappedTransform = useMotionValue(Math.min(transform.get(), 550));
+  const cappedTransform = useMotionValue(Math.min(transform.get(), 250));
 
   const textOpacityTransform = useTransform(scrollProgress, [0, 0.1], [1, 0]);
 
+  const [cappedTransformValue, setCappedTransformValue] = useState(
+    cappedTransform.get()
+  );
+
   useEffect(() => {
     const unsubscribe = transform.onChange((value) => {
-      cappedTransform.set(Math.max(value, -1465));
+      cappedTransform.set(Math.max(value, -1410));
+      setCappedTransformValue(Math.max(value, -1410));
     });
 
     return unsubscribe;
   }, [transform, cappedTransform]);
 
   return (
-    <div style={{ position: "relative" }}>
-      <StyledWrapper open={false} ref={wrapperRef}>
-        <Row>
-          <Col start={1} span={12}>
-            <StyledTitle
-              color={false ? colors.accent : colors.white}
-              style={{ opacity: textOpacityTransform }}
-            >
-              {title}
-            </StyledTitle>
-          </Col>
-        </Row>
+    <>
+      <div style={{ position: "relative" }}>
+        <StyledWrapper ref={wrapperRef}>
+          <Row>
+            <Col start={1} span={12}>
+              <StyledTitle
+                color={false ? colors.accent : colors.white}
+                style={{ opacity: textOpacityTransform }}
+              >
+                {title}
+              </StyledTitle>
+            </Col>
+          </Row>
 
-        <StyledMotionWrapper ref={horizontalRef} style={{ x: cappedTransform }}>
-          <StyledItemContainer>
-            <StyledMobileSpacer />
-            {projects.nodes.map((project, index: number) => {
-              return <ShowcaseItemMobile key={index} project={project} />;
-            })}
-            <ShowcaseItemMobileAllProjects />
-          </StyledItemContainer>
-        </StyledMotionWrapper>
-      </StyledWrapper>
-      <StyledSpacer ref={ghostRef} height={horizontalWidth} />
-    </div>
+          <StyledMotionWrapper
+            ref={horizontalRef}
+            style={{ x: cappedTransform }}
+          >
+            <StyledItemContainer>
+              <StyledMobileSpacer />
+              {projects.nodes.map((project, index: number) => {
+                return <ShowcaseItemMobile key={index} project={project} />;
+              })}
+              <ShowcaseItemMobileAllProjects />
+            </StyledItemContainer>
+          </StyledMotionWrapper>
+        </StyledWrapper>
+        <StyledSpacer ref={ghostRef} height={horizontalWidth} />
+      </div>
+    </>
   );
 }
 

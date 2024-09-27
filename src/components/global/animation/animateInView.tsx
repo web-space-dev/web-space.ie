@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 
-const variants = {
+const defaultVariants = {
   open: {
     y: 0,
     opacity: 1,
@@ -22,6 +22,7 @@ interface AnimateInViewProps {
   children: React.ReactNode;
   initial?: string;
   animate?: string;
+  variants?: any;
   className?: string;
 }
 
@@ -29,6 +30,7 @@ const AnimateInView: React.FC<AnimateInViewProps> = ({
   children,
   initial = "closed",
   animate = "open",
+  variants = defaultVariants,
   className,
 }) => {
   const controls = useAnimation();

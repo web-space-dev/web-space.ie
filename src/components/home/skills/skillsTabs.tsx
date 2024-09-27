@@ -21,11 +21,11 @@ const StyledLogoWrapper = styled(motion.div)`
   align-content: center;
 
   & img {
-    /* margin: 10px; */
     border-radius: 14px;
   }
 
   @media (max-width: 1200px) {
+    margin: 20px 0;
     & img {
       width: 120px;
       height: 120px;
@@ -58,24 +58,40 @@ const StyledLogoWrapper = styled(motion.div)`
 `;
 
 const Popup = styled(motion.div)`
-  position: absolute;
-  bottom: -50px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  transform: translateX(-50%);
-  background-color: ${colors.black};
   color: ${colors.white};
   padding: 5px 10px;
-  border-radius: 5px;
-  white-space: nowrap;
+  border-radius: 14px;
   z-index: 10;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  text-align: center;
+  color: #f8f8f8;
+  padding: 5px 10px;
+  border-radius: 5px;
+
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+
+  @media (max-width: ${breakpoints.sm}px) {
+    left: -40%;
+    top: unset;
+    width: 150px;
+    padding: 0;
+  }
 `;
 
 const StyledPopupLink = styled(Link)`
   padding: 0 5px;
   display: flex;
   width: fit-content;
+  flex-wrap: wrap;
+  justify-content: center;
   :hover {
     color: ${colors.white};
   }

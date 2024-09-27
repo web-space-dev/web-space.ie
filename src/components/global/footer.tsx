@@ -7,7 +7,7 @@ import ChatIcon from "../../icons/chatIcon";
 import Image from "next/image";
 import Link from "next/link";
 import { getRemSize } from "../../styles/globalCss";
-import eoanPicture from "../../../public/eoan-picture.png";
+import eoanPicture from "../../../public/eoan-picture-2.png";
 import {
   StyledParagraphWrapper as OriginalStyledParagraphWrapper,
   StyledParagraphText as OriginalStyledParagraphText,
@@ -113,18 +113,16 @@ const StyledTextSpacer = styled.span`
 `;
 
 const StyledImage = styled(Image)`
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   margin-left: 25px;
+  margin-top: -15px;
   vertical-align: middle;
   position: relative;
-  /* top: -10px; */
 
   @media all and (max-width: ${breakpoints.md}px) {
     width: 60px;
     height: 60px;
-    top: -5px;
-    /* top: -14px; */
   }
 
   @media all and (max-width: ${breakpoints.sm}px) {
@@ -351,7 +349,7 @@ export default function Footer({ setFooterInView }: IProps) {
   };
 
   return (
-    <StyledFooter ref={footerRef}>
+    <StyledFooter ref={footerRef} id="footer">
       <StyledWrapper>
         <Row>
           <Col start={2} span={10}>
