@@ -63,7 +63,9 @@ const StyledShowcaseContent = styled.div`
   p {
     margin: 0 15px;
   }
-
+  @media all and (max-width: 1024px) {
+    width: 60%;
+  }
   @media all and (max-width: ${breakpoints.md}px) {
     width: 80%;
   }

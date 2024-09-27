@@ -20,6 +20,13 @@ const StyledGalleryWrapper = styled.div`
   @media (min-width: ${breakpoints.md}px) {
     margin-bottom: 120px;
   }
+  @media (max-width: ${breakpoints.md}px) {
+    max-width: 98%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const StyledImagesWrapper = styled.div`
@@ -40,7 +47,7 @@ const StyledImagesWrapper = styled.div`
   }
 
   @media (min-width: ${breakpoints.sm}px) {
-    height: 472px;
+    height: 100%;
   }
 
   @media (min-width: 900px) {
@@ -78,7 +85,8 @@ const StyledButtonsWrapper = styled(motion.div)`
   z-index: 2;
 
   @media all and (max-width: ${breakpoints.md}px) {
-    display: none;
+    /* display: none; */
+    bottom: 80px;
   }
 `;
 
