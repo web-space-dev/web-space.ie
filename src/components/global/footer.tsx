@@ -402,7 +402,7 @@ export default function Footer({ setFooterInView }: IProps) {
         </Row>
       </StyledWrapper>
       <StyledLinkWrapper>
-        <Link href="#">Legal Information</Link>
+        <Link href="/privacy-policy">Privacy & Legal Information</Link>
         <Link href="#">@WebSpace 2021</Link>
       </StyledLinkWrapper>
       <StyledSlider>

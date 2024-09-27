@@ -10,6 +10,7 @@ import { IShowcase } from "../showcase";
 import ShowcaseItemDesktop from "./showcase-item-desktop";
 import ShowcaseItemFinalDesktop from "./showcase-item-final-desktop";
 import AnimateInView from "../../global/animation/animateInView";
+import ShowcaseGalleryDesktop from "./showcase-gallery-desktop";
 
 const StyledGridContainer = styled(GridContainer)`
   height: 100vh;
@@ -55,9 +56,7 @@ const StyledMotionWrapper = styled(motion.div)<{ scroll: string }>`
   bottom: 0;
   left: 0;
   width: 100%;
-  overflow-y: scroll;
-  ${({ scroll }) =>
-    scroll === "true" ? `overflow-y: scroll;` : `overflow: hidden;`}
+  overflow-y: hidden;
   @media all and (max-width: ${breakpoints.sm}px) {
     display: flex;
     align-items: center;
@@ -136,6 +135,14 @@ function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
           setCanScale(false);
           setFromStart(false);
         }
+
+        if (scrollY.get() < beginScalePos && isOpen) {
+          setCanScale(true);
+          setIsOpen(false);
+          setCanSnapScroll(false);
+          setBreakpoint(0);
+          setFromStart(true);
+        }
       }
     };
 
@@ -167,14 +174,6 @@ function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
     };
   }, [ref]);
 
-  // useEffect(() => {
-  //   if (inView &&isOpen) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "auto";
-  //   }
-  // }, [isOpen]);
-
   const reverseScale = () => {
     setCanScale(true);
     setIsOpen(false);
@@ -195,29 +194,18 @@ function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
             </Col>
           </Row>
         </StyledGridContainer>
-        <StyledMotionWrapper scroll={inView && isOpen ? "true" : "false"}>
-          {projects.nodes.map((project, index: number) => {
-            if (index === projects.nodes.length - 1) {
-              return (
-                <ShowcaseItemFinalDesktop
-                  key={index}
-                  project={project}
-                  isOpen={isOpen}
-                />
-              );
-            }
-
-            return (
-              <ShowcaseItemDesktop
-                key={index}
-                project={project}
-                scale={index === 0 ? scale : undefined}
-                isOpen={isOpen}
-                isFirst={index === 0}
-                reverseScale={reverseScale}
-              />
-            );
-          })}
+        <StyledMotionWrapper
+          scroll={inView && isOpen ? "true" : "false"}
+          layout
+          transition={{ duration: 1 }}
+          style={scale ? { scale } : {}}
+        >
+          <ShowcaseGalleryDesktop
+            items={projects}
+            isOpen={isOpen}
+            // scale={scale}
+            // reverseScale={reverseScale}
+          />
         </StyledMotionWrapper>
       </StyledFollowingContainer>
       <StyledSpacer start={fromStart.toString()} />

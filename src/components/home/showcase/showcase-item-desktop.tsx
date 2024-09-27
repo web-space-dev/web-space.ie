@@ -7,10 +7,7 @@ import { CustomImage } from "../../global/image";
 import { MotionValue, motion } from "framer-motion";
 import { memo, useEffect, useRef, useState } from "react";
 
-interface IStyledShowcaseWrapper {
-  open: boolean;
-}
-const StyledShowcaseWrapper = styled(motion.div)<IStyledShowcaseWrapper>`
+const StyledShowcaseWrapper = styled(motion.div)`
   height: 100vh;
   display: flex;
   align-items: center;
@@ -66,7 +63,9 @@ const StyledShowcaseContent = styled.div`
   p {
     margin: 0 15px;
   }
-
+  @media all and (max-width: 1024px) {
+    width: 60%;
+  }
   @media all and (max-width: ${breakpoints.md}px) {
     width: 80%;
   }
@@ -84,86 +83,86 @@ const StyledShowcaseCategory = styled(motion.p)`
 
 interface ShowcaseItemProps {
   project: Project;
-  scale?: MotionValue;
-  isOpen: boolean;
-  isFirst: boolean;
-  reverseScale: () => void;
+  // scale?: MotionValue;
+  // isOpen: boolean;
+  // isFirst: boolean;
+  // reverseScale: () => void;
 }
 
 function ShowcaseItemDesktop({
   project,
-  scale,
-  isOpen,
-  isFirst,
-  reverseScale,
-}: ShowcaseItemProps) {
-  const ref = useRef(null);
-  const scrollRef = useRef(
-    typeof window !== "undefined"
-      ? { y: window.pageYOffset, direction: null }
-      : { y: 0, direction: null }
-  );
-  const [listening, setListening] = useState(false);
+}: // scale,
+// isOpen,
+// isFirst,
+// reverseScale,
+ShowcaseItemProps) {
+  // const ref = useRef(null);
+  // const scrollRef = useRef(
+  //   typeof window !== "undefined"
+  //     ? { y: window.pageYOffset, direction: null }
+  //     : { y: 0, direction: null }
+  // );
+  // const [listening, setListening] = useState(false);
 
-  useEffect(() => {
-    const wiggleRoom = 200;
-    const handleScrollUp = (e: WheelEvent) => {
-      if (e.deltaY < 0) {
-        scrollRef.current.y -= e.deltaY;
-        if (scrollRef.current.y > wiggleRoom) {
-          reverseScale();
-          scrollRef.current.y = 0;
-        }
-      } else {
-        scrollRef.current.y = 0;
-      }
-    };
+  // useEffect(() => {
+  //   const wiggleRoom = 200;
+  //   const handleScrollUp = (e: WheelEvent) => {
+  //     if (e.deltaY < 0) {
+  //       scrollRef.current.y -= e.deltaY;
+  //       if (scrollRef.current.y > wiggleRoom) {
+  //         reverseScale();
+  //         scrollRef.current.y = 0;
+  //       }
+  //     } else {
+  //       scrollRef.current.y = 0;
+  //     }
+  //   };
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (isFirst) {
-          if (entry.isIntersecting && !listening) {
-            // Oh also we check if the window is defined because of SSR
-            if (typeof window !== "undefined") {
-              setListening(true);
+  //   const observer = new IntersectionObserver(
+  //     ([entry]) => {
+  //       if (isFirst) {
+  //         if (entry.isIntersecting && !listening) {
+  //           // Oh also we check if the window is defined because of SSR
+  //           if (typeof window !== "undefined") {
+  //             setListening(true);
 
-              window.addEventListener("wheel", handleScrollUp);
-            }
-          } else {
-            // Element is not in view, remove the event listener
-            if (typeof window !== "undefined") {
-              window.removeEventListener("wheel", handleScrollUp);
+  //             window.addEventListener("wheel", handleScrollUp);
+  //           }
+  //         } else {
+  //           // Element is not in view, remove the event listener
+  //           if (typeof window !== "undefined") {
+  //             window.removeEventListener("wheel", handleScrollUp);
 
-              setListening(false);
-            }
-          }
-        }
-      },
-      { threshold: 1.0 }
-    );
+  //             setListening(false);
+  //           }
+  //         }
+  //       }
+  //     },
+  //     { threshold: 1.0 }
+  //   );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+  //   if (ref.current) {
+  //     observer.observe(ref.current);
+  //   }
 
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-      if (typeof window !== "undefined") {
-        // window.removeEventListener("wheel", handleScroll);
-        window.removeEventListener("wheel", handleScrollUp);
-      }
-    };
-  }, []);
+  //   return () => {
+  //     if (ref.current) {
+  //       observer.unobserve(ref.current);
+  //     }
+  //     if (typeof window !== "undefined") {
+  //       // window.removeEventListener("wheel", handleScroll);
+  //       window.removeEventListener("wheel", handleScrollUp);
+  //     }
+  //   };
+  // }, []);
 
   return (
     <StyledShowcaseWrapper
-      layout
-      transition={{ duration: 1 }}
-      open={isOpen}
-      ref={ref}
-      style={scale ? { scale } : {}}
+    // layout
+    // transition={{ duration: 1 }}
+    // open={isOpen}
+    // ref={ref}
+    // style={scale ? { scale } : {}}
     >
       <StyledShowcaseDetails>
         <StyledShowcaseImage>
@@ -188,4 +187,4 @@ function ShowcaseItemDesktop({
   );
 }
 
-export default memo(ShowcaseItemDesktop);
+export default ShowcaseItemDesktop;

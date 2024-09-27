@@ -7,12 +7,11 @@ import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
 import { motion } from "framer-motion";
 
-const StyledShowcaseWrapper = styled.div<{ open: boolean }>`
+const StyledShowcaseWrapper = styled.div`
   height: 100vh;
   display: flex;
   align-items: center;
   perspective: 500px;
-  scroll-snap-align: ${({ open }) => (open ? "start" : "none")};
 `;
 
 const StyledShowcaseDetails = styled(motion.div)`
@@ -124,15 +123,15 @@ const StyledLink = styled(Link)`
 
 interface ShowcaseItemProps {
   project: Project;
-  isOpen: boolean;
+  // isOpen: boolean;
 }
 
 export default function ShowcaseItemFinalDesktop({
   project,
-  isOpen,
-}: ShowcaseItemProps) {
+}: // isOpen,
+ShowcaseItemProps) {
   return (
-    <StyledShowcaseWrapper open={isOpen}>
+    <StyledShowcaseWrapper>
       <StyledShowcaseDetails>
         <StyledShowcaseImage>
           <Link href={`/projects/${project.slug}`}>
