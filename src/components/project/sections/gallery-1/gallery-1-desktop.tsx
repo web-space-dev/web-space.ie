@@ -76,6 +76,9 @@ const StyledButtonsWrapper = styled.div`
   bottom: 13px;
   right: 13px;
   z-index: 2;
+  border-radius: 24px;
+  background-color: #0000009e;
+  backdrop-filter: blur(15px);
 
   @media all and (max-width: ${breakpoints.md}px) {
     display: none;

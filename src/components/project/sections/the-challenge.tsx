@@ -23,9 +23,9 @@ const StyledBigWrapper = styled.div`
 
 const StyledImage = styled(motion(Image))`
   border-radius: 26px;
-  object-fit: cover;
-  width: 375px;
-  height: 774px;
+  object-fit: contain;
+  width: 475px;
+  max-height: 774px;
   position: absolute;
   @media (min-width: 1350px) {
     top: 92px;
