@@ -19,6 +19,7 @@ import { Col } from "./grid/Col";
 import React, { useEffect, useRef, useState } from "react";
 import { Contact } from "../contact";
 import { motion, useInView } from "framer-motion";
+import ArrowUpRight from "../../icons/arrowUpRight";
 
 const StyledFooter = styled.footer`
   position: relative;
@@ -163,6 +164,7 @@ const StyledLinkWrapper = styled.div`
   font-weight: 400;
   opacity: 0.5;
   margin-bottom: 17px;
+  margin-right: 20px;
   justify-content: end;
 
   & > a {
@@ -403,7 +405,16 @@ export default function Footer({ setFooterInView }: IProps) {
       </StyledWrapper>
       <StyledLinkWrapper>
         <Link href="/privacy-policy">Privacy & Legal Information</Link>
-        <Link href="#">@WebSpace 2021</Link>
+
+        <Link
+          href=""
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+        >
+          Back to Top
+        </Link>
+        <span>&copy; WebSpace {new Date().getFullYear()} </span>
       </StyledLinkWrapper>
       <StyledSlider>
         <StyledSlideTrack>
