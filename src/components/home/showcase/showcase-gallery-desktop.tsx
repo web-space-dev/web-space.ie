@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import React, { useState, useRef } from "react";
 
 import styled from "@emotion/styled";
 import { motion, AnimatePresence, MotionValue } from "framer-motion";
@@ -7,10 +6,7 @@ import { wrap } from "popmotion";
 
 import { Projects } from "../../../interfaces/project";
 import { breakpoints, colors } from "../../../styles/variables";
-import ShowcaseItemFinalDesktop from "./showcase-item-final-desktop";
 import ShowcaseItemDesktop from "./showcase-item-desktop";
-import ArrowLeft from "../../../icons/arrowLeft";
-import ArrowRight from "../../../icons/arrowRight";
 
 const StyledGalleryWrapper = styled.div`
   position: relative;
