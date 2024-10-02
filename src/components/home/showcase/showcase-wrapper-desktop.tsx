@@ -2,15 +2,13 @@ import { useState, useRef, useEffect, memo } from "react";
 import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { GridContainer } from "../../global/grid/gridContainer";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { getRemSize } from "../../../styles/globalCss";
 import { Col } from "../../global/grid/Col";
 import { Row } from "../../global/grid/Row";
 import { IShowcase } from "../showcase";
-import ShowcaseItemDesktop from "./showcase-item-desktop";
-import ShowcaseItemFinalDesktop from "./showcase-item-final-desktop";
-import AnimateInView from "../../global/animation/animateInView";
 import ShowcaseGalleryDesktop from "./showcase-gallery-desktop";
+import useScrollProgress from "../../../hooks/useScrollProgress";
 
 const StyledGridContainer = styled(GridContainer)`
   height: 100vh;
@@ -21,7 +19,7 @@ const StyledGridContainer = styled(GridContainer)`
   }
 `;
 
-const StyledSpacer = styled.div<{ start: string }>`
+const StyledSpacer = styled.div`
   height: 250vh;
 `;
 
@@ -50,7 +48,7 @@ const StyledFollowingContainer = styled.div<IStyledWrapper>`
   }
 `;
 
-const StyledMotionWrapper = styled(motion.div)<{ scroll: string }>`
+const StyledMotionWrapper = styled(motion.div)`
   position: absolute;
   top: 0;
   bottom: 0;
@@ -69,7 +67,6 @@ const StyledTitle = styled.h2<{ color: string }>`
   margin-top: 0;
   font-size: ${getRemSize(dimensions.headingSizes.display2.desktop)};
   text-align: center;
-  /* grid-column: 1 / span 12; */
   line-height: 200px;
   color: ${({ color }) => color};
 
@@ -101,86 +98,26 @@ const StyledTitle = styled.h2<{ color: string }>`
 
 function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   const [isOpen, setIsOpen] = useState(false);
-  const [canScale, setCanScale] = useState(false);
-  const [canSnapScroll, setCanSnapScroll] = useState(false);
-  const [breakpoint, setBreakpoint] = useState(0);
-  const [beginScalePos, setBeginScalePos] = useState(0);
-  const [fromStart, setFromStart] = useState(true);
-  const [inView, setInView] = useState(false);
+  // const [inView, setInView] = useState(false);
 
   const ref = useRef(null);
-  const { scrollY } = useScroll();
-  const scale = useTransform(
-    scrollY,
-    [beginScalePos, beginScalePos + 1200],
-    canScale ? [0.1, 1] : canSnapScroll ? [1, 1] : [0.1, 0.1]
-  );
+  const ghostRef = useRef(null);
+  const isInView = useInView(ref, { amount: 1, once: true });
+
+  const scrollProgress = useScrollProgress(ghostRef);
+  const scale = useTransform(scrollProgress, [0, 0.4], [0.1, 1]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (ref.current) {
-        const { bottom } = ref.current.getBoundingClientRect();
-
-        if (bottom - window.innerHeight < 1 && !breakpoint) {
-          setCanScale(true);
-          if (beginScalePos === 0) {
-            setBeginScalePos(scrollY.get());
-          }
-        }
-
-        if (scale.get() === 1 && breakpoint === 0) {
-          setIsOpen(true);
-          setCanSnapScroll(true);
-          setBreakpoint(scrollY.get());
-          setCanScale(false);
-          setFromStart(false);
-        }
-
-        if (scrollY.get() < beginScalePos && isOpen) {
-          setCanScale(true);
-          setIsOpen(false);
-          setCanSnapScroll(false);
-          setBreakpoint(0);
-          setFromStart(true);
-        }
+    const unsubscribe = scale.onChange((value) => {
+      if (value === 1) {
+        setIsOpen(true);
+      } else {
+        setIsOpen(false);
       }
-    };
+    });
 
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [breakpoint, beginScalePos]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setInView(entry.isIntersecting);
-      },
-      {
-        threshold: 1.0, // Ensure the entire section is in view
-      }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [ref]);
-
-  const reverseScale = () => {
-    setCanScale(true);
-    setIsOpen(false);
-    setCanSnapScroll(false);
-    setBreakpoint(0);
-    setFromStart(true);
-  };
+    return () => unsubscribe();
+  }, [scale]);
 
   return (
     <StyledWrapper open={isOpen}>
@@ -195,20 +132,14 @@ function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
           </Row>
         </StyledGridContainer>
         <StyledMotionWrapper
-          scroll={inView && isOpen ? "true" : "false"}
           layout
           transition={{ duration: 1 }}
           style={scale ? { scale } : {}}
         >
-          <ShowcaseGalleryDesktop
-            items={projects}
-            isOpen={isOpen}
-            // scale={scale}
-            // reverseScale={reverseScale}
-          />
+          <ShowcaseGalleryDesktop items={projects} isOpen={isOpen} />
         </StyledMotionWrapper>
       </StyledFollowingContainer>
-      <StyledSpacer start={fromStart.toString()} />
+      <StyledSpacer ref={ghostRef} />
     </StyledWrapper>
   );
 }

@@ -179,26 +179,16 @@ IProps) {
               }
             }}
           >
-            {imageIndex === items.nodes.length - 1 ? (
-              <ShowcaseItemFinalDesktop
-                // key={index}
-                project={items.nodes[imageIndex]}
-                // isOpen={isOpen}
-              />
-            ) : (
-              <ShowcaseItemDesktop
-                // key={index}
-                project={items.nodes[imageIndex]}
-                // scale={imageIndex === 0 ? scale : undefined}
-                // isOpen={isOpen}
-                // isFirst={imageIndex === 0}
-                // reverseScale={reverseScale}
-              />
-            )}
+            <ShowcaseItemDesktop
+              project={items.nodes[imageIndex]}
+              isFirst={imageIndex === 0}
+              isLast={imageIndex === items.nodes.length - 1}
+              paginate={paginate}
+            />
           </StyledImage>
         </AnimatePresence>
       </StyledImagesWrapper>
-      {isOpen && (
+      {/* {isOpen && (
         <StyledButtonsWrapper>
           <StyledArrowButton
             onClick={(e) => {
@@ -217,7 +207,7 @@ IProps) {
             <ArrowRight />
           </StyledArrowButton>
         </StyledButtonsWrapper>
-      )}
+      )} */}
     </StyledGalleryWrapper>
   );
 }
