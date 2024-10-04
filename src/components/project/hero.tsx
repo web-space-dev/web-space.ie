@@ -103,7 +103,7 @@ const StyledTitleRow = styled(motion(Row))`
 
 const StyledProjectFieldsDiv = styled.div`
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   background-color: transparent;
 
