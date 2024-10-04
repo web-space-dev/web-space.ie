@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import React, { useState, useRef } from "react";
 
 import styled from "@emotion/styled";
 import { motion, AnimatePresence, MotionValue } from "framer-motion";
@@ -7,10 +6,7 @@ import { wrap } from "popmotion";
 
 import { Projects } from "../../../interfaces/project";
 import { breakpoints, colors } from "../../../styles/variables";
-import ShowcaseItemFinalDesktop from "./showcase-item-final-desktop";
 import ShowcaseItemDesktop from "./showcase-item-desktop";
-import ArrowLeft from "../../../icons/arrowLeft";
-import ArrowRight from "../../../icons/arrowRight";
 
 const StyledGalleryWrapper = styled.div`
   position: relative;
@@ -179,26 +175,16 @@ IProps) {
               }
             }}
           >
-            {imageIndex === items.nodes.length - 1 ? (
-              <ShowcaseItemFinalDesktop
-                // key={index}
-                project={items.nodes[imageIndex]}
-                // isOpen={isOpen}
-              />
-            ) : (
-              <ShowcaseItemDesktop
-                // key={index}
-                project={items.nodes[imageIndex]}
-                // scale={imageIndex === 0 ? scale : undefined}
-                // isOpen={isOpen}
-                // isFirst={imageIndex === 0}
-                // reverseScale={reverseScale}
-              />
-            )}
+            <ShowcaseItemDesktop
+              project={items.nodes[imageIndex]}
+              isFirst={imageIndex === 0}
+              isLast={imageIndex === items.nodes.length - 1}
+              paginate={paginate}
+            />
           </StyledImage>
         </AnimatePresence>
       </StyledImagesWrapper>
-      {isOpen && (
+      {/* {isOpen && (
         <StyledButtonsWrapper>
           <StyledArrowButton
             onClick={(e) => {
@@ -217,7 +203,7 @@ IProps) {
             <ArrowRight />
           </StyledArrowButton>
         </StyledButtonsWrapper>
-      )}
+      )} */}
     </StyledGalleryWrapper>
   );
 }
