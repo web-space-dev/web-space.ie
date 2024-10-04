@@ -7,6 +7,10 @@ import Navbar from "./navbar";
 import styled from "@emotion/styled";
 import Loader from "./global/loader";
 
+import { GoogleAnalytics } from "@next/third-parties/google";
+
+const gaId = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
+
 const StyledLink = styled.a`
   position: absolute;
   top: auto;
@@ -95,6 +99,9 @@ export default function Layout({
           <main id="content">{children}</main>
 
           {!disableFooter && <Footer setFooterInView={setFooterInView} />}
+          {process.env.NODE_ENV === "production" && gaId && (
+            <GoogleAnalytics gaId={gaId} />
+          )}
         </>
       )}
     </StyledWrapper>
