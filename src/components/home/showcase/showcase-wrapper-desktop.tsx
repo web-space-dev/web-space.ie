@@ -2,7 +2,13 @@ import { useState, useRef, useEffect, memo } from "react";
 import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { GridContainer } from "../../global/grid/gridContainer";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useInView,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { getRemSize } from "../../../styles/globalCss";
 import { Col } from "../../global/grid/Col";
 import { Row } from "../../global/grid/Row";
@@ -20,7 +26,7 @@ const StyledGridContainer = styled(GridContainer)`
 `;
 
 const StyledSpacer = styled.div`
-  height: 250vh;
+  height: 240vh;
 `;
 
 interface IStyledWrapper {
@@ -55,6 +61,7 @@ const StyledMotionWrapper = styled(motion.div)`
   left: 0;
   width: 100%;
   overflow-y: hidden;
+  will-change: transform;
   @media all and (max-width: ${breakpoints.sm}px) {
     display: flex;
     align-items: center;
@@ -98,26 +105,20 @@ const StyledTitle = styled.h2<{ color: string }>`
 
 function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   const [isOpen, setIsOpen] = useState(false);
-  // const [inView, setInView] = useState(false);
 
   const ref = useRef(null);
   const ghostRef = useRef(null);
-  const isInView = useInView(ref, { amount: 1, once: true });
 
   const scrollProgress = useScrollProgress(ghostRef);
   const scale = useTransform(scrollProgress, [0, 0.4], [0.1, 1]);
 
-  useEffect(() => {
-    const unsubscribe = scale.onChange((value) => {
-      if (value === 1) {
-        setIsOpen(true);
-      } else {
-        setIsOpen(false);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [scale]);
+  useMotionValueEvent(scale, "change", (value) => {
+    if (value === 1 && !isOpen) {
+      setIsOpen(true);
+    } else if (value !== 1 && isOpen) {
+      setIsOpen(false);
+    }
+  });
 
   return (
     <StyledWrapper open={isOpen}>
@@ -125,7 +126,9 @@ function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
         <StyledGridContainer>
           <Row>
             <Col start={1} span={12}>
-              <StyledTitle color={isOpen ? colors.accent : colors.white}>
+              <StyledTitle
+                color={scale.get() === 1 ? colors.accent : colors.white}
+              >
                 {title}
               </StyledTitle>
             </Col>
@@ -136,7 +139,7 @@ function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
           transition={{ duration: 1 }}
           style={scale ? { scale } : {}}
         >
-          <ShowcaseGalleryDesktop items={projects} isOpen={isOpen} />
+          <ShowcaseGalleryDesktop items={projects} />
         </StyledMotionWrapper>
       </StyledFollowingContainer>
       <StyledSpacer ref={ghostRef} />
