@@ -89,4 +89,4 @@ function ShowcaseItemMobile({ project }: ShowcaseItemProps) {
   );
 }
 
-export default memo(ShowcaseItemMobile);
+export default ShowcaseItemMobile;

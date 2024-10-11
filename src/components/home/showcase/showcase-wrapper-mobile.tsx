@@ -145,4 +145,4 @@ function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
   );
 }
 
-export default memo(ShowcaseWrapperMobile);
+export default ShowcaseWrapperMobile;

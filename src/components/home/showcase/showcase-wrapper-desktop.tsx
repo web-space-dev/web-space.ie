@@ -144,4 +144,4 @@ function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   );
 }
 
-export default memo(ShowcaseWrapperDesktop);
+export default ShowcaseWrapperDesktop;

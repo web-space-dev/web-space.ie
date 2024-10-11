@@ -274,4 +274,4 @@ function WhatWeDo({ items }: WhatWeDoProps) {
   );
 }
 
-export default memo(WhatWeDo);
+export default WhatWeDo;

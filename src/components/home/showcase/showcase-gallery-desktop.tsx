@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo, memo } from "react";
 
 import styled from "@emotion/styled";
 import { motion, AnimatePresence, MotionValue } from "framer-motion";
@@ -129,11 +129,9 @@ const swipePower = (offset: number, velocity: number) => {
 interface IProps {
   items: Projects;
   isOpen: boolean;
-  // scale: MotionValue<number>;
-  // reverseScale: () => void;
 }
 
-export default function ShowcaseGalleryDesktop({
+function ShowcaseGalleryDesktop({
   items,
   isOpen,
 }: // scale,
@@ -147,6 +145,22 @@ IProps) {
     setPage([page + newDirection, newDirection]);
   };
 
+  if (!isOpen) {
+    return (
+      <StyledGalleryWrapper>
+        <StyledImagesWrapper ref={wrapperRef}>
+          <StyledImage>
+            <ShowcaseItemDesktop
+              project={items.nodes[imageIndex]}
+              isFirst={imageIndex === 0}
+              isLast={imageIndex === items.nodes.length - 1}
+              paginate={paginate}
+            />
+          </StyledImage>
+        </StyledImagesWrapper>
+      </StyledGalleryWrapper>
+    );
+  }
   return (
     <StyledGalleryWrapper>
       <StyledImagesWrapper ref={wrapperRef}>
@@ -207,3 +221,5 @@ IProps) {
     </StyledGalleryWrapper>
   );
 }
+
+export default memo(ShowcaseGalleryDesktop);

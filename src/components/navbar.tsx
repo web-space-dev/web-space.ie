@@ -242,7 +242,7 @@ export default function Navbar({ dark, sticky = true }: IProps) {
             {links.map((link, index) => (
               <StyledDiv key={index}>
                 <StyledLink
-                  href={`/${link.path}`}
+                  href={link.path}
                   dark={dark}
                   onClick={(event) => {
                     if (link.onClick) {
