@@ -79,6 +79,7 @@ const StyledBox = styled(motion.div)`
     max-width: 100%;
     padding: 25px;
     height: auto;
+    max-height: 74vh;
     margin-top: 50px;
     overflow-y: scroll;
   }
@@ -106,7 +107,7 @@ const StyledHeading = styled.p`
     font-size: 26px;
     line-height: 35px;
     letter-spacing: 2px;
-    margin: 0px 0px 20px 0px;
+    margin: 40px 0px 20px 0px;
   }
 `;
 
