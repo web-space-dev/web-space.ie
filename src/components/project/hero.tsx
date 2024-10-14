@@ -85,7 +85,7 @@ const StyledHeading2 = styled.h2`
   @media (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.headingSizes.cta.desktop)};
     letter-spacing: 2px;
-    line-height: 0;
+    /* line-height: 0; */
     margin: -20 px 0 0 0;
   }
 `;
@@ -98,6 +98,10 @@ const StyledTitleRow = styled(motion(Row))`
   }
   @media (max-width: ${breakpoints.md}px) {
     margin: 251px 0 82px 0;
+  }
+
+  @media (max-width: ${breakpoints.sm}px) {
+    margin: 120px 0 82px 0;
   }
 `;
 

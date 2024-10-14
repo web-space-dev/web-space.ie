@@ -178,7 +178,11 @@ export default function DynamicTextAndImages({ title, content }: IProps) {
         ) : (
           <>
             <Col start={1} span={12}>
-              <Pill pillText={title} />
+              {title && title !== "" && (
+                <AnimateInView>
+                  <Pill pillText={title} />
+                </AnimateInView>
+              )}
             </Col>
             <Col start={1} span={12}>
               <StyledMobileParagraph>

@@ -76,9 +76,9 @@ const StyledButtonsWrapper = styled.div`
   bottom: 13px;
   right: 13px;
   z-index: 2;
-  /* border-radius: 24px; */
-  /* background: transparent;
-  backdrop-filter: blur(15px); */
+  border-radius: 24px;
+  background-color: #0000009e;
+  backdrop-filter: blur(15px);
 
   @media all and (max-width: ${breakpoints.md}px) {
     display: none;
@@ -89,8 +89,7 @@ const StyledArrowButton = styled.div`
   width: 70px;
   height: 70px;
   border-radius: 26px;
-  background: transparent;
-  backdrop-filter: blur(15px);
+
   border: 2px solid ${colors.white};
   display: flex;
   justify-content: center;
