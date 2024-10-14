@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
 import ArrowUpRight from "../../../icons/arrowUpRight";
+import { getRemSize } from "../../../styles/globalCss";
 
 const StyledLogoWrapper = styled(motion.div)`
   display: flex;
@@ -79,10 +80,13 @@ const Popup = styled(motion.div)`
   backdrop-filter: blur(5px);
 
   @media (max-width: ${breakpoints.sm}px) {
-    left: -40%;
+    left: 0;
     top: unset;
-    width: 150px;
+    /* min-width: 100%; */
+    width: 100%;
+    height: -webkit-fill-available;
     padding: 0;
+    font-size: ${getRemSize(16)};
   }
 `;
 
