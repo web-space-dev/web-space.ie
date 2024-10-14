@@ -73,7 +73,7 @@ const StyledButtonRightWrapper = styled(motion.div)`
   }
 `;
 
-const StyledShowcaseImage = styled(motion.div)<{ last: boolean }>`
+const StyledShowcaseImage = styled(motion.div)`
   position: relative;
   height: 100%;
   flex: 1;
@@ -89,14 +89,9 @@ const StyledShowcaseImage = styled(motion.div)<{ last: boolean }>`
     object-fit: cover;
     border-radius: 36px;
   }
-
-  ${(props) =>
-    props.last &&
-    `
-  `};
 `;
 
-const StyledShowcaseContent = styled.div<{ last: boolean }>`
+const StyledShowcaseContent = styled.div<{ last: string }>`
   position: absolute;
   top: 45%;
   left: 0;
@@ -124,12 +119,17 @@ const StyledShowcaseContent = styled.div<{ last: boolean }>`
   }
 
   ${(props) =>
-    props.last &&
+    props.last === "true" &&
     `
     width: 100%;
     border-radius: 0;
     padding-left: 8px;
    
+    @media all and (max-width: 1024px) {
+      border-radius: 0 0.75rem 0.75rem 0;
+      width: 90%;
+    }
+
   `};
 `;
 
@@ -212,7 +212,7 @@ function ShowcaseItemDesktop({
             </StyledArrowButton>
           </StyledButtonLeftWrapper>
         )}
-        <StyledShowcaseImage last={isLast}>
+        <StyledShowcaseImage>
           <Link href={`/projects/${project.slug}`}>
             <CustomImage
               alt={project.featuredImage.node.altText}
@@ -221,7 +221,7 @@ function ShowcaseItemDesktop({
               src={project.featuredImage.node.sourceUrl}
               blurDataURL={project.featuredImage.node?.placeholderDataURI}
             />
-            <StyledShowcaseContent last={isLast}>
+            <StyledShowcaseContent last={isLast.toString()}>
               <StyledShowcaseTitle>{project.title}</StyledShowcaseTitle>
               <StyledShowcaseCategory>
                 {project.projectCategories?.nodes[0]?.name}
@@ -254,4 +254,4 @@ function ShowcaseItemDesktop({
   );
 }
 
-export default ShowcaseItemDesktop;
+export default memo(ShowcaseItemDesktop);

@@ -18,4 +18,4 @@ function Showcase({ title, projects }: IShowcase) {
   return <ShowcaseWrapperDesktop title={title} projects={projects} />;
 }
 
-export default memo(Showcase);
+export default Showcase;

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo, memo } from "react";
 
 import styled from "@emotion/styled";
 import { motion, AnimatePresence, MotionValue } from "framer-motion";
@@ -73,33 +73,6 @@ const StyledImage = styled(motion.div)`
   }
 `;
 
-const StyledButtonsWrapper = styled(motion.div)`
-  position: absolute;
-  display: flex;
-  bottom: 13px;
-  right: 13px;
-  z-index: 2;
-
-  @media all and (max-width: ${breakpoints.md}px) {
-    /* display: none; */
-    bottom: 80px;
-  }
-`;
-
-const StyledArrowButton = styled.div`
-  width: 70px;
-  height: 70px;
-  border-radius: 26px;
-  background: transparent;
-  border: 2px solid ${colors.white};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 8px;
-  z-index: 2;
-  cursor: pointer;
-`;
-
 const variants = {
   enter: (direction: number) => {
     return {
@@ -128,17 +101,9 @@ const swipePower = (offset: number, velocity: number) => {
 
 interface IProps {
   items: Projects;
-  isOpen: boolean;
-  // scale: MotionValue<number>;
-  // reverseScale: () => void;
 }
 
-export default function ShowcaseGalleryDesktop({
-  items,
-  isOpen,
-}: // scale,
-// reverseScale,
-IProps) {
+function ShowcaseGalleryDesktop({ items }: IProps) {
   const [[page, direction], setPage] = useState([0, 0]);
   const imageIndex = wrap(0, items.nodes.length, page);
   const wrapperRef = useRef(null);
@@ -184,26 +149,8 @@ IProps) {
           </StyledImage>
         </AnimatePresence>
       </StyledImagesWrapper>
-      {/* {isOpen && (
-        <StyledButtonsWrapper>
-          <StyledArrowButton
-            onClick={(e) => {
-              e.preventDefault();
-              paginate(-1);
-            }}
-          >
-            <ArrowLeft />
-          </StyledArrowButton>
-          <StyledArrowButton
-            onClick={(e) => {
-              e.preventDefault();
-              paginate(1);
-            }}
-          >
-            <ArrowRight />
-          </StyledArrowButton>
-        </StyledButtonsWrapper>
-      )} */}
     </StyledGalleryWrapper>
   );
 }
+
+export default memo(ShowcaseGalleryDesktop);

@@ -178,6 +178,8 @@ const StyledLinkWrapper = styled.div`
   @media all and (max-width: ${breakpoints.sm}px) {
     justify-content: center;
     font-size: ${getRemSize(dimensions.textSizes.small.mobile)};
+    flex-direction: column;
+    margin-left: 16px;
   }
 `;
 
@@ -407,7 +409,7 @@ export default function Footer({ setFooterInView }: IProps) {
         <Link href="/privacy-policy">Privacy & Legal Information</Link>
 
         <Link
-          href=""
+          href="#"
           onClick={() => {
             window.scrollTo(0, 0);
           }}

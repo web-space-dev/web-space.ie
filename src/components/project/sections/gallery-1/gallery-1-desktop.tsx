@@ -89,7 +89,7 @@ const StyledArrowButton = styled.div`
   width: 70px;
   height: 70px;
   border-radius: 26px;
-  background: transparent;
+
   border: 2px solid ${colors.white};
   display: flex;
   justify-content: center;

@@ -193,7 +193,11 @@ export default function Navbar({ dark, sticky = true }: IProps) {
   const links = [
     { name: "About", path: "" },
     { name: "Projects", path: "projects" },
-    { name: "Client space", path: "https://client.web-space.ie/" },
+    {
+      name: "Client space",
+      path: "https://client.web-space.ie/",
+      external: true,
+    },
     {
       name: "chat",
       path: "#",
@@ -242,7 +246,7 @@ export default function Navbar({ dark, sticky = true }: IProps) {
             {links.map((link, index) => (
               <StyledDiv key={index}>
                 <StyledLink
-                  href={`/${link.path}`}
+                  href={link.external ? link.path : `/${link.path}`}
                   dark={dark}
                   onClick={(event) => {
                     if (link.onClick) {
