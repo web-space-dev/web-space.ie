@@ -54,7 +54,7 @@ export default function useIsIntersecting(
     return () => {
       unwatchTransform();
     };
-  }, [element, otherElements, listener]);
+  }, [element, otherElements.current.length, listener]);
 
   return isOverlapping;
 }

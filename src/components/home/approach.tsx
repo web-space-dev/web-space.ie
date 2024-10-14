@@ -1,16 +1,10 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Approach as IApproach } from "../../interfaces/home";
 import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
 import Pill from "../global/pill";
-import {
-  motion,
-  useInView,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { IconButton, StyledArrowDownRight } from "../global/iconButton";
 import { PillIconButton } from "../global/pillIconButton";
 import { getRemSize } from "../../styles/globalCss";
@@ -59,7 +53,6 @@ const StyledMotionWrapper = styled(motion.div)`
   overflow: auto;
   position: absolute;
   top: 140px;
-  /* left: 200px; */
   bottom: 0;
   @media all and (max-width: ${breakpoints.md}px) {
     height: fit-content;
@@ -84,7 +77,6 @@ const StyledHeading2 = styled.h2`
   font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
   grid-column: 1 / span 5;
   @media all and (max-width: ${breakpoints.md}px) {
-    /* display: none; */
     margin: 0 0 -100px 0;
   }
 `;
@@ -196,11 +188,6 @@ const SmallerIconButton = styled.div`
   width: 3rem;
   height: 3rem;
   margin-right: 10px;
-  /* & button {
-    width: 100%;
-    height: 100%;
-    transform: scale(0.7);
-  } */
 `;
 
 interface IStyledApproachBorder {
@@ -243,7 +230,6 @@ interface StyledCardProps {
   marginLeft?: string;
 }
 
-// @TODO - fix on middle screens scrolling stuff
 function Approach({ items }: ApproachProps) {
   const ghostRef = useRef(null);
   const horizontalRef = useRef(null);
@@ -269,8 +255,9 @@ function Approach({ items }: ApproachProps) {
   const cappedTransform = useMotionValue(Math.min(transform.get(), 850));
 
   useEffect(() => {
+    console.log("Updating cardsRef:", items.length);
     cardsRef.current = cardsRef.current.slice(0, items.length + 1);
-  }, [items]);
+  }, [items, cardsRef]);
 
   const isLeftIntersecting = useIsIntersecting(
     borderLeftRef,
@@ -364,11 +351,9 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
             </StyledParagraphText>
           </StyledParagraphWrapper>
           <SmallerIconButton>
-            {/* <Link href="#" onClick={scrollToBottom}> */}
             <div onClick={scrollToBottom}>
               <IconButton direction="down" />
             </div>
-            {/* </Link> */}
           </SmallerIconButton>
         </StyledCardPill>
       ) : (
