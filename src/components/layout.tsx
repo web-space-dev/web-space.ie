@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 import Loader from "./global/loader";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
+import ComingSoon from "./global/comingSoon";
 
 const gaId = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
 
@@ -54,6 +55,7 @@ export default function Layout({
   const [footerInView, setFooterInView] = useState(false);
 
   const isProduction = process.env.NODE_ENV === "production";
+  const isComingSoon = process.env.NEXT_PUBLIC_COMING_SOON === "true";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,6 +83,22 @@ export default function Layout({
       localStorage.setItem("hasVisitedHome", "true");
     }
   }, []);
+
+  if (isComingSoon) {
+    return (
+      <StyledWrapper>
+        <Wrapper pageTitle={"WEB Space"} siteData={siteData} />
+
+        <main id="content">
+          <ComingSoon />
+        </main>
+
+        {process.env.NODE_ENV === "production" && gaId && (
+          <GoogleAnalytics gaId={gaId} />
+        )}
+      </StyledWrapper>
+    );
+  }
 
   return (
     <StyledWrapper>
