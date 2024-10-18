@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import WebLeft from "../../icons/webLeft";
@@ -12,6 +12,8 @@ import { Row } from "./grid/Row";
 import { Col } from "./grid/Col";
 import { getRemSize } from "../../styles/globalCss";
 import LogoIcon from "../../icons/logoIcon";
+import ChatIcon from "../../icons/chatIcon";
+import { Contact } from "../contact";
 
 // const StyledWrapper = styled(motion.div)`
 //   position: absolute;
@@ -95,21 +97,46 @@ const StyledTitle = styled(motion.h1)<{ color: string }>`
   }
 
   @media all and (max-width: 600px) {
-    font-size: ${getRemSize(80)};
+    font-size: ${getRemSize(75)};
     line-height: 100px;
+  }
+
+  @media all and (max-width: 450px) {
+    font-size: ${getRemSize(60)};
+    line-height: 80px;
   }
 `;
 
-const StyledHeading = styled(motion.h1)`
-  margin: 50px auto 20px 0;
-  font-size: 120px;
+const StyledDivContactMobile = styled.div`
+  position: fixed;
+  bottom: 0px;
+  right: 22px;
 `;
 
-const StyledText = styled(motion.p)``;
+const StyledLinkContactMobile = styled(motion.a)<{
+  dark: string;
+  open: boolean;
+}>`
+  display: flex; // Centers the icon
+  justify-content: center; // Centers the icon horizontally
+  align-items: center; // Centers the icon vertically
+  background-color: ${(props) =>
+    props.dark ? colors.white : colors.accentLight};
+  padding: 12px 10px 10px 10px;
+  border-radius: 25px;
+  width: 55px;
+  height: 55px;
+  margin-bottom: 1rem;
+  cursor: ${(props) => (props.open ? "default" : "pointer")};
 
-interface IProps {
-  finishLoading: (finished: boolean) => void;
-}
+  ${(props) =>
+    !props.open &&
+    `
+  &:hover {
+    background-color: ${colors.accent};
+  }
+`}
+`;
 
 const variants = {
   hidden: { opacity: 0 },
@@ -117,6 +144,14 @@ const variants = {
 };
 
 const ComingSoon = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const bottomControls = useAnimation();
+
+  const openContactModal = () => {
+    setIsContactModalOpen(true);
+  };
+
   return (
     <StyledWrapper fillwhite={"false"} transition={{ duration: 1 }}>
       <StyledLogoIconWrapper>
@@ -141,6 +176,21 @@ const ComingSoon = () => {
       </StyledGridContainer>
       {/* </StyledLogoIconWrapper> */}
       {/* )} */}
+      <StyledDivContactMobile>
+        <StyledLinkContactMobile
+          open={isMenuOpen}
+          dark={"true"}
+          onClick={isMenuOpen ? undefined : openContactModal}
+          animate={bottomControls}
+        >
+          <ChatIcon dark={false} />
+        </StyledLinkContactMobile>
+      </StyledDivContactMobile>
+      <Contact
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+        dark={true}
+      />
     </StyledWrapper>
   );
 };
