@@ -25,6 +25,7 @@ export interface Content {
   pillText?: null | string;
   content?: string;
   gallery1?: Gallery;
+  fontSize: string[];
   dynamicTextAndImage?: DynamicTextAndImage[];
   paragraphItem?: ParagraphItem[];
   gallery2?: Gallery;

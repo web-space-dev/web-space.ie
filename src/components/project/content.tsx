@@ -28,6 +28,7 @@ export default function ProjectBody({ content }: IProps) {
           <DynamicTextAndImages
             content={item.dynamicTextAndImage}
             title={item.title}
+            fontSize={item.fontSize}
           />
         );
 

@@ -68,6 +68,7 @@ query PostBySlug($slug: String!) {
         ... on ProjectFieldsContentDynamicTextImageLayout {
           __typename
           title
+          fontSize
           dynamicTextAndImage {
             ... on ProjectFieldsContentDynamicTextAndImageTextLayout {
               __typename

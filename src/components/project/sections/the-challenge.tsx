@@ -14,32 +14,39 @@ import AnimateInView from "../../global/animation/animateInView";
 
 interface IProps {
   title: string;
+  fontSize: string[];
   content: DynamicTextAndImage[];
 }
 
 const StyledBigWrapper = styled.div`
   position: relative;
+  /* height: 450px; */
 `;
 
 const StyledImage = styled(motion(Image))`
   border-radius: 26px;
   object-fit: cover;
-  width: 475px;
-  max-height: 774px;
+  width: 375px;
+  height: auto;
+  /* max-height: 774px; */
   position: absolute;
   z-index: 1000;
+  transition: all 0.2s;
   @media (min-width: 1350px) {
-    top: 92px;
+    top: 32px;
     left: 220px;
   }
 
   @media (min-width: 1088px) and (max-width: 1350px) {
-    top: 92px;
+    top: 32px;
     left: 138px;
   }
 
+  @media (max-width: 1500px) {
+    width: 300px;
+  }
   @media (max-width: 1088px) {
-    top: 92px;
+    top: 32px;
     left: 75px;
   }
 `;
@@ -50,22 +57,30 @@ const StyledMobileImageWrapper = styled.div`
   gap: 8px;
   width: 100%;
   scrollbar-width: none;
+  position: relative;
+  overflow-y: visible; // Ensure overflow is visible
+  will-change: transform;
+  height: 500px;
+  align-items: flex-end;
+  padding-bottom: 20px;
+  margin-bottom: 50px;
 `;
-const StyledMobileImage = styled(Image)`
+const StyledMobileImage = styled(motion(Image))<{ isSelected: boolean }>`
   border-radius: 26px;
-  object-fit: cover;
-  width: 212px;
-  height: 393px;
+  object-fit: fill;
+  /* width: 212px; */
+  /* height: auto; */
+  height: 380px;
   flex-shrink: 0;
-
-  @media (max-width: ${breakpoints.sm}px) {
-    width: 162px;
-    height: 343px;
-  }
+  position: relative;
+  will-change: transform;
+  /* transition: all 0.2s; */
+  /* border: ${({ isSelected }) =>
+    isSelected ? `2px solid ${colors.accent}` : `none`}; */
 `;
 
-const StyledParagraphImage = styled.span`
-  color: ${colors.accent};
+const StyledParagraphImage = styled.span<{ selected?: boolean }>`
+  color: ${({ selected }) => (selected ? colors.white : colors.accent)};
   transition: color 0.2s;
 
   &:hover {
@@ -75,8 +90,13 @@ const StyledParagraphImage = styled.span`
     text-decoration: underline;
   }
 `;
-const StyledParagraph = styled.p`
-  font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
+const StyledParagraph = styled.p<{ fontSize: string }>`
+  font-size: ${({ fontSize }) =>
+    getRemSize(
+      fontSize === "Large"
+        ? dimensions.textSizes.large.desktop
+        : dimensions.textSizes.normal.desktop
+    )};
   line-height: 1.15;
   letter-spacing: 2px;
   font-weight: 500;
@@ -111,10 +131,15 @@ const variants = {
   },
 };
 
-export default function DynamicTextAndImages({ title, content }: IProps) {
+export default function DynamicTextAndImages({
+  title,
+  content,
+  fontSize = ["Large"],
+}: IProps) {
   const isDesktop = useIsDesktop();
   const isTablet = useIsTablet();
   const [hoverIndex, setHoverIndex] = useState(null);
+  const [mobileHoverIndex, setMobileHoverIndex] = useState(null);
 
   const onHover = (index) => {
     setHoverIndex(index);
@@ -138,13 +163,14 @@ export default function DynamicTextAndImages({ title, content }: IProps) {
             </Col>
             <Col start={5} span={8}>
               <AnimateInView>
-                <StyledParagraph>
+                <StyledParagraph fontSize={fontSize[0]}>
                   {content.map((item, index) => {
                     return item?.image ? (
                       <StyledParagraphImage
                         key={index}
                         onMouseEnter={(e) => onHover(index)}
-                        onMouseLeave={(e) => onHoverOver()}
+                        // selected={mobileHoverIndex === index}
+                        // onMouseLeave={(e) => onHoverOver()}
                       >
                         {" "}
                         <span>{item.text}</span>
@@ -188,11 +214,17 @@ export default function DynamicTextAndImages({ title, content }: IProps) {
               <StyledMobileParagraph>
                 {content.map((item, index) => {
                   return item?.image ? (
-                    <StyledMobileParagraphImage key={index}>
-                      <span>{" " + item.text}</span>
-                    </StyledMobileParagraphImage>
+                    <StyledParagraphImage
+                      key={index}
+                      onMouseEnter={(e) => setMobileHoverIndex(index)}
+                      selected={mobileHoverIndex === index}
+                      // onMouseLeave={(e) => onHoverOver()}
+                    >
+                      {" "}
+                      <span>{item.text}</span>
+                    </StyledParagraphImage>
                   ) : (
-                    <Fragment key={index}>{item.text}</Fragment>
+                    <Fragment key={index}>{" " + item.text}</Fragment>
                   );
                 })}
               </StyledMobileParagraph>
@@ -202,14 +234,31 @@ export default function DynamicTextAndImages({ title, content }: IProps) {
                     item.image &&
                     item.image.node && (
                       <StyledMobileImage
+                        onMouseEnter={(e) => setMobileHoverIndex(index)}
                         width={isTablet ? 212 : 162}
                         height={isTablet ? 393 : 343}
                         alt={`Gallery Image ${index}`}
+                        isSelected={mobileHoverIndex === index}
                         // loader={() => item.image.node.sourceUrl}
                         src={item.image.node.sourceUrl}
                         // placeholder="blur"
                         blurDataURL={item.image.node?.placeholderDataURI}
                         key={item.text}
+                        animate={
+                          mobileHoverIndex === index ? "selected" : "unselected"
+                        }
+                        variants={{
+                          unselected: {
+                            y: 0,
+                            transition: { type: "spring", stiffness: 300 },
+                          },
+                          selected: {
+                            // width: "300px",
+
+                            y: -50,
+                            transition: { type: "spring", stiffness: 300 },
+                          },
+                        }}
                       />
                     )
                   );
