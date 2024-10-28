@@ -11,6 +11,7 @@ import useIsDesktop from "../../../hooks/useIsDesktop";
 import useIsTablet from "../../../hooks/useIsTablet";
 import { motion } from "framer-motion";
 import AnimateInView from "../../global/animation/animateInView";
+import { setTimeout } from "timers";
 
 interface IProps {
   title: string;
@@ -29,9 +30,9 @@ const StyledImage = styled(motion(Image))`
   width: 375px;
   height: auto;
   /* max-height: 774px; */
-  position: absolute;
+  position: fixed;
   z-index: 1000;
-  transition: all 0.2s;
+  /* transition: all 0.2s; */
   @media (min-width: 1350px) {
     top: 32px;
     left: 220px;
@@ -67,12 +68,12 @@ const StyledMobileImageWrapper = styled.div`
 `;
 const StyledMobileImage = styled(motion(Image))<{ isSelected: boolean }>`
   border-radius: 26px;
-  object-fit: fill;
+  object-fit: cover;
   /* width: 212px; */
   /* height: auto; */
-  height: 380px;
+  max-height: 380px;
   flex-shrink: 0;
-  position: relative;
+  /* position: relative; */
   will-change: transform;
   /* transition: all 0.2s; */
   /* border: ${({ isSelected }) =>
@@ -108,7 +109,7 @@ const StyledMobileParagraph = styled.p`
   letter-spacing: 1px;
   font-weight: 400;
   text-indent: 72px;
-  margin-bottom: 40px;
+  margin-bottom: 0px;
 `;
 const StyledMobileParagraphImage = styled.span`
   font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
@@ -170,7 +171,7 @@ export default function DynamicTextAndImages({
                         key={index}
                         onMouseEnter={(e) => onHover(index)}
                         // selected={mobileHoverIndex === index}
-                        // onMouseLeave={(e) => onHoverOver()}
+                        onMouseLeave={(e) => onHoverOver()}
                       >
                         {" "}
                         <span>{item.text}</span>
@@ -218,7 +219,7 @@ export default function DynamicTextAndImages({
                       key={index}
                       onMouseEnter={(e) => setMobileHoverIndex(index)}
                       selected={mobileHoverIndex === index}
-                      // onMouseLeave={(e) => onHoverOver()}
+                      onMouseLeave={(e) => onHoverOver()}
                     >
                       {" "}
                       <span>{item.text}</span>
