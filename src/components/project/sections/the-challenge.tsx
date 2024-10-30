@@ -11,7 +11,6 @@ import useIsDesktop from "../../../hooks/useIsDesktop";
 import useIsTablet from "../../../hooks/useIsTablet";
 import { motion } from "framer-motion";
 import AnimateInView from "../../global/animation/animateInView";
-import { setTimeout } from "timers";
 
 interface IProps {
   title: string;
@@ -21,7 +20,6 @@ interface IProps {
 
 const StyledBigWrapper = styled.div`
   position: relative;
-  /* height: 450px; */
 `;
 
 const StyledImage = styled(motion(Image))`
@@ -66,18 +64,12 @@ const StyledMobileImageWrapper = styled.div`
   padding-bottom: 20px;
   margin-bottom: 50px;
 `;
-const StyledMobileImage = styled(motion(Image))<{ isSelected: boolean }>`
+const StyledMobileImage = styled(motion(Image))`
   border-radius: 26px;
   object-fit: cover;
-  /* width: 212px; */
-  /* height: auto; */
   max-height: 380px;
   flex-shrink: 0;
-  /* position: relative; */
   will-change: transform;
-  /* transition: all 0.2s; */
-  /* border: ${({ isSelected }) =>
-    isSelected ? `2px solid ${colors.accent}` : `none`}; */
 `;
 
 const StyledParagraphImage = styled.span<{ selected?: boolean }>`
@@ -110,9 +102,6 @@ const StyledMobileParagraph = styled.p`
   font-weight: 400;
   text-indent: 72px;
   margin-bottom: 0px;
-`;
-const StyledMobileParagraphImage = styled.span`
-  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
 `;
 
 const variants = {
@@ -239,9 +228,8 @@ export default function DynamicTextAndImages({
                         width={isTablet ? 212 : 162}
                         height={isTablet ? 393 : 343}
                         alt={`Gallery Image ${index}`}
-                        isSelected={mobileHoverIndex === index}
-                        // loader={() => item.image.node.sourceUrl}
                         src={item.image.node.sourceUrl}
+                        // loader={() => item.image.node.sourceUrl}
                         // placeholder="blur"
                         blurDataURL={item.image.node?.placeholderDataURI}
                         key={item.text}
@@ -254,9 +242,8 @@ export default function DynamicTextAndImages({
                             transition: { type: "spring", stiffness: 300 },
                           },
                           selected: {
-                            // width: "300px",
-
                             y: -50,
+                            border: `2px solid ${colors.accent}`,
                             transition: { type: "spring", stiffness: 300 },
                           },
                         }}
