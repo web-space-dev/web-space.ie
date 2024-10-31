@@ -4,7 +4,6 @@ import Image from "next/image";
 import { IconButton } from "../../global/iconButton";
 import { getRemSize } from "../../../styles/globalCss";
 import { dimensions } from "../../../styles/variables";
-import { memo } from "react";
 
 const StyledShowcaseWrapper = styled.div`
   display: flex;
@@ -13,7 +12,6 @@ const StyledShowcaseWrapper = styled.div`
   height: 537px;
   flex-direction: column;
   margin: 0 4px 0 12px;
-  scroll-snap-align: center;
 `;
 
 const StyledShowcaseImage = styled.div`

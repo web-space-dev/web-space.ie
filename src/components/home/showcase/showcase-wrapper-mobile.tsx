@@ -3,12 +3,13 @@ import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { GridContainer } from "../../global/grid/gridContainer";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { getRemSize } from "../../../styles/globalCss";
-import { useRef } from "react";
+import { use, useRef } from "react";
 import { Col } from "../../global/grid/Col";
 import { Row } from "../../global/grid/Row";
 import { IShowcase } from "../showcase";
 import ShowcaseItemMobile from "./showcase-item-mobile";
 import ShowcaseItemMobileAllProjects from "./showcase-item-mobile-all-projects";
+import React from "react";
 
 const StyledWrapper = styled(GridContainer)`
   position: sticky;
@@ -20,7 +21,7 @@ const StyledWrapper = styled(GridContainer)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 70vh;
 
   @media (max-width: ${breakpoints.sm}px) {
     display: flex;
@@ -33,13 +34,12 @@ const StyledMotionWrapper = styled(motion.div)`
   display: flex;
   width: 100%;
   height: 537px;
-  overflow-x: auto;
+  /* overflow-x: auto; */
   position: absolute;
-  top: 0;
+  /* top: 0; */
   left: 0;
   right: 0;
   align-items: center;
-  /* padding-right: 18px; */
 `;
 
 const StyledItemContainer = styled(motion.div)`
@@ -49,6 +49,11 @@ const StyledItemContainer = styled(motion.div)`
   position: relative;
   height: 537px;
   width: max-content;
+`;
+
+const StyledRow = styled(Row)`
+  /* height: 537px; */
+  align-items: center;
 `;
 
 const StyledTitle = styled(motion.h2)<{ color: string }>`
@@ -78,20 +83,22 @@ const StyledSpacer = styled.div<{ height: number }>`
 `;
 
 function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
-  const wrapperRef = useRef(null);
-  const spacerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: spacerRef,
-    offset: ["start start", "end end"],
+  const motionWrapperRef = useRef(null);
+  const { scrollXProgress, scrollYProgress } = useScroll({
+    container: motionWrapperRef,
   });
 
-  const titleOpacity = useTransform(scrollYProgress, [0.1, 0.3], [1, 0]);
+  const titleOpacity = useTransform(scrollXProgress, [0, 0.2], [1, 0]);
+
+  React.useEffect(() => {
+    console.log(scrollXProgress.get(), scrollYProgress.get());
+  }, [scrollXProgress, scrollYProgress]);
 
   return (
     <>
       <div style={{ position: "relative" }}>
-        <StyledWrapper ref={wrapperRef}>
-          <Row style={{ height: 537 }}>
+        <StyledWrapper>
+          <StyledRow>
             <Col start={1} span={12}>
               <StyledTitle
                 style={{ opacity: titleOpacity }}
@@ -100,22 +107,20 @@ function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
                 {title}
               </StyledTitle>
             </Col>
-          </Row>
+          </StyledRow>
 
           <StyledMotionWrapper>
-            <StyledItemContainer
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-            >
+            <StyledItemContainer ref={motionWrapperRef}>
               <StyledMobileSpacer />
               {projects.nodes.map((project, index: number) => {
                 return <ShowcaseItemMobile key={index} project={project} />;
               })}
+
               <ShowcaseItemMobileAllProjects />
             </StyledItemContainer>
           </StyledMotionWrapper>
         </StyledWrapper>
-        <StyledSpacer ref={spacerRef} height={1000} />
+        <StyledSpacer height={1000} />
       </div>
     </>
   );

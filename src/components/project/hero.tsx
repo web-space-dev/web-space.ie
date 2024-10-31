@@ -295,6 +295,7 @@ export function Hero({ project }: Props) {
             project.projectFields.cta?.buttonUrl && (
               <StyledOutlineArrowButton
                 href={project.projectFields.cta.buttonUrl}
+                target="_blank"
               >
                 {project.projectFields.cta.buttonName}
                 <StyledArrowUpRight className="styled-icon" />

@@ -10,7 +10,6 @@ const StyledShowcaseWrapper = styled.div`
   height: 537px;
   justify-content: space-between;
   margin: 0 8px 0 12px;
-  scroll-snap-align: center;
   padding: 8px 8px 8px 24px;
   background-color: ${colors.black};
   border: 1px solid #fff;
