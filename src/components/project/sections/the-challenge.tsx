@@ -95,8 +95,14 @@ const StyledParagraph = styled.p<{ fontSize: string }>`
   font-weight: 500;
 `;
 
-const StyledMobileParagraph = styled.p`
-  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
+const StyledMobileParagraph = styled.p<{ small: boolean }>`
+  font-size: ${(props) =>
+    getRemSize(
+      props.small
+        ? dimensions.textSizes.normal.mobile
+        : dimensions.textSizes.normal.desktop
+    )};
+
   line-height: 1.3;
   letter-spacing: 1px;
   font-weight: 400;
@@ -201,7 +207,7 @@ export default function DynamicTextAndImages({
               )}
             </Col>
             <Col start={1} span={12}>
-              <StyledMobileParagraph>
+              <StyledMobileParagraph small={fontSize[0] !== "Large"}>
                 {content.map((item, index) => {
                   return item?.image ? (
                     <StyledParagraphImage

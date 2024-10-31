@@ -54,6 +54,7 @@ const StyledProjectFieldName = styled.p`
   @media (max-width: ${breakpoints.sm}px) {
     font-size: ${getRemSize(dimensions.textSizes.small.mobile)};
     letter-spacing: 1px;
+    max-width: 175px;
   }
 `;
 
