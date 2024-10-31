@@ -11,6 +11,7 @@ import { getRemSize } from "../../styles/globalCss";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import useScrollProgress from "../../hooks/useScrollProgress";
 import useIsIntersecting from "../../hooks/useIsIntersecting";
+import AnimateInView from "../global/animation/animateInView";
 
 interface ApproachProps {
   items: IApproach[];
@@ -50,7 +51,8 @@ const StyledMotionWrapper = styled(motion.div)`
   display: flex;
   width: max-content;
   height: 100vh;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   position: absolute;
   top: 140px;
   bottom: 0;
@@ -255,7 +257,6 @@ function Approach({ items }: ApproachProps) {
   const cappedTransform = useMotionValue(Math.min(transform.get(), 850));
 
   useEffect(() => {
-    console.log("Updating cardsRef:", items.length);
     cardsRef.current = cardsRef.current.slice(0, items.length + 1);
   }, [items, cardsRef]);
 
@@ -329,33 +330,37 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
   return (
     <>
       {items.map((item, index) => (
-        <StyledCard
-          key={index}
-          ref={(el) => (cardsRef.current[index + 1] = el)}
-          marginLeft={index === 0 ? "0px" : "20px"}
-        >
-          <StyledParagraphWrapper>
-            <StyledTextSpacer>{item.title}</StyledTextSpacer>
-            <StyledPillWrapper>
-              <Pill pillText={item.title} />
-            </StyledPillWrapper>
-            <StyledParagraphText>{item.paragraph}</StyledParagraphText>
-          </StyledParagraphWrapper>
-        </StyledCard>
+        <AnimateInView key={index}>
+          <StyledCard
+            key={index}
+            ref={(el) => (cardsRef.current[index + 1] = el)}
+            marginLeft={index === 0 ? "0px" : "20px"}
+          >
+            <StyledParagraphWrapper>
+              <StyledTextSpacer>{item.title}</StyledTextSpacer>
+              <StyledPillWrapper>
+                <Pill pillText={item.title} />
+              </StyledPillWrapper>
+              <StyledParagraphText>{item.paragraph}</StyledParagraphText>
+            </StyledParagraphWrapper>
+          </StyledCard>
+        </AnimateInView>
       ))}
       {isDesktop ? (
-        <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
-          <StyledParagraphWrapper>
-            <StyledParagraphText>
-              Interested? <br /> Let's have a chat.
-            </StyledParagraphText>
-          </StyledParagraphWrapper>
-          <SmallerIconButton>
-            <div onClick={scrollToBottom}>
-              <IconButton direction="down" />
-            </div>
-          </SmallerIconButton>
-        </StyledCardPill>
+        <AnimateInView>
+          <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
+            <StyledParagraphWrapper>
+              <StyledParagraphText>
+                Interested? <br /> Let's have a chat.
+              </StyledParagraphText>
+            </StyledParagraphWrapper>
+            <SmallerIconButton>
+              <div onClick={scrollToBottom}>
+                <IconButton direction="down" />
+              </div>
+            </SmallerIconButton>
+          </StyledCardPill>
+        </AnimateInView>
       ) : (
         <PillIconButton text="Get in touch" onClick={scrollToBottom}>
           <StyledArrowDownRight />
