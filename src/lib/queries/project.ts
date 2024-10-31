@@ -7,6 +7,7 @@ query PostBySlug($slug: String!) {
       node {
         altText
         sourceUrl
+        placeholderDataURI
       }
     }
     tags {
@@ -120,6 +121,7 @@ query PostBySlug($slug: String!) {
         node {
           altText
           sourceUrl
+          placeholderDataURI
         }
       }
     }

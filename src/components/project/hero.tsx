@@ -224,10 +224,10 @@ const variants = {
 };
 
 const fadeInVariants = {
-  hidden: { opacity: 0, backgroundColor: colors.black }, // Initial state with background color: ;
+  hidden: { opacity: 0, backgroundColor: "rgba(29, 29, 29, 1)" }, // Initial state with background color: ;
   visible: {
     opacity: 1,
-    backgroundColor: "transparent",
+    backgroundColor: "rgba(29, 29, 29, 0)",
     transition: { duration: 1 },
   }, // Fade-in effect
 };
@@ -243,13 +243,14 @@ export function Hero({ project }: Props) {
             initial="hidden"
             animate="visible"
             variants={fadeInVariants}
-            style={{ width: "100%", height: "100%" }} // Ensure the motion div covers the image
+            style={{ width: "100%", height: "585px", position: "relative" }} // Ensure the motion div covers the image
           >
             <Image
               fill
               src={project.featuredImage?.node.sourceUrl}
               alt={`${project.title} Feature Image`}
-              // placeholder="blur"
+              priority
+              placeholder="blur"
               blurDataURL={project.featuredImage.node?.placeholderDataURI}
             />
           </motion.div>
@@ -259,7 +260,7 @@ export function Hero({ project }: Props) {
           <Image
             src={project.featuredImage?.node.sourceUrl}
             alt={`${project.title} Feature Image`}
-            // placeholder="blur"
+            placeholder="blur"
             blurDataURL={project.featuredImage.node?.placeholderDataURI}
             width={374}
             height={649}

@@ -7,6 +7,7 @@ query PageBySlug($slug: String!) {
       node {
         altText
         sourceUrl
+        placeholderDataURI
       }
     }
     pageFields {

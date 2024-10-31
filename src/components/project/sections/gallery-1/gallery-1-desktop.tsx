@@ -167,7 +167,7 @@ export default function Gallery1Desktop({ images }: IProps) {
               height={768}
               alt={`Gallery Image ${page}`}
               src={images.nodes[imageIndex].sourceUrl}
-              // placeholder="blur"
+              placeholder="blur"
               blurDataURL={images.nodes[imageIndex].placeholderDataURI}
               style={{ width: "100%", height: "auto" }}
             />

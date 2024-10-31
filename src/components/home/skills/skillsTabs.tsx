@@ -185,6 +185,7 @@ export default function SkillsTabs({
               <Image
                 src={skill.featuredImage?.node?.sourceUrl}
                 blurDataURL={skill.featuredImage?.node?.placeholderDataURI}
+                placeholder="blur"
                 alt={skill.title}
                 width={158}
                 height={158}

@@ -15,6 +15,8 @@ export default function CoverImage({ title, coverImage }: Props) {
       height={1000}
       alt={`Cover Image for ${title}`}
       src={coverImage?.node.sourceUrl}
+      blurDataURL={coverImage?.node?.placeholderDataURI}
+      placeholder="blur"
     />
   );
 }

@@ -13,15 +13,15 @@ const useAnimatedCounter = ({
   value,
   direction = "up",
   start = true,
-  duration = 1,
-  decimalPlaces = 0,
+  duration = 1, // Default duration to 1 second
+  decimalPlaces = 0, // Default decimal places to 0
 }: UseAnimatedCounterProps) => {
   const ref = useRef<HTMLSpanElement>(null);
   const motionValue = useMotionValue(direction === "down" ? value : 0);
   const springValue = useSpring(motionValue, {
     damping: 80,
     stiffness: 180,
-    duration,
+    duration, // Use the duration prop
   });
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [formattedValue, setFormattedValue] = useState("0");
@@ -35,12 +35,15 @@ const useAnimatedCounter = ({
   useEffect(() => {
     const unsubscribe = springValue.on("change", (latest) => {
       setFormattedValue(
-        Intl.NumberFormat("en-US").format(latest.toFixed(decimalPlaces))
+        Intl.NumberFormat("en-US", {
+          minimumFractionDigits: decimalPlaces,
+          maximumFractionDigits: decimalPlaces,
+        }).format(latest)
       );
     });
 
     return () => unsubscribe();
-  }, [springValue]);
+  }, [springValue, decimalPlaces]);
 
   return { ref, formattedValue };
 };

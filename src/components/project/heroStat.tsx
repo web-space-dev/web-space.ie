@@ -6,6 +6,7 @@ import ArrowUpRight from "../../icons/arrowUpRight";
 import { useEffect, useRef, useState } from "react";
 import useAnimatedCounter from "../../hooks/useAnimatedCounter";
 import { useInView } from "framer-motion";
+import AnimateInView from "../global/animation/animateInView";
 
 const StyledProjectField = styled.div`
   min-width: 347px;
@@ -108,7 +109,6 @@ export function HeroStat({ stat }: IProps) {
 
       const decimalMatch = match[2].match(/\.(\d+)/);
       setDecimalPlaces(decimalMatch ? decimalMatch[1].length : 0);
-      console.log("check me", decimalPlaces);
     }
   }, [stat.value]);
 
@@ -116,30 +116,32 @@ export function HeroStat({ stat }: IProps) {
     value: numberValue || 0,
     direction: "up",
     start: inView,
-    duration: 0.1,
+    duration: 2,
     decimalPlaces,
   });
 
   return (
     <StyledProjectField ref={wrapperRef}>
       <StyledProjectFieldName>{stat.field}</StyledProjectFieldName>
-      <StyledProjectFieldValue>
-        {stat.link ? (
-          <Link href={stat.link} target="_blank">
-            {stat.value}
+      <AnimateInView>
+        <StyledProjectFieldValue>
+          {stat.link ? (
+            <Link href={stat.link} target="_blank">
+              {stat.value}
 
-            <StyledArrowUpRight className="styled-icon" fill="#fff" />
-          </Link>
-        ) : numberValue !== null ? (
-          <span ref={ref}>
-            {prefix}
-            {formattedValue}
-            {suffix}
-          </span>
-        ) : (
-          stat.value
-        )}
-      </StyledProjectFieldValue>
+              <StyledArrowUpRight className="styled-icon" fill="#fff" />
+            </Link>
+          ) : numberValue !== null ? (
+            <span ref={ref}>
+              {prefix}
+              {formattedValue}
+              {suffix}
+            </span>
+          ) : (
+            stat.value
+          )}
+        </StyledProjectFieldValue>
+      </AnimateInView>
     </StyledProjectField>
   );
 }
