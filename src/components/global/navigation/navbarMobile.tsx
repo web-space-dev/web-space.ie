@@ -157,6 +157,7 @@ interface NavbarMobileProps {
     name: string;
     path: string;
     icon?: JSX.Element | undefined;
+    external?: boolean;
   }[];
 }
 
@@ -247,7 +248,10 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
         >
           {links.slice(0, -1).map((link, index) => (
             <StyledDivMobile key={index} index={index}>
-              <StyledLinkMobile href={`/${link.path}`} dark={dark}>
+              <StyledLinkMobile
+                href={link.external ? link.path : `/${link.path}`}
+                dark={dark}
+              >
                 {!link.icon && link.name}
               </StyledLinkMobile>
             </StyledDivMobile>
