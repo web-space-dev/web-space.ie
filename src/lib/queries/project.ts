@@ -54,6 +54,7 @@ query PostBySlug($slug: String!) {
             nodes {
               sourceUrl
               altText
+              placeholderDataURI
             }
           }
         }
@@ -63,6 +64,7 @@ query PostBySlug($slug: String!) {
             nodes {
               sourceUrl
               altText
+              placeholderDataURI
             }
           }
         }
@@ -82,6 +84,7 @@ query PostBySlug($slug: String!) {
                 node {
                   altText
                   sourceUrl
+                  placeholderDataURI
                 }
               }
             }
