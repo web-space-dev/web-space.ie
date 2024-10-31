@@ -14,11 +14,11 @@ export default function Wrapper({ pageTitle, siteData }: IWrapper) {
     ? pageTitle
       ? `${pageTitle} | ${siteData.generalSettings.title}`
       : siteData.generalSettings.title
-    : "";
+    : "WEB Space";
 
   const renderDescription = siteData
     ? siteData.generalSettings.description
-    : "";
+    : "Creative development studio with a goal to conceptualise & execute creative solutions that meet unique needs and objectives, helping to effectively achieve creative goals.";
 
   return (
     <Head>
