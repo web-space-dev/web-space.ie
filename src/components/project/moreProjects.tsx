@@ -147,6 +147,8 @@ export function MoreProjects({ projects }: IProjectsData) {
                   alt={project.title}
                   width={714}
                   height={264}
+                  blurDataURL={project.featuredImage.node?.placeholderDataURI}
+                  placeholder="blur"
                 />
               )}
               <StyledTitleWrapper>
@@ -174,6 +176,8 @@ export function MoreProjects({ projects }: IProjectsData) {
                     alt={project.title}
                     width={714}
                     height={264}
+                    blurDataURL={project.featuredImage.node?.placeholderDataURI}
+                    placeholder="blur"
                   />
                 )}
               </StyledProjectCard>

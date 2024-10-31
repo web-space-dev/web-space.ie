@@ -26,7 +26,7 @@ export function CustomImage({
       width={width}
       height={height}
       src={src}
-      // // placeholder="blur"
+      placeholder="blur"
       blurDataURL={blurDataURL}
       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
     />

@@ -41,6 +41,7 @@ export default function PageBody({ content }: IProps) {
           <DynamicTextAndImages
             title={item.title || ""}
             content={item.dynamicTextAndImage}
+            fontSize={item.fontSize}
           />
         );
 

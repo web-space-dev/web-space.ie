@@ -7,6 +7,7 @@ query HomePage {
       node {
         altText
         sourceUrl
+        placeholderDataURI
       }
     }
     homeFields {
@@ -34,6 +35,7 @@ query HomePage {
               node {
                 altText
                 sourceUrl
+                placeholderDataURI
               }
             }
           }
@@ -59,6 +61,7 @@ query HomePage {
             node {
               altText
               sourceUrl
+              placeholderDataURI
             }
           }
         }

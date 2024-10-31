@@ -15,6 +15,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import AnimateInView from "../global/animation/animateInView";
+import { HeroStat } from "./heroStat";
 
 const StyledDivImage = styled.div`
   overflow: hidden;
@@ -114,72 +115,6 @@ const StyledProjectFieldsDiv = styled.div`
   @media (max-width: ${breakpoints.md}px) {
     flex-direction: column;
     wiqth: 100%;
-  }
-`;
-const StyledProjectField = styled.div`
-  min-width: 347px;
-  min-height: 127px;
-  display: flex;
-  flex-direction: column;
-  padding: 30px 40px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  margin: 10px;
-  backdrop-filter: blur(15px);
-
-  @media (max-width: 1100px) {
-    min-width: 260px;
-    min-height: 92px;
-  }
-
-  @media (max-width: ${breakpoints.md}px) {
-    flex-direction: row;
-    width: 100%;
-    min-height: 78px;
-    padding: 20px 26px;
-    align-items: center;
-    justify-content: space-between;
-    margin: 4px;
-  }
-`;
-const StyledProjectFieldName = styled.p`
-  font-weight: 500;
-  letter-spacing: 4px;
-  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
-  opacity: 80%;
-  margin: 0px;
-  padding: 0px;
-
-  @media (max-width: 1100px) {
-    font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
-  }
-
-  @media (max-width: ${breakpoints.md}px) {
-    font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
-    letter-spacing: 1px;
-  }
-
-  @media (max-width: ${breakpoints.sm}px) {
-    font-size: ${getRemSize(dimensions.textSizes.small.mobile)};
-    letter-spacing: 1px;
-  }
-`;
-
-const StyledProjectFieldValue = styled.p`
-  font-weight: 500;
-  letter-spacing: 4px;
-  font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
-  margin: 0px;
-  padding: 0px 0px 6px 0px;
-  line-height: 0.67;
-  text-wrap: nowrap;
-
-  @media (max-width: 1100px) {
-    font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
-  }
-
-  @media (max-width: ${breakpoints.md}px) {
-    letter-spacing: 1px;
   }
 `;
 
@@ -289,10 +224,10 @@ const variants = {
 };
 
 const fadeInVariants = {
-  hidden: { opacity: 0, backgroundColor: colors.black }, // Initial state with background color: ;
+  hidden: { opacity: 0, backgroundColor: "rgba(29, 29, 29, 1)" }, // Initial state with background color: ;
   visible: {
     opacity: 1,
-    backgroundColor: "transparent",
+    backgroundColor: "rgba(29, 29, 29, 0)",
     transition: { duration: 1 },
   }, // Fade-in effect
 };
@@ -308,13 +243,14 @@ export function Hero({ project }: Props) {
             initial="hidden"
             animate="visible"
             variants={fadeInVariants}
-            style={{ width: "100%", height: "100%" }} // Ensure the motion div covers the image
+            style={{ width: "100%", height: "585px", position: "relative" }} // Ensure the motion div covers the image
           >
             <Image
               fill
               src={project.featuredImage?.node.sourceUrl}
               alt={`${project.title} Feature Image`}
-              // placeholder="blur"
+              priority
+              placeholder="blur"
               blurDataURL={project.featuredImage.node?.placeholderDataURI}
             />
           </motion.div>
@@ -324,7 +260,7 @@ export function Hero({ project }: Props) {
           <Image
             src={project.featuredImage?.node.sourceUrl}
             alt={`${project.title} Feature Image`}
-            // placeholder="blur"
+            placeholder="blur"
             blurDataURL={project.featuredImage.node?.placeholderDataURI}
             width={374}
             height={649}
@@ -343,60 +279,9 @@ export function Hero({ project }: Props) {
       </StyledTitleRow>
       <Col span={12}>
         <StyledProjectFieldsDiv>
-          <StyledProjectField>
-            <AnimateInView>
-              <StyledProjectFieldName>
-                {project.projectFields.stat1.field}
-              </StyledProjectFieldName>
-              <StyledProjectFieldValue>
-                {project.projectFields.stat1.link ? (
-                  <Link href={project.projectFields.stat1.link} target="_blank">
-                    {project.projectFields.stat1.value}
-
-                    <StyledArrowUpRight className="styled-icon" fill="#fff" />
-                  </Link>
-                ) : (
-                  project.projectFields.stat1.value
-                )}
-              </StyledProjectFieldValue>
-            </AnimateInView>
-          </StyledProjectField>
-          <StyledProjectField>
-            <AnimateInView>
-              <StyledProjectFieldName>
-                {project.projectFields.stat2.field}
-              </StyledProjectFieldName>
-              <StyledProjectFieldValue>
-                {project.projectFields.stat2.link ? (
-                  <Link href={project.projectFields.stat2.link} target="_blank">
-                    {project.projectFields.stat2.value}
-
-                    <StyledArrowUpRight className="styled-icon" fill="#fff" />
-                  </Link>
-                ) : (
-                  project.projectFields.stat2.value
-                )}
-              </StyledProjectFieldValue>
-            </AnimateInView>
-          </StyledProjectField>
-          <StyledProjectField>
-            <AnimateInView>
-              <StyledProjectFieldName>
-                {project.projectFields.stat3.field}
-              </StyledProjectFieldName>
-              <StyledProjectFieldValue>
-                {project.projectFields.stat3.link ? (
-                  <Link href={project.projectFields.stat3.link} target="_blank">
-                    {project.projectFields.stat3.value}
-
-                    <StyledArrowUpRight className="styled-icon" fill="#fff" />
-                  </Link>
-                ) : (
-                  project.projectFields.stat3.value
-                )}
-              </StyledProjectFieldValue>
-            </AnimateInView>
-          </StyledProjectField>
+          <HeroStat stat={project.projectFields.stat1} />
+          <HeroStat stat={project.projectFields.stat2} />
+          <HeroStat stat={project.projectFields.stat3} />
         </StyledProjectFieldsDiv>
       </Col>
       <Col span={12}>

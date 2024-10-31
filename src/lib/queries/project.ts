@@ -7,6 +7,7 @@ query PostBySlug($slug: String!) {
       node {
         altText
         sourceUrl
+        placeholderDataURI
       }
     }
     tags {
@@ -53,6 +54,7 @@ query PostBySlug($slug: String!) {
             nodes {
               sourceUrl
               altText
+              placeholderDataURI
             }
           }
         }
@@ -62,12 +64,14 @@ query PostBySlug($slug: String!) {
             nodes {
               sourceUrl
               altText
+              placeholderDataURI
             }
           }
         }
         ... on ProjectFieldsContentDynamicTextImageLayout {
           __typename
           title
+          fontSize
           dynamicTextAndImage {
             ... on ProjectFieldsContentDynamicTextAndImageTextLayout {
               __typename
@@ -80,6 +84,7 @@ query PostBySlug($slug: String!) {
                 node {
                   altText
                   sourceUrl
+                  placeholderDataURI
                 }
               }
             }
@@ -119,6 +124,7 @@ query PostBySlug($slug: String!) {
         node {
           altText
           sourceUrl
+          placeholderDataURI
         }
       }
     }

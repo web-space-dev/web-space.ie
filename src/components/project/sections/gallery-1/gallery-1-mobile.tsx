@@ -45,7 +45,7 @@ export default function Gallery1Mobile({ images }: IProps) {
             width={isTablet ? 686 : 343}
             height={isTablet ? 472 : 236}
             alt={image.altText}
-            // placeholder="blur"
+            placeholder="blur"
             blurDataURL={image.placeholderDataURI}
             src={image.sourceUrl}
             sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"

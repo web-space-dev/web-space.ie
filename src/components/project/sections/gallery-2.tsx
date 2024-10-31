@@ -51,8 +51,8 @@ export default function Gallery2({ images }: IProps) {
                 height={isDesktop ? 768 : isTablet ? 428 : 236}
                 alt={`Gallery Image ${index}`}
                 src={image.sourceUrl}
-                // placeholder="blur"
-                blurDataURL={image.placeholderDataURI}
+                placeholder="blur"
+                blurDataURL={image?.placeholderDataURI}
                 style={
                   isDesktop
                     ? { height: "auto" }

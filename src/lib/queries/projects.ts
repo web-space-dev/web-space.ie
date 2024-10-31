@@ -14,7 +14,7 @@ export const GET_PROJECTS_DATA_QUERY = `
             node {
               altText
               sourceUrl
-              
+              placeholderDataURI
             }
           }
         }
