@@ -128,7 +128,7 @@ const StyledTabs = styled.div`
 
   @media (max-width: ${breakpoints.sm}px) {
     width: 100%;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
   }
 
   @media (max-width: 400px) {

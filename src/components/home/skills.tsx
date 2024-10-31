@@ -22,7 +22,8 @@ const StyledHeading = styled(motion.h2)`
   height: 190px;
   @media all and (max-width: ${breakpoints.md}px) {
     grid-column: 1 / span 12;
-    font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
+    font-size: ${getRemSize(dimensions.headingSizes.large.mobile - 5)};
+    height: 200px;
   }
 `;
 
@@ -41,7 +42,7 @@ function Skills({ categories }: ISkills) {
   const [activeTab, setActiveTab] = useState(0);
   return (
     <StyledWrapper>
-      <Row>
+      <Row style={{ marginBottom: 0 }}>
         <Col start={3} span={8}>
           <StyledHeading
             key={activeTab} // This will trigger the animation on activeTab change
