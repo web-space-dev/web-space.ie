@@ -1,34 +1,26 @@
 import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { GridContainer } from "../../global/grid/gridContainer";
-import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { getRemSize } from "../../../styles/globalCss";
-import { useRef, useEffect, memo, useState } from "react";
+import { useRef } from "react";
 import { Col } from "../../global/grid/Col";
 import { Row } from "../../global/grid/Row";
 import { IShowcase } from "../showcase";
 import ShowcaseItemMobile from "./showcase-item-mobile";
 import ShowcaseItemMobileAllProjects from "./showcase-item-mobile-all-projects";
-import useScrollProgress from "../../../hooks/useScrollProgress";
-import useDebugPanel from "../../../hooks/useDebugPanel";
-
-const StyledSpacer = styled.div<{ height: number }>`
-  height: ${({ height }) => height}px;
-  visibility: hidden;
-  margin-top: -80vh;
-`;
 
 const StyledWrapper = styled(GridContainer)`
   position: sticky;
-
-  height: 100vh;
+  top: 25vw;
   z-index: 20;
   background-color: ${colors.black};
-  top: 0;
-  left: 0px;
-  right: 0;
   will-change: transform;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 
   @media (max-width: ${breakpoints.sm}px) {
     display: flex;
@@ -39,22 +31,23 @@ const StyledWrapper = styled(GridContainer)`
 
 const StyledMotionWrapper = styled(motion.div)`
   display: flex;
-  width: max-content;
-  height: 100vh;
-  overflow: auto;
+  width: 100%;
+  height: 537px;
+  overflow-x: auto;
   position: absolute;
   top: 0;
-  bottom: 0;
-  left: 5px;
+  left: 0;
+  right: 0;
+  align-items: center;
+  /* padding-right: 18px; */
 `;
 
-const StyledItemContainer = styled.div`
-  overflow-y: scroll;
+const StyledItemContainer = styled(motion.div)`
   display: flex;
   align-items: center;
-  overflow-x: scroll;
+  overflow-x: auto;
   position: relative;
-  height: 100vh;
+  height: 537px;
   width: max-content;
 `;
 
@@ -75,62 +68,45 @@ const StyledTitle = styled(motion.h2)<{ color: string }>`
 `;
 
 const StyledMobileSpacer = styled.div`
-  margin-right: 343px;
+  margin-right: 92vw;
   scroll-snap-align: center;
 `;
 
+const StyledSpacer = styled.div<{ height: number }>`
+  height: ${({ height }) => height}px;
+  visibility: hidden;
+`;
+
 function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
-  const ghostRef = useRef(null);
-  const horizontalRef = useRef(null);
   const wrapperRef = useRef(null);
-  const horizontalWidth = 3000;
+  const spacerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: spacerRef,
+    offset: ["start start", "end end"],
+  });
 
-  const scrollProgress = useScrollProgress(ghostRef);
-
-  const isInView = useInView(wrapperRef, { amount: 0.1 });
-
-  const transform = useTransform(
-    scrollProgress,
-    [0, 1],
-    isInView ? [0, -horizontalWidth] : [0, 0]
-  );
-  const cappedTransform = useMotionValue(Math.min(transform.get(), 250));
-
-  const textOpacityTransform = useTransform(scrollProgress, [0, 0.1], [1, 0]);
-
-  const [cappedTransformValue, setCappedTransformValue] = useState(
-    cappedTransform.get()
-  );
-
-  useEffect(() => {
-    const unsubscribe = transform.onChange((value) => {
-      cappedTransform.set(Math.max(value, -1410));
-      setCappedTransformValue(Math.max(value, -1410));
-    });
-
-    return unsubscribe;
-  }, [transform, cappedTransform]);
+  const titleOpacity = useTransform(scrollYProgress, [0.1, 0.3], [1, 0]);
 
   return (
     <>
       <div style={{ position: "relative" }}>
         <StyledWrapper ref={wrapperRef}>
-          <Row>
+          <Row style={{ height: 537 }}>
             <Col start={1} span={12}>
               <StyledTitle
-                color={false ? colors.accent : colors.white}
-                style={{ opacity: textOpacityTransform }}
+                style={{ opacity: titleOpacity }}
+                color={colors.white}
               >
                 {title}
               </StyledTitle>
             </Col>
           </Row>
 
-          <StyledMotionWrapper
-            ref={horizontalRef}
-            style={{ x: cappedTransform }}
-          >
-            <StyledItemContainer>
+          <StyledMotionWrapper>
+            <StyledItemContainer
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+            >
               <StyledMobileSpacer />
               {projects.nodes.map((project, index: number) => {
                 return <ShowcaseItemMobile key={index} project={project} />;
@@ -139,7 +115,7 @@ function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
             </StyledItemContainer>
           </StyledMotionWrapper>
         </StyledWrapper>
-        <StyledSpacer ref={ghostRef} height={horizontalWidth} />
+        <StyledSpacer ref={spacerRef} height={1000} />
       </div>
     </>
   );
