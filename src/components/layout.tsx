@@ -12,25 +12,19 @@ import ComingSoon from "./global/comingSoon";
 
 const gaId = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
 
-const StyledLink = styled.a`
+const StyledLink = styled.a<{ loading: string }>`
   position: absolute;
-  top: auto;
-  left: -999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  z-index: -99;
+  top: -40px;
+  left: 0;
+  background: ${({ loading }) => (loading === "true" ? "#000" : "#fff")};
+  color: ${({ loading }) => (loading === "true" ? "#fff" : "#000")};
+  padding: 8px;
+  z-index: 100;
+  text-decoration: none;
+  transition: top 0.3s;
 
-  &:focus,
-  &:active {
-    background-color: #000;
-    color: #fff;
+  &:focus {
     top: 0;
-    left: 0;
-    width: auto;
-    height: auto;
-    overflow: auto;
-    z-index: 99;
   }
 `;
 
@@ -104,7 +98,11 @@ export default function Layout({
     <StyledWrapper>
       <Wrapper pageTitle={pageTitle} siteData={siteData} />
 
-      <StyledLink className="skip-to-content" href="#content">
+      <StyledLink
+        className="skip-to-content"
+        href="#content"
+        loading={isLoading.toString()}
+      >
         Skip to Content
       </StyledLink>
 
