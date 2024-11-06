@@ -330,7 +330,7 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
   return (
     <>
       {items.map((item, index) => (
-        <AnimateInView key={index}>
+        <AnimateInView key={index} initial={isDesktop ? "open" : "closed"}>
           <StyledCard
             key={index}
             ref={(el) => (cardsRef.current[index + 1] = el)}
@@ -347,7 +347,7 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
         </AnimateInView>
       ))}
       {isDesktop ? (
-        <AnimateInView>
+        <AnimateInView initial={isDesktop ? "open" : "closed"}>
           <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
             <StyledParagraphWrapper>
               <StyledParagraphText>

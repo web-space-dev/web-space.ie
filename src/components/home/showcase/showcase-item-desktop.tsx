@@ -85,6 +85,7 @@ const StyledShowcaseImage = styled(motion.div)`
   border-radius: 24px;
 
   & img {
+    filter: brightness(0.7);
     /* width: -webkit-fill-available; */
     object-fit: cover;
     border-radius: 36px;
