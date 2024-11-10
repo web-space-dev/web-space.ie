@@ -329,23 +329,42 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
 
   return (
     <>
-      {items.map((item, index) => (
-        <AnimateInView key={index} initial={isDesktop ? "open" : "closed"}>
-          <StyledCard
-            key={index}
-            ref={(el) => (cardsRef.current[index + 1] = el)}
-            marginLeft={index === 0 ? "0px" : "20px"}
-          >
-            <StyledParagraphWrapper>
-              <StyledTextSpacer>{item.title}</StyledTextSpacer>
-              <StyledPillWrapper>
-                <Pill pillText={item.title} />
-              </StyledPillWrapper>
-              <StyledParagraphText>{item.paragraph}</StyledParagraphText>
-            </StyledParagraphWrapper>
-          </StyledCard>
-        </AnimateInView>
-      ))}
+      {items.map((item, index) => {
+        if (isDesktop)
+          return (
+            <StyledCard
+              key={index}
+              ref={(el) => (cardsRef.current[index + 1] = el)}
+              marginLeft={index === 0 ? "0px" : "20px"}
+            >
+              <StyledParagraphWrapper>
+                <StyledTextSpacer>{item.title}</StyledTextSpacer>
+                <StyledPillWrapper>
+                  <Pill pillText={item.title} />
+                </StyledPillWrapper>
+                <StyledParagraphText>{item.paragraph}</StyledParagraphText>
+              </StyledParagraphWrapper>
+            </StyledCard>
+          );
+
+        return (
+          <AnimateInView key={index}>
+            <StyledCard
+              key={index}
+              ref={(el) => (cardsRef.current[index + 1] = el)}
+              marginLeft={index === 0 ? "0px" : "20px"}
+            >
+              <StyledParagraphWrapper>
+                <StyledTextSpacer>{item.title}</StyledTextSpacer>
+                <StyledPillWrapper>
+                  <Pill pillText={item.title} />
+                </StyledPillWrapper>
+                <StyledParagraphText>{item.paragraph}</StyledParagraphText>
+              </StyledParagraphWrapper>
+            </StyledCard>
+          </AnimateInView>
+        );
+      })}
       {isDesktop ? (
         <AnimateInView initial={isDesktop ? "open" : "closed"}>
           <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>

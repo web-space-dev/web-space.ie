@@ -98,13 +98,13 @@ export default function Layout({
     <StyledWrapper>
       <Wrapper pageTitle={pageTitle} siteData={siteData} />
 
-      <StyledLink
+      {/* <StyledLink
         className="skip-to-content"
         href="#content"
         loading={isLoading.toString()}
       >
         Skip to Content
-      </StyledLink>
+      </StyledLink> */}
 
       {isProduction && isLoading && isHome ? (
         <Loader finishLoading={() => setIsLoading(false)} />

@@ -12,7 +12,7 @@ import { motion, useAnimation } from "framer-motion";
 
 const StyledImageWrapper = styled(Link)`
   position: fixed;
-  top: 14px;
+  top: 24px;
   left: 8px;
   z-index: 999;
   @media all and (min-width: ${breakpoints.md}px) {

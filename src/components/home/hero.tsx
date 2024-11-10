@@ -36,7 +36,7 @@ const StyledHeading = styled(motion.h1)`
     font-size: ${dimensions.headingSizes.medium.desktop - 10}px;
   }
 
-  @media all and (max-width: ${breakpoints.sm}px) {
+  @media all and (max-width: ${breakpoints.sm + 100}px) {
     text-indent: 60px;
     font-size: ${dimensions.headingSizes.medium.mobile}px;
   }
