@@ -70,11 +70,23 @@ export default function Layout({
 
   useEffect(() => {
     const hasVisitedHome = localStorage.getItem("hasVisitedHome");
+    const now = new Date().getTime();
+    const twelveHours = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
 
-    if (hasVisitedHome) {
+    if (hasVisitedHome === "true") {
+      // If the previous version is "true", show the homepage and update to the current timestamp
+      setIsLoading(true);
+      localStorage.setItem("hasVisitedHome", now.toString());
+    } else if (
+      hasVisitedHome &&
+      now - parseInt(hasVisitedHome, 10) < twelveHours
+    ) {
+      // If the timestamp is within the last 12 hours, show the homepage
       setIsLoading(false);
     } else {
-      localStorage.setItem("hasVisitedHome", "true");
+      // Otherwise, update to the current timestamp
+      setIsLoading(true);
+      localStorage.setItem("hasVisitedHome", now.toString());
     }
   }, []);
 
