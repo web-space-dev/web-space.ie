@@ -105,6 +105,7 @@ const StyledPillNumber = styled.span`
 
 const StyledPillText = styled.span`
   text-align: left;
+  width: 80%;
 `;
 
 const StyledPill = styled.span<{ index: number }>`
@@ -116,6 +117,7 @@ const StyledPill = styled.span<{ index: number }>`
   font-weight: 500;
   letter-spacing: 2px;
   display: flex;
+  max-width: 300px;
 
   @media all and (max-width: ${breakpoints.md}px) {
     margin: 12px 16px;
@@ -181,7 +183,7 @@ const ProcessItem = ({
           return (
             <StyledPill key={`${pill.pillText}-${pill.id}`} index={pill.id}>
               <StyledPillNumber>
-                {pillNumber < 10 && "0"}
+                {pillNumber < 9 && "0"}
                 {pillNumber + 1}
               </StyledPillNumber>
 
@@ -195,6 +197,7 @@ const ProcessItem = ({
 };
 
 interface WhatWeDoProps {
+  title?: string;
   items: IWhatWeDo[];
 }
 
@@ -216,7 +219,7 @@ const variants = {
   },
 };
 
-function WhatWeDo({ items }: WhatWeDoProps) {
+function WhatWeDo({ title, items }: WhatWeDoProps) {
   let totalPillsBefore = 0;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -245,7 +248,7 @@ function WhatWeDo({ items }: WhatWeDoProps) {
             variants={variants}
             transition={{ delay: 0.2 }}
           >
-            What we do.
+            {title ? title : "What we do."}
           </StyledTitle>
         </Col>
         <Col start={3} span={10} spanMobile={10}>

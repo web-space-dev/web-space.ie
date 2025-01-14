@@ -12,13 +12,22 @@ interface IProps {
 }
 
 const StyledTitle = styled.h2`
+  margin-top: 0;
   font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.headingSizes.cta.desktop)};
   }
 `;
-const StyledParagraph = styled.div`
-  margin-top: 40px;
+
+const StyledCol = styled(Col)<{ margin: number }>`
+  margin-top: ${({ margin }) => margin}px;
+  @media all and (max-width: ${breakpoints.md}px) {
+    margin-top: 5px;
+  }
+`;
+
+const StyledParagraph = styled.div<{ margin: number }>`
+  margin-top: ${({ margin }) => margin}px;
   @media all and (max-width: ${breakpoints.md}px) {
     margin-top: 15px;
     font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
@@ -31,10 +40,13 @@ export function PageSection({ title, pillText, content }: IProps) {
       <Col span={4}>
         <StyledTitle>{title}</StyledTitle>
       </Col>
-      <Col span={8}>
+      <StyledCol span={8} margin={pillText ? 20 : 5}>
         {pillText && <Pill pillText={pillText} />}
-        <StyledParagraph dangerouslySetInnerHTML={{ __html: content }} />
-      </Col>
+        <StyledParagraph
+          margin={pillText ? 40 : 0}
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      </StyledCol>
     </Row>
   );
 }

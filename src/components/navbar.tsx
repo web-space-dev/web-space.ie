@@ -193,6 +193,7 @@ export default function Navbar({ dark, sticky = true }: IProps) {
   const links = [
     { name: "About", path: "" },
     { name: "Projects", path: "projects" },
+    { name: "Hosting", path: "hosting" },
     {
       name: "Client space",
       path: "https://client.web-space.ie/",

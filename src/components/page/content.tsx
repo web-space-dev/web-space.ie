@@ -9,6 +9,8 @@ import LargeTextArea from "../project/sections/largeTextArea";
 import DynamicTextAndImages from "../project/sections/the-challenge";
 import { SubHero } from "./subHero";
 import { PageSection } from "./pageSection";
+import WhatWeDo from "../home/whatWeDo";
+import Approach from "../home/approach";
 
 interface IProps {
   content: Content[];
@@ -47,6 +49,12 @@ export default function PageBody({ content }: IProps) {
 
       case "PageFieldsContentParagraphFieldLayout":
         return <ContentParagraph content={item.paragraphItem} />;
+
+      case "PageFieldsContentWhatWeDoLayout":
+        return <WhatWeDo title={item.title} items={item.whatWeDo} />;
+
+      case "PageFieldsContentApproachLayout":
+        return <Approach title={item.title} items={item.approach} />;
     }
   };
 

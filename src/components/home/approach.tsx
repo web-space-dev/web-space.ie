@@ -14,6 +14,7 @@ import useIsIntersecting from "../../hooks/useIsIntersecting";
 import AnimateInView from "../global/animation/animateInView";
 
 interface ApproachProps {
+  title?: string;
   items: IApproach[];
 }
 
@@ -232,7 +233,7 @@ interface StyledCardProps {
   marginLeft?: string;
 }
 
-function Approach({ items }: ApproachProps) {
+function Approach({ title, items }: ApproachProps) {
   const ghostRef = useRef(null);
   const horizontalRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -283,7 +284,7 @@ function Approach({ items }: ApproachProps) {
     <div style={{ position: "relative" }}>
       <StyledWrapper ref={wrapperRef}>
         <StyledHeadingWrapper>
-          <StyledHeading2>Our Approach</StyledHeading2>
+          <StyledHeading2>{title ? title : "Our Approach"}</StyledHeading2>
         </StyledHeadingWrapper>
         {isDesktop ? (
           <>

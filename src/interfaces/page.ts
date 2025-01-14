@@ -1,3 +1,4 @@
+import { WhatWeDo } from "./home";
 import { DynamicTextAndImage, Gallery, ParagraphItem } from "./project";
 
 export interface IPageData {
@@ -29,4 +30,20 @@ export interface Content {
   dynamicTextAndImage?: DynamicTextAndImage[];
   paragraphItem?: ParagraphItem[];
   gallery2?: Gallery;
+  whatWeDo?: WhatWeDo[];
+  approach?: Approach[];
+}
+
+export interface Approach {
+  title: string;
+  paragraph: string;
+}
+
+// export interface WhatWeDo {
+//   title: string;
+//   pills: Pill[];
+// }
+
+export interface Pill {
+  pillText: string;
 }

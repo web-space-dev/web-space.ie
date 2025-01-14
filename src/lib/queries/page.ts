@@ -34,6 +34,7 @@ query PageBySlug($slug: String!) {
             nodes {
               sourceUrl
               altText
+              placeholderDataURI
             }
           }
         }
@@ -43,6 +44,7 @@ query PageBySlug($slug: String!) {
             nodes {
               sourceUrl
               altText
+              placeholderDataURI
             }
           }
         }
@@ -61,6 +63,7 @@ query PageBySlug($slug: String!) {
                 node {
                   altText
                   sourceUrl
+                  placeholderDataURI
                 }
               }
             }
@@ -81,6 +84,24 @@ query PageBySlug($slug: String!) {
               __typename
               largeParagraph
             }
+          }
+        }
+        ... on PageFieldsContentWhatWeDoLayout {
+          __typename
+          title
+          whatWeDo {
+            title
+            pills {
+              pillText
+            }
+          }
+        }
+        ... on PageFieldsContentApproachLayout {
+          __typename
+          title
+          approach {
+            title
+            paragraph
           }
         }
       }
