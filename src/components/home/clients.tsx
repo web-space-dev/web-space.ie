@@ -14,6 +14,11 @@ const StyledSection = styled.section`
   gap: 20px;
   align-items: flex-start;
 
+  @media all and (max-width: 1200px) {
+    gap: 32px;
+    padding: 150px 24px;
+  }
+
   @media all and (max-width: ${breakpoints.md}px) {
     flex-direction: column;
     padding: 100px 20px;
@@ -44,6 +49,11 @@ const StyledHeading = styled.h2`
   width: 591px;
   flex-shrink: 0;
   white-space: pre-wrap;
+
+  @media all and (max-width: 1200px) {
+    font-size: ${getRemSize(52)};
+    width: 450px;
+  }
 
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(42)};
@@ -92,7 +102,12 @@ const StyledClientName = styled.p`
   line-height: 1;
   color: ${colors.white};
   letter-spacing: 0.46px;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
+
+  @media all and (max-width: 1200px) {
+    font-size: ${getRemSize(36)};
+  }
 
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(32)};
@@ -180,8 +195,15 @@ const StyledCTAText = styled.p`
   letter-spacing: 0.46px;
   flex-shrink: 0;
 
+  @media all and (max-width: 1200px) {
+    font-size: ${getRemSize(36)};
+  }
+
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(32)};
+  }
+  @media all and (max-width: ${breakpoints.sm}px) {
+    font-size: ${getRemSize(24)};
   }
 `;
 

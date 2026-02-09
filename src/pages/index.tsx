@@ -10,7 +10,6 @@ import WhatWeDo from "../components/home/whatWeDo";
 import Showcase from "../components/home/showcase";
 import Skills from "../components/home/skills";
 import Approach from "../components/home/approach";
-import { useEffect, useState } from "react";
 import Clients from "@/components/home/clients";
 
 interface IIndex {
@@ -32,10 +31,10 @@ export default function Index({ siteData, pageData }: IIndex) {
       {/* What we do */}
       <WhatWeDo items={page.homeFields.whatWeDo} />
       {/* Showcase */}
-      <Showcase
+      {/* <Showcase
         title={page.homeFields.showcaseTitle}
         projects={page.homeFields.showcaseProjects}
-      />
+      /> */}
 
       {/* Clients */}
       <Clients skillCategory={clientSkillCategory} />
