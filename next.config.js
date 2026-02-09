@@ -11,6 +11,9 @@ const { protocol, hostname, port, pathname } = new URL(
 
 /** @type {import('next').NextConfig} */
 module.exports = {
+  compiler: {
+    emotion: true,
+  },
   images: {
     unoptimized: process.env.NODE_ENV === "development",
     remotePatterns: [

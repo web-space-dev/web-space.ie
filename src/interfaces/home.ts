@@ -52,6 +52,7 @@ export interface SkillCategories {
 export interface SkillCategoriesNode {
   name: string;
   description: string;
+  slug: string;
   skills: Skills;
 }
 

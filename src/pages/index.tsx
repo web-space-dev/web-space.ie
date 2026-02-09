@@ -11,6 +11,7 @@ import Showcase from "../components/home/showcase";
 import Skills from "../components/home/skills";
 import Approach from "../components/home/approach";
 import { useEffect, useState } from "react";
+import Clients from "@/components/home/clients";
 
 interface IIndex {
   siteData: ISiteData;
@@ -20,6 +21,9 @@ interface IIndex {
 export default function Index({ siteData, pageData }: IIndex) {
   const { page, skillCategories } = pageData;
 
+  const clientSkillCategory = skillCategories.nodes.find(
+    (category) => category.slug === "clients",
+  );
   return (
     <Layout pageTitle={page.title} siteData={siteData} isHomePage={true}>
       {/* Hero section */}
@@ -32,6 +36,9 @@ export default function Index({ siteData, pageData }: IIndex) {
         title={page.homeFields.showcaseTitle}
         projects={page.homeFields.showcaseProjects}
       />
+
+      {/* Clients */}
+      <Clients skillCategory={clientSkillCategory} />
 
       {/* Skills */}
       <Skills categories={skillCategories} />

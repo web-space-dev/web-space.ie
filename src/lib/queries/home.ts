@@ -51,6 +51,7 @@ query HomePage {
     nodes {
       name
       description
+      slug
       skills {
         nodes {
           title
