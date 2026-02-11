@@ -9,7 +9,7 @@ import { GridContainer } from "../../global/grid/gridContainer";
 import { Row } from "../../global/grid/Row";
 
 interface IProps {
-  images: Gallery;
+  images: Gallery | undefined;
 }
 const StyledImageWrapper = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ export default function Gallery2({ images }: IProps) {
     <Row>
       <Col span={12}>
         <StyledImageWrapper>
-          {images.nodes.map((image, index) => {
+          {images?.nodes.map((image, index) => {
             return (
               <Image
                 key={index}

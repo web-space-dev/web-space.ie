@@ -8,7 +8,7 @@ import { Row } from "../../global/grid/Row";
 import AnimateInView from "../../global/animation/animateInView";
 
 interface IProps {
-  content: ParagraphItem[];
+  content: ParagraphItem[] | undefined;
 }
 
 const StyledPillWrapper = styled.div``;
@@ -46,7 +46,7 @@ const StyledParagraphSecond = styled.p`
 export function ContentParagraph({ content }: IProps) {
   return (
     <Row>
-      {content.map((paragraph, index) => {
+      {content?.map((paragraph, index) => {
         if (paragraph.title)
           return (
             <Col start={1} span={4} key={`title-${index}`}>

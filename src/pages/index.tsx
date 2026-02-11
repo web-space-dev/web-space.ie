@@ -42,13 +42,13 @@ export default function Index({ siteData, pageData }: IIndex) {
       <Team skillCategory={teamSkillCategory} />
 
       {/* Approach */}
-      {/* <Approach items={page.homeFields.approach} /> */}
+      <Approach items={page.homeFields.approach} />
 
       {/* Showcase */}
-      <Showcase
+      {/* <Showcase
         title={page.homeFields.showcaseTitle}
         projects={page.homeFields.showcaseProjects}
-      />
+      /> */}
     </Layout>
   );
 }

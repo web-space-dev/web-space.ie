@@ -20,9 +20,8 @@ query PostBySlug($slug: String!) {
       content {
         fieldGroupName
         ... on ServicesFieldsContentLargeTextAreaLayout {
-          fieldGroupName
+          __typename
           largeTextArea
-          subHeroLargeText
         }
         ... on ServicesFieldsContentGallery1Layout {
           __typename

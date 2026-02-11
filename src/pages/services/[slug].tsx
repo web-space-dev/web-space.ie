@@ -3,8 +3,8 @@ import ErrorPage from "next/error";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Layout from "../../components/layout";
 import {
-  getAllProjectsWithSlug,
-  getProjectAndMoreProjects,
+  getAllServicesWithSlug,
+  getServiceData,
   getSiteData,
 } from "../../lib/api";
 import { ISiteData } from "../../interfaces/site";
@@ -13,30 +13,49 @@ import { Hero } from "../../components/project/hero";
 import ProjectBody from "../../components/project/content";
 import { GridContainer } from "../../components/global/grid/gridContainer";
 import { MoreProjects } from "../../components/project/moreProjects";
+import { IServiceData } from "@/interfaces/service";
+import { Row } from "@/components/global/grid/Row";
+import PageBody from "@/components/page/content";
 
-interface IProject extends IProjectData {
+import { Col } from "@/components/global/grid/Col";
+import { breakpoints, dimensions } from "@/styles/variables";
+import { getRemSize } from "@/styles/globalCss";
+import styled from "@emotion/styled";
+import ServicesBody from "@/components/service/content";
+
+interface IService extends IServiceData {
   siteData: ISiteData;
 }
 
-export default function Project({ siteData, project, projects }: IProject) {
+const StyledTitle = styled.h1`
+  font-size: ${getRemSize(dimensions.textSizes.xLarge.desktop)};
+  margin: 200px 0px 140px 32px;
+  @media all and (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
+    margin: 120px 0;
+  }
+`;
+
+export default function Service({ siteData, service }: IService) {
   const router = useRouter();
 
-  if (!project || (!router.isFallback && !project?.slug)) {
+  if (!service || (!router.isFallback && !service?.slug)) {
     return <ErrorPage statusCode={404} />;
   }
 
   return (
-    <Layout pageTitle={project?.title} siteData={siteData}>
+    <Layout pageTitle={service?.title} siteData={siteData}>
       {router.isFallback ? (
         <h2>Loading</h2>
       ) : (
         <>
           <GridContainer>
-            <Hero project={project} />
-            {/* <Content */}
-            <ProjectBody content={project.projectFields.content} />
-            {/* Other Projects */}
-            <MoreProjects projects={projects} />
+            <Row>
+              <Col span={12}>
+                <StyledTitle>{service.title}</StyledTitle>
+                <ServicesBody content={service.servicesFields.content} />
+              </Col>
+            </Row>
           </GridContainer>
         </>
       )}
@@ -46,24 +65,23 @@ export default function Project({ siteData, project, projects }: IProject) {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = typeof params.slug === "string" ? params.slug : params.slug[0];
-  const { project, projects } = await getProjectAndMoreProjects(slug);
+  const { service } = await getServiceData(slug);
   const siteData = await getSiteData();
 
   return {
     props: {
       siteData,
-      project,
-      projects,
+      service,
     },
     revalidate: 10,
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const allProjects = await getAllProjectsWithSlug();
+  const allServices = await getAllServicesWithSlug();
 
   return {
-    paths: allProjects.edges.map(({ node }) => `/projects/${node.slug}`) || [],
+    paths: allServices.edges.map(({ node }) => `/services/${node.slug}`) || [],
     fallback: true,
   };
 };

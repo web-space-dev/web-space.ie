@@ -4,7 +4,6 @@ export interface IServicesData {
 
 export interface IServiceData {
   service: Service;
-  services: Services;
 }
 
 export interface Services {

@@ -15,7 +15,7 @@ import AnimateInView from "../../global/animation/animateInView";
 interface IProps {
   title: string;
   fontSize: string[];
-  content: DynamicTextAndImage[];
+  content: DynamicTextAndImage[] | undefined;
 }
 
 const StyledBigWrapper = styled.div`
@@ -88,7 +88,7 @@ const StyledParagraph = styled.p<{ fontSize: string }>`
     getRemSize(
       fontSize === "Large"
         ? dimensions.textSizes.large.desktop
-        : dimensions.textSizes.normal.desktop
+        : dimensions.textSizes.normal.desktop,
     )};
   line-height: 1.15;
   letter-spacing: 2px;
@@ -100,7 +100,7 @@ const StyledMobileParagraph = styled.p<{ small: boolean }>`
     getRemSize(
       props.small
         ? dimensions.textSizes.normal.mobile
-        : dimensions.textSizes.normal.desktop
+        : dimensions.textSizes.normal.desktop,
     )};
 
   line-height: 1.3;
@@ -134,10 +134,10 @@ export default function DynamicTextAndImages({
 }: IProps) {
   const isDesktop = useIsDesktop();
   const isTablet = useIsTablet();
-  const [hoverIndex, setHoverIndex] = useState(null);
-  const [mobileHoverIndex, setMobileHoverIndex] = useState(null);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [mobileHoverIndex, setMobileHoverIndex] = useState<number | null>(null);
 
-  const onHover = (index) => {
+  const onHover = (index: number) => {
     setHoverIndex(index);
   };
 
@@ -160,7 +160,7 @@ export default function DynamicTextAndImages({
             <Col start={5} span={8}>
               <AnimateInView>
                 <StyledParagraph fontSize={fontSize[0]}>
-                  {content.map((item, index) => {
+                  {content?.map((item, index) => {
                     return item?.image ? (
                       <StyledParagraphImage
                         key={index}
@@ -177,7 +177,7 @@ export default function DynamicTextAndImages({
                   })}
                 </StyledParagraph>
               </AnimateInView>
-              {hoverIndex && (
+              {hoverIndex !== null && content?.[hoverIndex]?.image && (
                 <StyledImage
                   onMouseEnter={(e) => onHover(hoverIndex)}
                   onMouseLeave={(e) => onHoverOver()}
@@ -208,7 +208,7 @@ export default function DynamicTextAndImages({
             </Col>
             <Col start={1} span={12}>
               <StyledMobileParagraph small={fontSize[0] !== "Large"}>
-                {content.map((item, index) => {
+                {content?.map((item, index) => {
                   return item?.image ? (
                     <StyledParagraphImage
                       key={index}
@@ -225,7 +225,7 @@ export default function DynamicTextAndImages({
                 })}
               </StyledMobileParagraph>
               <StyledMobileImageWrapper>
-                {content.map((item, index) => {
+                {content?.map((item, index) => {
                   return (
                     item.image &&
                     item.image.node && (

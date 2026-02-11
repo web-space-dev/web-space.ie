@@ -71,6 +71,21 @@ export async function getAllPagesWithSlug() {
   return data?.pages;
 }
 
+export async function getAllServicesWithSlug() {
+  const data = await fetchAPI(`
+  {
+    services(first: 10000) {
+      edges {
+        node {
+          slug
+        }
+      }
+    }
+  }
+  `);
+  return data?.services;
+}
+
 export async function getSiteData(): Promise<ISiteData> {
   const data = await fetchAPI(GET_SITE_DATA_QUERY);
 
@@ -102,7 +117,7 @@ export async function getServiceData(slug: string): Promise<IServiceData> {
     },
   });
 
-  return { service: data.serviceBy, services: data.services };
+  return { service: data.serviceBy };
 }
 
 export async function getProjectAndMoreProjects(
