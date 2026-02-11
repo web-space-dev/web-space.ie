@@ -103,7 +103,6 @@ export const SectionHeadingWrapper = styled(StickyTextWrapper)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 30px;
   gap: 20px;
   position: sticky;
   top: 0;

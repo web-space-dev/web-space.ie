@@ -2,6 +2,10 @@ import styled from "@emotion/styled";
 import { breakpoints, colors } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import { SkillCategoriesNode } from "@/interfaces/home";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import Link from "next/link";
+import ArrowUpRight from "../../icons/arrowUpRight";
 import {
   SectionWrapper,
   SectionHeading,
@@ -47,6 +51,13 @@ const StyledTeamWrapper = styled(ContentWrapper)`
 const StyledTeamMember = styled.div`
   width: 100%;
   max-width: 263px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const StyledTeamMemberImage = styled.div`
+  width: 100%;
   height: auto;
   aspect-ratio: 1;
   position: relative;
@@ -56,6 +67,64 @@ const StyledTeamMember = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+`;
+
+const StyledPopup = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: ${colors.white};
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  padding: 10px;
+  font-size: ${getRemSize(20)};
+  line-height: 1.2;
+  letter-spacing: 0.24px;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    display: none;
+  }
+`;
+
+const StyledPopupLink = styled(Link)`
+  padding: 0 5px;
+  display: flex;
+  width: fit-content;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  color: ${colors.white};
+  text-decoration: none;
+
+  :hover {
+    color: ${colors.white};
+  }
+`;
+
+const StyledTeamMemberName = styled.p`
+  font-size: ${getRemSize(24)};
+  text-align: center;
+  line-height: 1.2;
+  margin: 0;
+  color: ${colors.white};
+  letter-spacing: 0.24px;
+  display: none;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    display: block;
+    font-size: ${getRemSize(20)};
+  }
+
+  @media all and (max-width: ${breakpoints.sm}px) {
+    font-size: ${getRemSize(18)};
   }
 `;
 
@@ -73,6 +142,7 @@ interface ITeam {
 function Team({ skillCategory }: ITeam) {
   if (!skillCategory) return null;
   const { description, skills } = skillCategory;
+  const [hoveredMember, setHoveredMember] = useState<number | null>(null);
 
   return (
     <SectionWrapper>
@@ -81,14 +151,41 @@ function Team({ skillCategory }: ITeam) {
       </SectionHeadingWrapper>
 
       <StyledTeamWrapper>
-        <StyledTeamGrid>
+        <StyledTeamGrid onMouseLeave={() => setHoveredMember(null)}>
           <StyledSpacer />
-          {skills.nodes.map((member) => (
-            <StyledTeamMember key={member.title}>
-              <img
-                src={member.featuredImage.node.sourceUrl}
-                alt={member.title}
-              />
+          {skills.nodes.map((member, index) => (
+            <StyledTeamMember
+              key={member.title}
+              onMouseEnter={() => setHoveredMember(index)}
+            >
+              <StyledTeamMemberImage>
+                <img
+                  src={member.featuredImage.node.sourceUrl}
+                  alt={member.title}
+                />
+                {hoveredMember === index && (
+                  <StyledPopup
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {member.skillsFields?.link ? (
+                      <StyledPopupLink
+                        href={member.skillsFields.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {member.title}
+                        <ArrowUpRight fill="#fff" />
+                      </StyledPopupLink>
+                    ) : (
+                      member.title
+                    )}
+                  </StyledPopup>
+                )}
+              </StyledTeamMemberImage>
+              <StyledTeamMemberName>{member.title}</StyledTeamMemberName>
             </StyledTeamMember>
           ))}
           <StyledSpacer />
