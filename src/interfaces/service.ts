@@ -34,17 +34,18 @@ export interface Content {
   fieldGroupName: string;
   largeTextArea?: string;
   subHeroLargeText?: null;
-  __typename?: string;
+  __typename: string;
   gallery1?: Tags;
   gallery2?: Tags;
   title?: string;
-  fontSize?: string[];
+  fontSize: string[];
   dynamicTextAndImage?: DynamicTextAndImage[];
   paragraphItem?: ParagraphItem[];
 }
 
 export interface DynamicTextAndImage {
   __typename: string;
+  fieldGroupName: string;
   text: string;
   image?: Image;
 }

@@ -330,7 +330,7 @@ export default function Footer({ setFooterInView }: IProps) {
       {
         root: null, // Use the viewport as the root
         threshold: 0.1, // Trigger when 10% of the footer is in view
-      }
+      },
     );
 
     if (footerRef.current) {
@@ -406,6 +406,7 @@ export default function Footer({ setFooterInView }: IProps) {
         </Row>
       </StyledWrapper>
       <StyledLinkWrapper>
+        <Link href="/hosting-maintenance-sla">Terms of Service</Link>
         <Link href="/privacy-policy">Privacy & Legal Information</Link>
 
         <Link

@@ -167,7 +167,13 @@ interface NavbarProps {
 }
 
 export const StyledNavSpan = styled.span<StyledSpanProps & NavbarProps>`
-  box-shadow: 0 -0.5px 0 0.5px ${(props) => (!props.isActive ? "transparent" : props.dark ? colors.white : colors.black)};
+  box-shadow: 0 -0.5px 0 0.5px
+    ${(props) =>
+      !props.isActive
+        ? "transparent"
+        : props.dark
+          ? colors.white
+          : colors.black};
   width: 1.5rem;
   transition: all 0.3s ease-in-out;
 
@@ -193,6 +199,7 @@ export default function Navbar({ dark, sticky = true }: IProps) {
   const links = [
     { name: "About", path: "" },
     { name: "Projects", path: "projects" },
+    { name: "Services", path: "services" },
     {
       name: "Client space",
       path: "https://client.web-space.ie/",

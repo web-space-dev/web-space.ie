@@ -4,6 +4,7 @@ import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import { GridContainer } from "../global/grid/gridContainer";
 import { memo, useRef, useState } from "react";
+import Link from "next/link";
 import { css } from "@emotion/react";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
@@ -110,6 +111,25 @@ const StyledPillText = styled.span`
   text-align: left;
 `;
 
+const StyledPillLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  ${StyledPillNumber} {
+    cursor: pointer;
+  }
+
+  ${StyledPillText} {
+    cursor: pointer;
+  }
+`;
+
 const StyledPill = styled.span<{ index: number }>`
   /* background-color: ${colors.white}; */
   /* color: ${colors.black}; */
@@ -181,14 +201,26 @@ const ProcessItem = ({
       >
         {pills.map((pill, innerIndex) => {
           const pillNumber = totalPillsBefore + innerIndex;
+          const serviceSlug = pill.service?.nodes?.[0]?.slug;
           return (
             <StyledPill key={`${pill.pillText}-${pill.id}`} index={pill.id}>
-              <StyledPillNumber>
-                {pillNumber < 10 && "0"}
-                {pillNumber + 1}
-              </StyledPillNumber>
-
-              <StyledPillText>{pill.pillText}</StyledPillText>
+              {serviceSlug ? (
+                <StyledPillLink href={`/services/${serviceSlug}`}>
+                  <StyledPillNumber>
+                    {pillNumber < 10 && "0"}
+                    {pillNumber + 1}
+                  </StyledPillNumber>
+                  <StyledPillText>{pill.pillText}</StyledPillText>
+                </StyledPillLink>
+              ) : (
+                <>
+                  <StyledPillNumber>
+                    {pillNumber < 10 && "0"}
+                    {pillNumber + 1}
+                  </StyledPillNumber>
+                  <StyledPillText>{pill.pillText}</StyledPillText>
+                </>
+              )}
             </StyledPill>
           );
         })}

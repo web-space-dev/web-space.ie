@@ -237,9 +237,8 @@ function Approach({ items }: ApproachProps) {
   const horizontalRef = useRef(null);
   const wrapperRef = useRef(null);
 
-  const boxRef = useRef();
-  const borderLeftRef = useRef();
-  const borderRightRef = useRef();
+  const borderLeftRef = useRef(null);
+  const borderRightRef = useRef(null);
   const cardsRef = useRef([]);
 
   const horizontalWidth = 5200;
@@ -252,7 +251,7 @@ function Approach({ items }: ApproachProps) {
   const transform = useTransform(
     scrollProgress,
     [0, 1],
-    isDesktop ? (isInView ? [500, -horizontalWidth] : [500, 500]) : [0, 0]
+    isDesktop ? (isInView ? [500, -horizontalWidth] : [500, 500]) : [0, 0],
   );
   const cappedTransform = useMotionValue(Math.min(transform.get(), 850));
 
@@ -263,12 +262,12 @@ function Approach({ items }: ApproachProps) {
   const isLeftIntersecting = useIsIntersecting(
     borderLeftRef,
     cardsRef,
-    horizontalRef
+    horizontalRef,
   );
   const isRightIntersecting = useIsIntersecting(
     borderRightRef,
     cardsRef,
-    horizontalRef
+    horizontalRef,
   );
 
   useEffect(() => {
@@ -334,7 +333,9 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
           return (
             <StyledCard
               key={index}
-              ref={(el) => (cardsRef.current[index + 1] = el)}
+              ref={(el) => {
+                if (el) cardsRef.current[index + 1] = el;
+              }}
               marginLeft={index === 0 ? "0px" : "20px"}
             >
               <StyledParagraphWrapper>
@@ -351,7 +352,9 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
           <AnimateInView key={index}>
             <StyledCard
               key={index}
-              ref={(el) => (cardsRef.current[index + 1] = el)}
+              ref={(el) => {
+                if (el) cardsRef.current[index + 1] = el;
+              }}
               marginLeft={index === 0 ? "0px" : "20px"}
             >
               <StyledParagraphWrapper>
@@ -367,7 +370,11 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
       })}
       {isDesktop ? (
         <AnimateInView initial={isDesktop ? "open" : "closed"}>
-          <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
+          <StyledCardPill
+            ref={(el) => {
+              if (el) cardsRef.current[0] = el;
+            }}
+          >
             <StyledParagraphWrapper>
               <StyledParagraphText>
                 Interested? <br /> Let's have a chat.

@@ -16,6 +16,12 @@ query HomePage {
         title
         pills {
           pillText
+          hoverText
+          service {
+            nodes {
+              slug
+            }
+          }
         }
       }
       showcaseTitle

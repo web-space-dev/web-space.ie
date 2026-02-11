@@ -43,6 +43,16 @@ export interface WhatWeDo {
 export interface Pill {
   pillText: string;
   id: number;
+  hoverText?: string;
+  service?: PillService;
+}
+
+export interface PillService {
+  nodes: PillServiceNode[];
+}
+
+export interface PillServiceNode {
+  slug: string;
 }
 
 export interface SkillCategories {

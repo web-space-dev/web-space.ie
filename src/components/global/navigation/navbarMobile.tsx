@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, JSX } from "react";
 import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
