@@ -45,10 +45,10 @@ export default function Index({ siteData, pageData }: IIndex) {
       {/* <Approach items={page.homeFields.approach} /> */}
 
       {/* Showcase */}
-      {/* <Showcase
+      <Showcase
         title={page.homeFields.showcaseTitle}
         projects={page.homeFields.showcaseProjects}
-      /> */}
+      />
     </Layout>
   );
 }

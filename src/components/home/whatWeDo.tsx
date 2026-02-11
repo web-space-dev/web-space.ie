@@ -13,6 +13,9 @@ import AnimateInView from "../global/animation/animateInView";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px 0;
+  @media all and (max-width: ${breakpoints.md}px) {
+    margin: 100px 0 0 0;
+  }
 `;
 
 const StyledTitle = styled(motion.h2)`
@@ -222,7 +225,7 @@ function WhatWeDo({ items }: WhatWeDoProps) {
   const isInView = useInView(ref, { once: true });
 
   const [hoverItems, setHoverItems] = useState(
-    new Array(items.length).fill(false)
+    new Array(items.length).fill(false),
   );
 
   let pillId = 0;

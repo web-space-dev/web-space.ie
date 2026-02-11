@@ -63,6 +63,17 @@ function CustomCursor() {
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
+  // Auto-hide cursor after 3 seconds on mobile tap
+  useEffect(() => {
+    if (!isHovering) return;
+
+    const timer = setTimeout(() => {
+      setIsHovering(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [isHovering]);
+
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
