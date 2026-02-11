@@ -57,6 +57,14 @@ query HomePage {
           title
           skillsFields {
             link
+            project {
+              edges {
+                node {
+                  id
+                  slug
+                }
+              }
+            }
           }
           featuredImage {
             node {

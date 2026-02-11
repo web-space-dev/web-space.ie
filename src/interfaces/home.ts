@@ -68,4 +68,18 @@ export interface SkillsNode {
 
 export interface SkillsFields {
   link?: string;
+  project?: SkillsProject;
+}
+
+export interface SkillsProject {
+  edges: SkillsProjectEdge[];
+}
+
+export interface SkillsProjectEdge {
+  node: SkillsProjectNode;
+}
+
+export interface SkillsProjectNode {
+  id: string;
+  slug: string;
 }
