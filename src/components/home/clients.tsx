@@ -6,84 +6,19 @@ import { SkillCategoriesNode } from "@/interfaces/home";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
+import {
+  SectionWrapper,
+  SectionHeading,
+  SectionSubheading,
+  SectionHeadingWrapper,
+  ContentWrapper,
+} from "./sharedSectionComponents";
 
-const StyledSection = styled.section`
-  background: ${colors.black};
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 200px 32px;
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
+const StyledHeading = styled(SectionHeading)``;
 
-  @media all and (max-width: 1200px) {
-    gap: 32px;
-    padding: 150px 24px;
-  }
+const StyledSubheading = styled(SectionSubheading)``;
 
-  @media all and (max-width: ${breakpoints.md}px) {
-    flex-direction: column;
-    padding: 80px 0;
-    gap: 40px;
-  }
-`;
-
-const StyledHeadingWrapper = styled.div`
-  position: sticky;
-  top: 0;
-  padding-top: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-
-  @media all and (max-width: ${breakpoints.md}px) {
-    position: sticky;
-    top: 0px;
-    padding-top: 80px;
-    text-align: center;
-    margin-bottom: 30px;
-    z-index: 10;
-    backdrop-filter: blur(9px);
-    background: rgba(29, 29, 29, 0.8);
-    padding-bottom: 20px;
-  }
-`;
-
-const StyledHeading = styled.h2`
-  font-size: ${getRemSize(66)};
-  line-height: 1;
-  margin: 0;
-  color: ${colors.white};
-  letter-spacing: 0.66px;
-  width: 591px;
-  flex-shrink: 0;
-  white-space: pre-wrap;
-
-  @media all and (max-width: 1200px) {
-    font-size: ${getRemSize(52)};
-    width: 450px;
-  }
-
-  @media all and (max-width: ${breakpoints.md}px) {
-    font-size: ${getRemSize(36)};
-    width: 100%;
-    line-height: 1.2;
-  }
-
-  @media all and (max-width: ${breakpoints.sm}px) {
-    font-size: ${getRemSize(28)};
-  }
-`;
-
-const StyledClientsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  flex: 1;
-  min-width: 0;
-  justify-content: center;
-  width: 100%;
-`;
+const StyledClientsWrapper = styled(ContentWrapper)``;
 
 const StyledClientsList = styled.div`
   display: flex;
@@ -267,19 +202,20 @@ const StyledCTAIconWrapper = styled(motion.div)`
 `;
 
 interface IClients {
-  skillCategory: SkillCategoriesNode;
+  skillCategory: SkillCategoriesNode | undefined;
   ctaLink?: string;
 }
 
 function Clients({ skillCategory, ctaLink = "/projects" }: IClients) {
-  const { name, description, skills } = skillCategory;
+  if (!skillCategory) return null;
+  const { description, skills } = skillCategory;
   const [isCTAHovered, setIsCTAHovered] = useState(false);
 
   return (
-    <StyledSection>
-      <StyledHeadingWrapper>
+    <SectionWrapper noPaddingOnMobile>
+      <SectionHeadingWrapper centerOnMobile>
         <StyledHeading>{description}</StyledHeading>
-      </StyledHeadingWrapper>
+      </SectionHeadingWrapper>
 
       <StyledClientsWrapper>
         <StyledClientsList>
@@ -338,7 +274,7 @@ function Clients({ skillCategory, ctaLink = "/projects" }: IClients) {
           </StyledCTAButton>
         </StyledCTA>
       </StyledClientsWrapper>
-    </StyledSection>
+    </SectionWrapper>
   );
 }
 
