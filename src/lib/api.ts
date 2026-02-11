@@ -1,3 +1,4 @@
+import { IServiceData, IServicesData } from "@/interfaces/service";
 import { IHomePage } from "../interfaces/home";
 import { IPageData } from "../interfaces/page";
 import { IProjectData, IProjectsData } from "../interfaces/project";
@@ -6,7 +7,9 @@ import { GET_HOME_DATA_QUERY } from "./queries/home";
 import { GET_PAGE_DATA_QUERY } from "./queries/page";
 import { GET_PROJECT_DATA_QUERY } from "./queries/project";
 import { GET_PROJECTS_DATA_QUERY } from "./queries/projects";
+import { GET_SERVICES_DATA_QUERY } from "./queries/services";
 import { GET_SITE_DATA_QUERY } from "./queries/site";
+import { GET_SERVICE_DATA_QUERY } from "./queries/service";
 
 const API_URL = process.env.WORDPRESS_API_URL;
 
@@ -14,9 +17,8 @@ async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
   const headers = { "Content-Type": "application/json" };
 
   if (process.env.WORDPRESS_AUTH_REFRESH_TOKEN) {
-    headers[
-      "Authorization"
-    ] = `Bearer ${process.env.WORDPRESS_AUTH_REFRESH_TOKEN}`;
+    headers["Authorization"] =
+      `Bearer ${process.env.WORDPRESS_AUTH_REFRESH_TOKEN}`;
   }
 
   // WPGraphQL Plugin must be enabled
@@ -87,8 +89,24 @@ export async function getProjectsData(): Promise<IProjectsData> {
   return data;
 }
 
+export async function getServicesData(): Promise<IServicesData> {
+  const data = await fetchAPI(GET_SERVICES_DATA_QUERY);
+
+  return data;
+}
+
+export async function getServiceData(slug: string): Promise<IServiceData> {
+  const data = await fetchAPI(GET_SERVICE_DATA_QUERY, {
+    variables: {
+      slug,
+    },
+  });
+
+  return { service: data.serviceBy, services: data.services };
+}
+
 export async function getProjectAndMoreProjects(
-  slug: string
+  slug: string,
 ): Promise<IProjectData> {
   const data = await fetchAPI(GET_PROJECT_DATA_QUERY, {
     variables: {
@@ -98,7 +116,7 @@ export async function getProjectAndMoreProjects(
 
   // Filter out the main project
   data.projects.nodes = data.projects.nodes.filter(
-    (node) => node.slug !== slug
+    (node) => node.slug !== slug,
   );
   // If there are still 3 projects, remove the last one
   if (data.projects.nodes.length > 2) data.projects.nodes.pop();
