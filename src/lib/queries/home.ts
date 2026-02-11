@@ -58,7 +58,7 @@ query HomePage {
       name
       description
       slug
-      skills(first: 100) {
+      skills(first: 200) {
         nodes {
           title
           skillsFields {
