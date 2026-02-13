@@ -49,7 +49,7 @@ export default function Layout({
   const [footerInView, setFooterInView] = useState(false);
 
   const isProduction = process.env.NODE_ENV === "production";
-  const isComingSoon = process.env.NEXT_PUBLIC_COMING_SOON === "true";
+  const isComingSoon = true;
 
   useEffect(() => {
     const handleScroll = () => {
