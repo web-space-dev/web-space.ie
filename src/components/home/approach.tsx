@@ -3,7 +3,6 @@ import { Approach as IApproach } from "../../interfaces/home";
 import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
-import Pill from "../global/pill";
 import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { IconButton, StyledArrowDownRight } from "../global/iconButton";
 import { PillIconButton } from "../global/pillIconButton";
@@ -92,10 +91,13 @@ const StyledCard = styled.div<StyledCardProps>`
   min-width: 250px;
   height: 303px;
   border-radius: 20px;
-  padding: 30px 38px;
-  background-color: rgba(255, 255, 255, 0.2);
+  padding: 46px 40px;
+  background-color: rgba(255, 255, 255, 0.06);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 32px;
   flex: 0 0 auto;
   overflow: hidden;
   scrollbar-width: none;
@@ -117,31 +119,46 @@ const StyledCard = styled.div<StyledCardProps>`
   }
 `;
 
-export const StyledParagraphWrapper = styled(motion.p)`
+export const StyledParagraphWrapper = styled(motion.div)`
   position: relative;
   overflow: hidden;
   padding: 0;
   box-sizing: border-box;
 
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
   @media all and (max-width: ${breakpoints.md}px) {
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
     box-sizing: border-box;
   }
   @media all and (max-width: ${breakpoints.sm}px) {
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
     box-sizing: border-box;
   }
 `;
+
+export const StyledCardTitle = styled.span`
+  font-weight: 600;
+  font-size: ${getRemSize(dimensions.headingSizes.cta.desktop)};
+  line-height: ${getRemSize(20)};
+  letter-spacing: 0.06em;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
+
+    // line-height: ${getRemSize(16)};
+  }
+`;
+
 export const StyledParagraphText = styled.span`
-  font-weight: 400;
-  line-height: 44px;
-  font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
+  font-weight: 500;
+  line-height: 1;
+  font-size: ${getRemSize(46)};
+  letter-spacing: 0.01em;
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.textSizes.large.mobile)};
     margin-top: 1rem;
@@ -167,23 +184,6 @@ const StyledCardPill = styled(motion.div)`
   scrollbar-width: none;
   overflow: hidden;
   box-sizing: border-box;
-`;
-
-export const StyledPillWrapper = styled.span`
-  @media all and (min-width: ${breakpoints.md}px) {
-    position: absolute;
-    top: 0px;
-    left: 5px;
-    overflow: hidden;
-  }
-`;
-
-export const StyledTextSpacer = styled.span`
-  padding: 0 53px;
-  visibility: hidden;
-  @media all and (max-width: ${breakpoints.md}px) {
-    display: none;
-  }
 `;
 
 const SmallerIconButton = styled.div`
@@ -338,13 +338,8 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
               }}
               marginLeft={index === 0 ? "0px" : "20px"}
             >
-              <StyledParagraphWrapper>
-                <StyledTextSpacer>{item.title}</StyledTextSpacer>
-                <StyledPillWrapper>
-                  <Pill pillText={item.title} />
-                </StyledPillWrapper>
-                <StyledParagraphText>{item.paragraph}</StyledParagraphText>
-              </StyledParagraphWrapper>
+              <StyledCardTitle>{item.title}</StyledCardTitle>
+              <StyledParagraphText>{item.paragraph}</StyledParagraphText>
             </StyledCard>
           );
 
@@ -357,13 +352,8 @@ const Cards = ({ items, cardsRef }: { items: IApproach[]; cardsRef: any }) => {
               }}
               marginLeft={index === 0 ? "0px" : "20px"}
             >
-              <StyledParagraphWrapper>
-                <StyledTextSpacer>{item.title}</StyledTextSpacer>
-                <StyledPillWrapper>
-                  <Pill pillText={item.title} />
-                </StyledPillWrapper>
-                <StyledParagraphText>{item.paragraph}</StyledParagraphText>
-              </StyledParagraphWrapper>
+              <StyledCardTitle>{item.title}</StyledCardTitle>
+              <StyledParagraphText>{item.paragraph}</StyledParagraphText>
             </StyledCard>
           </AnimateInView>
         );

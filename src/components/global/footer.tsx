@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { GridContainer } from "../global/grid/gridContainer";
 import { PillIconButton as OriginalPillIconButton } from "../global/pillIconButton";
-import Pill from "../global/pill";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import ChatIcon from "../../icons/chatIcon";
 import Image from "next/image";
@@ -11,7 +10,6 @@ import eoanPicture from "../../../public/eoan-picture-2.png";
 import {
   StyledParagraphWrapper as OriginalStyledParagraphWrapper,
   StyledParagraphText as OriginalStyledParagraphText,
-  StyledPillWrapper as OriginalStyledPillWrapper,
 } from "../../components/home/approach";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import { Row } from "./grid/Row";
@@ -80,36 +78,24 @@ const StyledParagraphText = styled(OriginalStyledParagraphText)`
   }
 
   @media all and (max-width: ${breakpoints.sm}px) {
-    font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
+    font-size: ${getRemSize(70)};
     line-height: 72px;
   }
 
-  @media all and (max-width: 330px) {
-    margin-top: 2rem;
+  @media all and (max-width: 410px) {
+    font-size: ${getRemSize(60)};
+    margin-top: 0;
   }
 `;
 
-const StyledPillWrapper = styled(OriginalStyledPillWrapper)`
-  top: -20px !important;
+const StyledFooterTitle = styled.span`
+  font-weight: 600;
+  font-size: ${getRemSize(20)};
+  line-height: ${getRemSize(20)};
+  letter-spacing: 0.06em;
+
   @media all and (max-width: ${breakpoints.md}px) {
-    position: absolute;
-    left: 0;
-  }
-`;
-
-const StyledTextSpacer = styled.span`
-  position: relative;
-  padding: 0 40px;
-
-  color: transparent;
-  @media all and (max-width: ${breakpoints.md}px) {
-    display: initial;
-    padding: 0 43px;
-  }
-
-  @media all and (max-width: ${breakpoints.sm}px) {
-    display: initial;
-    padding: 0 31px;
+    display: block;
   }
 `;
 
@@ -124,10 +110,6 @@ const StyledImage = styled(Image)`
   @media all and (max-width: ${breakpoints.md}px) {
     width: 60px;
     height: 60px;
-  }
-
-  @media all and (max-width: ${breakpoints.sm}px) {
-    display: none;
   }
 `;
 
@@ -363,12 +345,8 @@ export default function Footer({ setFooterInView }: IProps) {
               animate={isInView ? "open" : "closed"}
             >
               <StyledParagraphWrapper>
-                <StyledTextSpacer>
-                  {"Interested?"}
-                  <StyledPillWrapper>
-                    <Pill pillText={"Interested?"} />
-                  </StyledPillWrapper>
-                </StyledTextSpacer>
+                <StyledFooterTitle>Interested?</StyledFooterTitle>
+
                 <StyledParagraphText>
                   Get in contact, have a chat with Eoan
                   {
