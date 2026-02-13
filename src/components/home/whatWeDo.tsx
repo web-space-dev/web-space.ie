@@ -80,6 +80,7 @@ const StyledProcessItem = styled.li<{
     grid-template-columns: 1fr;
     gap: ${({ isExpanded }) => (isExpanded ? "16px" : "0")};
     padding: 24px 0;
+    transition: gap 0.3s ease-in-out;
   }
 `;
 
@@ -225,19 +226,15 @@ const StyledPillList = styled.ul<{ isExpanded: boolean; isMobile: boolean }>`
   flex-direction: column;
   gap: 14px;
   overflow: hidden;
-  transition:
-    max-height 0.3s ease-in-out,
-    opacity 0.3s ease-in-out;
+  transition: max-height 0.3s ease-in-out;
 
   ${({ isExpanded, isMobile }) =>
     isMobile && !isExpanded
       ? css`
           max-height: 0;
-          opacity: 0;
         `
       : css`
           max-height: 1000px;
-          opacity: 1;
         `}
 `;
 
@@ -294,17 +291,15 @@ const StyledSeeMoreWrap = styled.div<{
   overflow: hidden;
   transition:
     max-height 0.3s ease-in-out,
-    opacity 0.3s ease-in-out;
+    margin-top 0.3s ease-in-out;
 
   ${({ isExpanded, isMobile }) =>
     isMobile && !isExpanded
       ? css`
           max-height: 0;
-          opacity: 0;
         `
       : css`
           max-height: 60px;
-          opacity: 1;
         `}
 
   @media all and (min-width: ${breakpoints.md + 1}px) {
