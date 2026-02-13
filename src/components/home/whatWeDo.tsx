@@ -11,6 +11,7 @@ import { Col } from "../global/grid/Col";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import useIsMobile from "../../hooks/useIsMobile";
 import { motion, useInView } from "framer-motion";
+import type { Variants } from "framer-motion";
 import AnimateInView from "../global/animation/animateInView";
 import ArrowRight from "../../icons/arrowRight";
 
@@ -372,7 +373,7 @@ const ProcessItem = ({
     }
   };
 
-  const pillVariants = {
+  const pillVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: (i: number) => ({
       opacity: 1,
@@ -380,7 +381,7 @@ const ProcessItem = ({
       transition: {
         delay: i * 0.1,
         duration: 0.5,
-        ease: "easeOut",
+        ease: "easeInOut" as const,
       },
     }),
   };
