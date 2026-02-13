@@ -12,8 +12,19 @@ query HomePage {
     }
     homeFields {
       heroTitle
+      whatWeDoSubtitle
       whatWeDo {
         title
+        description
+        serviceCategory {
+          edges {
+            node {
+              id
+              name
+              slug
+            }
+          }
+        }
         pills {
           pillText
           hoverText

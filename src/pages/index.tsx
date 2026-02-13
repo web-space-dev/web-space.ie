@@ -33,7 +33,10 @@ export default function Index({ siteData, pageData }: IIndex) {
       <Hero title={page.homeFields.heroTitle} />
 
       {/* What we do */}
-      <WhatWeDo items={page.homeFields.whatWeDo} />
+      <WhatWeDo
+        items={page.homeFields.whatWeDo}
+        whatWeDoSubtitle={page.homeFields.whatWeDoSubtitle}
+      />
 
       {/* Clients */}
       <Clients skillCategory={clientSkillCategory} />

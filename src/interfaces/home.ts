@@ -24,6 +24,7 @@ export interface PurpleNode {
 
 export interface HomeFields {
   heroTitle: string;
+  whatWeDoSubtitle: string;
   whatWeDo: WhatWeDo[];
   showcaseTitle: string;
   showcaseProjects: Projects;
@@ -37,7 +38,23 @@ export interface Approach {
 
 export interface WhatWeDo {
   title: string;
+  description: string;
   pills: Pill[];
+  serviceCategory?: ServiceCategory;
+}
+
+export interface ServiceCategory {
+  edges: ServiceCategoryEdge[];
+}
+
+export interface ServiceCategoryEdge {
+  node: ServiceCategoryNode;
+}
+
+export interface ServiceCategoryNode {
+  id: string;
+  name: string;
+  slug: string;
 }
 
 export interface Pill {
