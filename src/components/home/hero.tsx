@@ -28,12 +28,16 @@ const StyledHeading = styled(motion.h1)`
   color: ${colors.black};
   font-weight: 500;
 
+  @media all and (max-width: 1040px) {
+    font-size: ${dimensions.headingSizes.medium.mobile + 30}px;
+  }
+
   @media all and (max-width: ${breakpoints.md}px) {
-    font-size: ${dimensions.headingSizes.medium.desktop}px;
+    font-size: ${dimensions.headingSizes.medium.mobile + 20}px;
   }
 
   @media all and (max-width: 800px) {
-    font-size: ${dimensions.headingSizes.medium.desktop - 10}px;
+    font-size: ${dimensions.headingSizes.medium.mobile + 10}px;
   }
 
   @media all and (max-width: ${breakpoints.sm + 100}px) {
