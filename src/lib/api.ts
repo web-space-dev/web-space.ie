@@ -10,16 +10,14 @@ import { GET_PROJECTS_DATA_QUERY } from "./queries/projects";
 import { GET_SERVICES_DATA_QUERY } from "./queries/services";
 import { GET_SITE_DATA_QUERY } from "./queries/site";
 import { GET_SERVICE_DATA_QUERY } from "./queries/service";
+import { IServiceCategoryData } from "@/interfaces/serviceCategory";
+import { GET_SERVICE_CATEGORIES_DATA_QUERY } from "./queries/serviceCategories";
+import { GET_SERVICE_CATEGORY_DATA_QUERY } from "./queries/serviceCategory";
 
 const API_URL = process.env.WORDPRESS_API_URL;
 
 async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
   const headers = { "Content-Type": "application/json" };
-
-  if (process.env.WORDPRESS_AUTH_REFRESH_TOKEN) {
-    headers["Authorization"] =
-      `Bearer ${process.env.WORDPRESS_AUTH_REFRESH_TOKEN}`;
-  }
 
   // WPGraphQL Plugin must be enabled
   const res = await fetch(API_URL, {
@@ -32,8 +30,7 @@ async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
   });
 
   const json = await res.json();
-  // console.log('response!')
-  // console.log(json)
+
   if (json.errors) {
     console.error(json.errors);
     throw new Error("Failed to fetch API");
@@ -71,6 +68,21 @@ export async function getAllPagesWithSlug() {
   return data?.pages;
 }
 
+export async function getAllServiceCategoriesWithSlug() {
+  const data = await fetchAPI(`
+  {
+    serviceCategories(first: 10000) {
+      edges {
+        node {
+          slug
+        }
+      }
+    }
+  }
+  `);
+  return data?.serviceCategories;
+}
+
 export async function getAllServicesWithSlug() {
   const data = await fetchAPI(`
   {
@@ -100,6 +112,24 @@ export async function getHomeData(): Promise<IHomePage> {
 
 export async function getProjectsData(): Promise<IProjectsData> {
   const data = await fetchAPI(GET_PROJECTS_DATA_QUERY);
+
+  return data;
+}
+
+export async function getServiceCategoriesData(): Promise<IServiceCategoryData> {
+  const data = await fetchAPI(GET_SERVICE_CATEGORIES_DATA_QUERY);
+
+  return data;
+}
+
+export async function getServiceCategoryData(
+  slug: string,
+): Promise<IServiceCategoryData> {
+  const data = await fetchAPI(GET_SERVICE_CATEGORY_DATA_QUERY, {
+    variables: {
+      slug,
+    },
+  });
 
   return data;
 }

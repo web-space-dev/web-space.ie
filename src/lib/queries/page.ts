@@ -15,7 +15,6 @@ query PageBySlug($slug: String!) {
         fieldGroupName
         ... on PageFieldsContentSubHeroLargeTextLayout {
           __typename
-          largeTextArea
           subHeroLargeText
         }
         ... on PageFieldsContentSimpleSectionLayout {
