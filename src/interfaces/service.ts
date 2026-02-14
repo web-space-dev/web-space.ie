@@ -28,6 +28,21 @@ export interface Service {
   slug: string;
   featuredImage: Image;
   servicesFields: ServicesFields;
+  serviceCategories?: ServiceCategories;
+}
+
+export interface ServiceCategories {
+  edges: ServiceCategoryEdge[];
+}
+
+export interface ServiceCategoryEdge {
+  node: ServiceCategoryNode;
+}
+
+export interface ServiceCategoryNode {
+  id: string;
+  name: string;
+  slug: string;
 }
 
 export interface Content {
@@ -38,7 +53,8 @@ export interface Content {
   gallery1?: Tags;
   gallery2?: Tags;
   title?: string;
-  fontSize: string[];
+  pillText?: string | null;
+  content?: string;
   dynamicTextAndImage?: DynamicTextAndImage[];
   paragraphItem?: ParagraphItem[];
 }

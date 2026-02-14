@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Content } from "../../interfaces/page";
+import { Content } from "../../interfaces/service";
 
 import Project from "../../pages/projects/[slug]";
 import { ContentParagraph } from "../project/sections/content-paragraph";
@@ -41,7 +41,7 @@ export default function ServicesBody({ content }: IProps) {
           <DynamicTextAndImages
             title={item.title || ""}
             content={item.dynamicTextAndImage}
-            fontSize={item.fontSize || ["Large"]}
+            fontSize={["Large"]}
           />
         );
 

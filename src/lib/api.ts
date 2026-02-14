@@ -90,6 +90,13 @@ export async function getAllServicesWithSlug() {
       edges {
         node {
           slug
+          serviceCategories {
+            edges {
+              node {
+                slug
+              }
+            }
+          }
         }
       }
     }

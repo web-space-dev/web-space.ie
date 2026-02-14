@@ -16,9 +16,28 @@ query PostBySlug($slug: String!) {
         slug
       }
     }
+    serviceCategories {
+      edges {
+        node {
+          id
+          name
+          slug
+        }
+      }
+    }
     servicesFields {
       content {
         fieldGroupName
+        ... on ServicesFieldsContentSubHeroLargeTextLayout {
+          __typename
+          subHeroLargeText
+        }
+        ... on ServicesFieldsContentSimpleSectionLayout {
+          __typename
+          title
+          pillText
+          content
+        }
         ... on ServicesFieldsContentLargeTextAreaLayout {
           __typename
           largeTextArea
@@ -46,7 +65,6 @@ query PostBySlug($slug: String!) {
         ... on ServicesFieldsContentDynamicTextImageLayout {
           __typename
           title
-          fontSize
           dynamicTextAndImage {
             ... on ServicesFieldsContentDynamicTextAndImageTextLayout {
               __typename
