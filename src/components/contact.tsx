@@ -1,7 +1,7 @@
 "use client";
 
 import styled from "@emotion/styled";
-import React, { useState, FormEvent, useEffect } from "react";
+import React, { useState, FormEvent, useEffect, useRef } from "react";
 import { breakpoints, colors } from "../styles/variables";
 import ArrowUpRight from "../icons/arrowUpRight";
 import Image from "next/image";
@@ -304,8 +304,28 @@ interface StyledSquareProps {
   dark: boolean;
 }
 
-const InputField = ({ value, type, id, name, placeholder, onChange }) => {
+const InputField = ({
+  value,
+  type,
+  id,
+  name,
+  placeholder,
+  onChange,
+  inputRef,
+}: {
+  value: string;
+  type: string;
+  id: string;
+  name: string;
+  placeholder: string;
+  onChange: (e: any) => void;
+  inputRef?: any;
+}) => {
   const [isActive, setIsActive] = useState(value !== "");
+
+  useEffect(() => {
+    setIsActive(value !== "");
+  }, [value]);
 
   const handleFocus = () => {
     setIsActive(true);
@@ -327,6 +347,7 @@ const InputField = ({ value, type, id, name, placeholder, onChange }) => {
         onBlur={handleBlur}
         value={value}
         onChange={onChange}
+        ref={inputRef}
       />
       <Label htmlFor={id} className={isActive ? "active" : ""}>
         {placeholder}
@@ -352,12 +373,26 @@ const variants = {
   },
 };
 
-export function Contact({ isOpen, onClose, dark }) {
+interface ContactProps {
+  isOpen: boolean;
+  onClose: () => void;
+  dark: boolean;
+  defaultSubject?: string;
+}
+
+export function Contact({
+  isOpen,
+  onClose,
+  dark,
+  defaultSubject,
+}: ContactProps) {
+  const nameInputRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [subject, setSubject] = useState("");
   const [number, setNumber] = useState("");
   const [numberError, setNumberError] = useState("");
   const [message, setMessage] = useState("");
@@ -371,6 +406,20 @@ export function Contact({ isOpen, onClose, dark }) {
       document.body.style.overflow = "auto";
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        nameInputRef.current?.focus();
+      }, 0);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setSubject(defaultSubject || "");
+    }
+  }, [defaultSubject, isOpen]);
 
   // if (!isOpen) {
   //   return null;
@@ -432,6 +481,7 @@ export function Contact({ isOpen, onClose, dark }) {
     const body = {
       name,
       email,
+      subject,
       number,
       message,
     };
@@ -499,6 +549,7 @@ export function Contact({ isOpen, onClose, dark }) {
                 placeholder="Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                inputRef={nameInputRef}
               />
               <StyledHelperText error="true">{nameError}</StyledHelperText>
 
@@ -511,6 +562,14 @@ export function Contact({ isOpen, onClose, dark }) {
                 onChange={(e) => setEmail(e.target.value)}
               />
               <StyledHelperText error="true">{emailError}</StyledHelperText>
+              <InputField
+                type="text"
+                id="subject"
+                name="subject"
+                placeholder="Subject"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+              />
               <InputField
                 type="tel"
                 id="number"

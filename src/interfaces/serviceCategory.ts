@@ -24,6 +24,7 @@ export interface ServiceCategory {
 
 export interface ServiceCategoryFields {
   featuredImage?: FeaturedImage | null;
+  contentBody: ContentBody[];
 }
 
 export interface FeaturedImage {
@@ -34,4 +35,23 @@ export interface FeaturedImageNode {
   altText: string;
   sourceUrl: string;
   placeholderDataURI: string;
+}
+
+export interface ContentBody {
+  __typename: string;
+  servicesListTitle?: string;
+  largeTextArea?: string;
+  imageListTitle?: string;
+  imageList?: ImageList[];
+  ctaText?: string;
+  text?: string;
+}
+
+export interface ImageList {
+  image: Image;
+  text: string;
+}
+
+export interface Image {
+  node: FeaturedImageNode;
 }

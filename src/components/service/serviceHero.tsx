@@ -1,11 +1,5 @@
 import { ServiceCategory } from "../../interfaces/serviceCategory";
-import {
-  colors,
-  dimensions,
-  breakpoints,
-  DesktopOnly,
-  MobileAndTabletOnly,
-} from "../../styles/variables";
+import { colors, dimensions, breakpoints } from "../../styles/variables";
 import styled from "@emotion/styled";
 import { getRemSize } from "../../styles/globalCss";
 import { Row } from "../global/grid/Row";
@@ -13,21 +7,29 @@ import { Col } from "../global/grid/Col";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const StyledDivImage = styled.div`
-  overflow: hidden;
-  position: absolute;
+const StyledHeroContainer = styled.div`
+  position: relative;
   width: 100%;
-  height: 585px;
-  left: 0;
-  top: 0;
-  z-index: -1;
+  height: 610px;
+  overflow: hidden;
   border-radius: 0px 0px 20px 20px;
 
-  & div img {
-    width: auto;
-    height: inherit;
-    object-fit: cover;
+  @media (max-width: ${breakpoints.md}px) {
+    height: 455px;
   }
+
+  @media (max-width: ${breakpoints.sm}px) {
+    height: 490px;
+  }
+`;
+
+const StyledDivImage = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 0;
 
   &::before {
     content: "";
@@ -38,6 +40,7 @@ const StyledDivImage = styled.div`
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
     z-index: 1;
+    pointer-events: none;
   }
 `;
 
@@ -60,14 +63,16 @@ const StyledHeading1 = styled(motion.h1)`
 `;
 
 const StyledTitleRow = styled(motion(Row))`
-  margin: 313px 0 112px 0;
+  position: relative;
+  z-index: 2;
+  padding-top: 313px;
 
   @media (max-width: ${breakpoints.md}px) {
-    margin: 251px 0 82px 0;
+    padding-top: 251px;
   }
 
   @media (max-width: ${breakpoints.sm}px) {
-    margin: 120px 0 82px 0;
+    padding-top: 120px;
   }
 `;
 
@@ -93,62 +98,42 @@ const variants = {
 };
 
 const fadeInVariants = {
-  hidden: { opacity: 0, backgroundColor: "rgba(29, 29, 29, 1)" },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    backgroundColor: "rgba(29, 29, 29, 0)",
     transition: { duration: 1 },
   },
 };
 
 export function ServiceHero({ category }: Props) {
   return (
-    <>
+    <StyledHeroContainer>
       <StyledDivImage>
-        <DesktopOnly>
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInVariants}
-            style={{ width: "100%", height: "585px", position: "relative" }}
-          >
-            <Image
-              fill
-              src={
-                category.serviceCategoryFields?.featuredImage?.node.sourceUrl
-              }
-              alt={`${category.name} Feature Image`}
-              priority
-              placeholder="blur"
-              blurDataURL={
-                category.serviceCategoryFields?.featuredImage?.node
-                  ?.placeholderDataURI
-              }
-            />
-          </motion.div>
-        </DesktopOnly>
-
-        <MobileAndTabletOnly>
-          {category.serviceCategoryFields?.featuredImage && (
-            <Image
-              src={category.serviceCategoryFields.featuredImage.node.sourceUrl}
-              alt={`${category.name} Feature Image`}
-              placeholder="blur"
-              blurDataURL={
-                category.serviceCategoryFields.featuredImage.node
-                  ?.placeholderDataURI
-              }
-              width={374}
-              height={649}
-            />
-          )}
-        </MobileAndTabletOnly>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeInVariants}
+          style={{ width: "100%", height: "100%", position: "relative" }}
+        >
+          <Image
+            fill
+            src={category.serviceCategoryFields?.featuredImage?.node.sourceUrl}
+            alt={`${category.name} Feature Image`}
+            priority
+            placeholder="blur"
+            blurDataURL={
+              category.serviceCategoryFields?.featuredImage?.node
+                ?.placeholderDataURI
+            }
+            style={{ objectFit: "cover" }}
+          />
+        </motion.div>
       </StyledDivImage>
       <StyledTitleRow variants={variants} initial="closed" animate="open">
         <Col start={2} span={10}>
           <StyledHeading1>{category.name}</StyledHeading1>
         </Col>
       </StyledTitleRow>
-    </>
+    </StyledHeroContainer>
   );
 }
