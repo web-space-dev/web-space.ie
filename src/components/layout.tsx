@@ -47,11 +47,21 @@ export default function Layout({
   const [isLoading, setIsLoading] = useState(isHome);
   const [dark, setDark] = useState(false);
   const [footerInView, setFooterInView] = useState(false);
+  const [currentPath, setCurrentPath] = useState("");
 
   const isProduction = process.env.NODE_ENV === "production";
-  const isComingSoon = true;
+
+  // Pages to exclude from coming soon
+  const excludedPages = ["hosting-maintenance-sla", "privacy-policy"];
+  const isExcludedPage = excludedPages.some((page) =>
+    currentPath.includes(page),
+  );
+  const isComingSoon = true && !isExcludedPage;
 
   useEffect(() => {
+    // Set current path on mount
+    setCurrentPath(window.location.pathname);
+
     const handleScroll = () => {
       setDark(window.scrollY > 20);
     };

@@ -97,6 +97,24 @@ const StyledIconButton = styled.button`
   }
 `;
 
+const StyledLinksWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  a {
+    color: ${colors.white};
+    text-decoration: underline;
+    font-size: ${getRemSize(16)};
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: ${colors.accent};
+    }
+  }
+`;
+
 const variants = {
   open: {
     y: 0,
@@ -140,6 +158,12 @@ const ComingSoon = () => {
             <ChatIcon />
           </StyledIconButton>
         </StyledTitle>
+      </AnimateInView>
+      <AnimateInView variants={variants}>
+        <StyledLinksWrapper>
+          <a href="/hosting-maintenance-sla">Hosting Maintenance SLA</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </StyledLinksWrapper>
       </AnimateInView>
       <Contact isOpen={isModalOpen} onClose={closeContactModal} dark={true} />
     </StyledWrapper>
