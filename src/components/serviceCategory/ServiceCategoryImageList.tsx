@@ -3,15 +3,46 @@ import Image from "next/image";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import AnimateInView from "../global/animation/animateInView";
-import { Row } from "../global/grid/Row";
-import { Col } from "../global/grid/Col";
 import { ImageList } from "../../interfaces/serviceCategory";
 
-const StyledImageListRow = styled(Row)`
-  margin: 120px 0;
+const StyledSectionWrapper = styled.section`
+  background: ${colors.black};
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 120px 32px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
 
-  @media (max-width: ${breakpoints.md}px) {
-    margin: 120px 0 40px 0;
+  @media all and (max-width: 1200px) {
+    gap: 32px;
+    padding: 120px 24px;
+  }
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    flex-direction: column;
+    padding: 80px 0;
+    gap: 40px;
+  }
+`;
+
+const StyledStickyTextWrapper = styled.div`
+  width: 591px;
+  flex-shrink: 0;
+  white-space: pre-wrap;
+  position: sticky;
+  top: 140px;
+
+  @media all and (max-width: 1200px) {
+    width: 450px;
+  }
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    width: 100%;
+    top: 0px;
+    z-index: 10;
+    backdrop-filter: blur(9px);
+    background: rgba(29, 29, 29, 0.8);
+    padding: 80px 16px 20px 16px;
   }
 `;
 
@@ -20,14 +51,24 @@ const StyledStickyTitle = styled.h2`
   font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
   font-weight: 500;
   letter-spacing: 2px;
-  position: sticky;
-  top: 140px;
+  width: 100%;
 
   @media (max-width: ${breakpoints.md}px) {
-    position: static;
     font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
     letter-spacing: 1px;
-    margin-bottom: 24px;
+  }
+`;
+
+const StyledContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+
+  @media (max-width: ${breakpoints.md}px) {
+    padding: 0 40px;
   }
 `;
 
@@ -97,11 +138,13 @@ export function ServiceCategoryImageList({
   title,
 }: ServiceCategoryImageListProps) {
   return (
-    <StyledImageListRow>
-      <Col span={4} spanMobile={12}>
-        {title && <StyledStickyTitle>{title}</StyledStickyTitle>}
-      </Col>
-      <Col span={8} spanMobile={12}>
+    <StyledSectionWrapper>
+      {title && (
+        <StyledStickyTextWrapper>
+          <StyledStickyTitle>{title}</StyledStickyTitle>
+        </StyledStickyTextWrapper>
+      )}
+      <StyledContentWrapper>
         <StyledImageListItems>
           {imageList.map((item, index) => (
             <div key={`image-list-${index}`}>
@@ -124,7 +167,7 @@ export function ServiceCategoryImageList({
             </div>
           ))}
         </StyledImageListItems>
-      </Col>
-    </StyledImageListRow>
+      </StyledContentWrapper>
+    </StyledSectionWrapper>
   );
 }
