@@ -12,6 +12,7 @@ import AnimateInView from "../global/animation/animateInView";
 import { IconButton } from "../global/iconButton";
 import ArrowDown from "../../icons/arrowDown";
 import { ServiceCategory } from "../../interfaces/serviceCategory";
+import LargeTextArea from "../project/sections/largeTextArea";
 
 const StyledArrow = styled(ArrowDown)`
   fill: ${colors.white};
@@ -187,11 +188,13 @@ export function ServiceCategoryList({ categories }: ServiceCategoryListProps) {
             initial="closed"
             animate="open"
           >
-            Explore our comprehensive range of services designed to take your
-            digital presence to the next level.
+            Structured engineering across WordPress, product development and
+            niche booking systems.
           </StyledSubheading>
         </Col>
       </Row>
+
+      <LargeTextArea text="We deliver technical services across performance-focused WordPress engineering, custom booking systems, product development and applied training." />
 
       <Row>
         <motion.div
