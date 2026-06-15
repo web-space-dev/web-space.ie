@@ -441,7 +441,9 @@ const ProcessItem = ({
       </StyledProcessTitleWrap>
       <StyledPillList isExpanded={expandedItems[index]} isMobile={isMobile}>
         {pills.map((pill, pillIndex) => {
-          const serviceSlug = pill.service?.nodes?.[0]?.slug;
+          const serviceSlug = serviceCategorySlug;
+          //pill.service?.nodes?.[0]?.slug;
+
           return (
             <StyledPillItemWrapper
               key={`${pill.pillText}-${pill.id}`}

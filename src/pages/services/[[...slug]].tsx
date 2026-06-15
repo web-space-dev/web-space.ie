@@ -30,6 +30,8 @@ export default function Services({ siteData, pageData }: ICategoryProps) {
   const slug = router.query.slug as string[] | undefined;
   const isServiceDetail = slug && slug.length === 2;
   const isCategoryDetail = slug && slug.length === 1;
+  const servicesPageDescription =
+    "Explore our service categories and discover how we help brands create impactful digital experiences.";
 
   // Service detail view - /services/[category]/[service]
   if (isServiceDetail) {
@@ -37,7 +39,11 @@ export default function Services({ siteData, pageData }: ICategoryProps) {
 
     if (!serviceData.service) {
       return (
-        <Layout pageTitle="Service" siteData={siteData}>
+        <Layout
+          pageTitle="Service"
+          pageDescription={servicesPageDescription}
+          siteData={siteData}
+        >
           <GridContainer>
             <Row>
               <Col span={12}>
@@ -50,7 +56,11 @@ export default function Services({ siteData, pageData }: ICategoryProps) {
     }
 
     return (
-      <Layout pageTitle={serviceData.service.title} siteData={siteData}>
+      <Layout
+        pageTitle={serviceData.service.title}
+        pageDescription={serviceData.service.servicesFields?.description}
+        siteData={siteData}
+      >
         <ServicesBody content={serviceData.service.servicesFields.content} />
       </Layout>
     );
@@ -63,7 +73,11 @@ export default function Services({ siteData, pageData }: ICategoryProps) {
 
     if (!categoryData) {
       return (
-        <Layout pageTitle="Service" siteData={siteData}>
+        <Layout
+          pageTitle="Service"
+          pageDescription={servicesPageDescription}
+          siteData={siteData}
+        >
           <GridContainer>
             <Row>
               <Col span={12}>
@@ -76,7 +90,11 @@ export default function Services({ siteData, pageData }: ICategoryProps) {
     }
 
     return (
-      <Layout pageTitle={categoryData.name} siteData={siteData}>
+      <Layout
+        pageTitle={categoryData.name}
+        pageDescription={categoryData.description || servicesPageDescription}
+        siteData={siteData}
+      >
         <ServiceCategoryDetail categoryData={categoryData} />
       </Layout>
     );
@@ -87,7 +105,11 @@ export default function Services({ siteData, pageData }: ICategoryProps) {
     (pageData as IServiceCategoryData).serviceCategories?.nodes || [];
 
   return (
-    <Layout siteData={siteData}>
+    <Layout
+      pageTitle="Services"
+      pageDescription={servicesPageDescription}
+      siteData={siteData}
+    >
       <ServiceCategoryList categories={categories} />
     </Layout>
   );
@@ -95,7 +117,7 @@ export default function Services({ siteData, pageData }: ICategoryProps) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const allCategories = await getAllServiceCategoriesWithSlug();
-  const allServices = await getAllServicesWithSlug();
+  const allServices = { edges: [] }; //await getAllServicesWithSlug();
 
   const paths = [
     // Root /services route (no slug)

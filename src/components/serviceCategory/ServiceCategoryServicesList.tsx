@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import { Row } from "../global/grid/Row";
@@ -148,12 +147,14 @@ interface ServiceCategoryServicesListProps {
   services?: Services;
   categorySlug: string;
   title?: string;
+  onClick?: (ctaText?: string) => void;
 }
 
 export function ServiceCategoryServicesList({
   services,
   categorySlug,
   title,
+  onClick,
 }: ServiceCategoryServicesListProps) {
   const servicesGridRef = useRef<HTMLDivElement>(null);
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
@@ -192,61 +193,60 @@ export function ServiceCategoryServicesList({
             return (
               <Col span={6} spanMobile={12} key={service.slug}>
                 <AnimateInView>
-                  <Link href={`/services/${categorySlug}/${service.slug}`}>
-                    <StyledContainer
-                      onMouseEnter={() => setHoveredSlug(service.slug)}
-                      onMouseLeave={() => setHoveredSlug(null)}
-                    >
-                      {service.featuredImage && (
-                        <StyledImageWrapper
-                          animate={{
-                            scale: isHovered ? 1.05 : 1,
-                          }}
-                          transition={{
-                            duration: 0.3,
-                            ease: "easeOut",
-                          }}
-                        >
-                          <Image
-                            src={service.featuredImage.node.sourceUrl}
-                            blurDataURL={
-                              service.featuredImage.node?.placeholderDataURI
-                            }
-                            placeholder="blur"
-                            alt={service.title}
-                            fill
-                            style={{ objectFit: "cover" }}
-                          />
-                        </StyledImageWrapper>
-                      )}
+                  <StyledContainer
+                    onClick={() => onClick?.(service.title)}
+                    onMouseEnter={() => setHoveredSlug(service.slug)}
+                    onMouseLeave={() => setHoveredSlug(null)}
+                  >
+                    {service.featuredImage && (
+                      <StyledImageWrapper
+                        animate={{
+                          scale: isHovered ? 1.05 : 1,
+                        }}
+                        transition={{
+                          duration: 0.3,
+                          ease: "easeOut",
+                        }}
+                      >
+                        <Image
+                          src={service.featuredImage.node.sourceUrl}
+                          blurDataURL={
+                            service.featuredImage.node?.placeholderDataURI
+                          }
+                          placeholder="blur"
+                          alt={service.title}
+                          fill
+                          style={{ objectFit: "cover" }}
+                        />
+                      </StyledImageWrapper>
+                    )}
 
-                      <StyledProjectInfo>
-                        <StyledProjectDetails>
-                          <motion.h3
-                            animate={{
-                              color: isHovered ? colors.accent : colors.white,
-                            }}
+                    <StyledProjectInfo>
+                      <StyledProjectDetails>
+                        <motion.h3
+                          animate={{
+                            color: isHovered ? colors.accent : colors.white,
+                          }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          {service.title}
+                        </motion.h3>
+                        <p>{service.servicesFields?.description}</p>
+                      </StyledProjectDetails>
+                      <AnimatePresence>
+                        {isHovered && (
+                          <StyledLink
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
                             transition={{ duration: 0.2 }}
                           >
-                            {service.title}
-                          </motion.h3>
-                          <p>{service.servicesFields?.description}</p>
-                        </StyledProjectDetails>
-                        <AnimatePresence>
-                          {isHovered && (
-                            <StyledLink
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              exit={{ opacity: 0, scale: 0.8 }}
-                              transition={{ duration: 0.2 }}
-                            >
-                              <IconButton />
-                            </StyledLink>
-                          )}
-                        </AnimatePresence>
-                      </StyledProjectInfo>
-                    </StyledContainer>
-                  </Link>
+                            <IconButton />
+                          </StyledLink>
+                        )}
+                      </AnimatePresence>
+                    </StyledProjectInfo>
+                  </StyledContainer>
                 </AnimateInView>
               </Col>
             );

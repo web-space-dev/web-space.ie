@@ -28,7 +28,12 @@ export default function Index({ siteData, pageData }: IIndex) {
     (category) => category.slug === "people",
   );
   return (
-    <Layout pageTitle={page.title} siteData={siteData} isHomePage={true}>
+    <Layout
+      pageTitle={page.title}
+      pageDescription="Creative development studio helping brands design and build high-performing digital experiences."
+      siteData={siteData}
+      isHomePage={true}
+    >
       {/* Hero section */}
       <Hero title={page.homeFields.heroTitle} />
 

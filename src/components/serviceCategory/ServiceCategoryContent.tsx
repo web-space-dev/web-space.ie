@@ -55,6 +55,7 @@ export function ServiceCategoryContent({
                   services={services}
                   categorySlug={categorySlug}
                   title={item.servicesListTitle}
+                  onClick={onCtaClick}
                 />
               </Fragment>
             );
