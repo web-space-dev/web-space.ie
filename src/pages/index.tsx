@@ -10,7 +10,8 @@ import WhatWeDo from "../components/home/whatWeDo";
 import Showcase from "../components/home/showcase";
 import Skills from "../components/home/skills";
 import Approach from "../components/home/approach";
-import { useEffect, useState } from "react";
+import Clients from "@/components/home/clients";
+import Team from "@/components/home/team";
 
 interface IIndex {
   siteData: ISiteData;
@@ -20,24 +21,42 @@ interface IIndex {
 export default function Index({ siteData, pageData }: IIndex) {
   const { page, skillCategories } = pageData;
 
+  const clientSkillCategory = skillCategories.nodes.find(
+    (category) => category.slug === "clients",
+  );
+  const teamSkillCategory = skillCategories.nodes.find(
+    (category) => category.slug === "people",
+  );
   return (
-    <Layout pageTitle={page.title} siteData={siteData} isHomePage={true}>
+    <Layout
+      pageTitle={page.title}
+      pageDescription="Creative development studio helping brands design and build high-performing digital experiences."
+      siteData={siteData}
+      isHomePage={true}
+    >
       {/* Hero section */}
       <Hero title={page.homeFields.heroTitle} />
 
       {/* What we do */}
-      <WhatWeDo items={page.homeFields.whatWeDo} />
-      {/* Showcase */}
-      <Showcase
-        title={page.homeFields.showcaseTitle}
-        projects={page.homeFields.showcaseProjects}
+      <WhatWeDo
+        items={page.homeFields.whatWeDo}
+        whatWeDoSubtitle={page.homeFields.whatWeDoSubtitle}
       />
 
-      {/* Skills */}
-      <Skills categories={skillCategories} />
+      {/* Clients */}
+      <Clients skillCategory={clientSkillCategory} />
+
+      {/* Team */}
+      <Team skillCategory={teamSkillCategory} />
 
       {/* Approach */}
       <Approach items={page.homeFields.approach} />
+
+      {/* Showcase */}
+      {/* <Showcase
+        title={page.homeFields.showcaseTitle}
+        projects={page.homeFields.showcaseProjects}
+      /> */}
     </Layout>
   );
 }

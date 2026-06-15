@@ -12,10 +12,27 @@ query HomePage {
     }
     homeFields {
       heroTitle
+      whatWeDoSubtitle
       whatWeDo {
         title
+        description
+        serviceCategory {
+          edges {
+            node {
+              id
+              name
+              slug
+            }
+          }
+        }
         pills {
           pillText
+          hoverText
+          service {
+            nodes {
+              slug
+            }
+          }
         }
       }
       showcaseTitle
@@ -51,11 +68,20 @@ query HomePage {
     nodes {
       name
       description
-      skills {
+      slug
+      skills(first: 200) {
         nodes {
           title
           skillsFields {
             link
+            project {
+              edges {
+                node {
+                  id
+                  slug
+                }
+              }
+            }
           }
           featuredImage {
             node {

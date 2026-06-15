@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method == "POST") {
     const { body } = req;
@@ -15,6 +15,7 @@ export default async function handler(
     New Contact Form Message ${date} ${time}:
     \n name: ${body.name}
     \n email: ${body.email}
+    \n subject: ${body.subject || ""}
     \n number: ${body.number}
     \n message: ${body.message}`;
 

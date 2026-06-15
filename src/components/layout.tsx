@@ -31,6 +31,7 @@ const StyledLink = styled.a<{ loading: string }>`
 interface ILayout {
   children: React.ReactNode;
   pageTitle?: string;
+  pageDescription?: string;
   siteData?: ISiteData;
   isHomePage?: boolean;
   disableFooter?: boolean;
@@ -38,6 +39,7 @@ interface ILayout {
 
 export default function Layout({
   pageTitle,
+  pageDescription,
   siteData,
   children,
   isHomePage = false,
@@ -103,7 +105,11 @@ export default function Layout({
   if (isComingSoon) {
     return (
       <StyledWrapper>
-        <Wrapper pageTitle={"WEB Space"} siteData={siteData} />
+        <Wrapper
+          pageTitle={"WEB Space"}
+          pageDescription={pageDescription}
+          siteData={siteData}
+        />
 
         <main id="content">
           <ComingSoon />
@@ -118,7 +124,11 @@ export default function Layout({
 
   return (
     <StyledWrapper>
-      <Wrapper pageTitle={pageTitle} siteData={siteData} />
+      <Wrapper
+        pageTitle={pageTitle}
+        pageDescription={pageDescription}
+        siteData={siteData}
+      />
 
       {/* <StyledLink
         className="skip-to-content"

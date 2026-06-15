@@ -1,3 +1,4 @@
+import { IServiceData, IServicesData } from "@/interfaces/service";
 import { IHomePage } from "../interfaces/home";
 import { IPageData } from "../interfaces/page";
 import { IProjectData, IProjectsData } from "../interfaces/project";
@@ -6,18 +7,17 @@ import { GET_HOME_DATA_QUERY } from "./queries/home";
 import { GET_PAGE_DATA_QUERY } from "./queries/page";
 import { GET_PROJECT_DATA_QUERY } from "./queries/project";
 import { GET_PROJECTS_DATA_QUERY } from "./queries/projects";
+import { GET_SERVICES_DATA_QUERY } from "./queries/services";
 import { GET_SITE_DATA_QUERY } from "./queries/site";
+import { GET_SERVICE_DATA_QUERY } from "./queries/service";
+import { IServiceCategoryData } from "@/interfaces/serviceCategory";
+import { GET_SERVICE_CATEGORIES_DATA_QUERY } from "./queries/serviceCategories";
+import { GET_SERVICE_CATEGORY_DATA_QUERY } from "./queries/serviceCategory";
 
 const API_URL = process.env.WORDPRESS_API_URL;
 
 async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
   const headers = { "Content-Type": "application/json" };
-
-  if (process.env.WORDPRESS_AUTH_REFRESH_TOKEN) {
-    headers[
-      "Authorization"
-    ] = `Bearer ${process.env.WORDPRESS_AUTH_REFRESH_TOKEN}`;
-  }
 
   // WPGraphQL Plugin must be enabled
   const res = await fetch(API_URL, {
@@ -30,8 +30,7 @@ async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
   });
 
   const json = await res.json();
-  // console.log('response!')
-  // console.log(json)
+
   if (json.errors) {
     console.error(json.errors);
     throw new Error("Failed to fetch API");
@@ -69,6 +68,43 @@ export async function getAllPagesWithSlug() {
   return data?.pages;
 }
 
+export async function getAllServiceCategoriesWithSlug() {
+  const data = await fetchAPI(`
+  {
+    serviceCategories(first: 10000) {
+      edges {
+        node {
+          slug
+        }
+      }
+    }
+  }
+  `);
+  return data?.serviceCategories;
+}
+
+export async function getAllServicesWithSlug() {
+  const data = await fetchAPI(`
+  {
+    services(first: 10000) {
+      edges {
+        node {
+          slug
+          serviceCategories {
+            edges {
+              node {
+                slug
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  `);
+  return data?.services;
+}
+
 export async function getSiteData(): Promise<ISiteData> {
   const data = await fetchAPI(GET_SITE_DATA_QUERY);
 
@@ -87,8 +123,42 @@ export async function getProjectsData(): Promise<IProjectsData> {
   return data;
 }
 
+export async function getServiceCategoriesData(): Promise<IServiceCategoryData> {
+  const data = await fetchAPI(GET_SERVICE_CATEGORIES_DATA_QUERY);
+
+  return data;
+}
+
+export async function getServiceCategoryData(
+  slug: string,
+): Promise<IServiceCategoryData> {
+  const data = await fetchAPI(GET_SERVICE_CATEGORY_DATA_QUERY, {
+    variables: {
+      slug,
+    },
+  });
+
+  return data;
+}
+
+export async function getServicesData(): Promise<IServicesData> {
+  const data = await fetchAPI(GET_SERVICES_DATA_QUERY);
+
+  return data;
+}
+
+export async function getServiceData(slug: string): Promise<IServiceData> {
+  const data = await fetchAPI(GET_SERVICE_DATA_QUERY, {
+    variables: {
+      slug,
+    },
+  });
+
+  return { service: data.serviceBy };
+}
+
 export async function getProjectAndMoreProjects(
-  slug: string
+  slug: string,
 ): Promise<IProjectData> {
   const data = await fetchAPI(GET_PROJECT_DATA_QUERY, {
     variables: {
@@ -98,7 +168,7 @@ export async function getProjectAndMoreProjects(
 
   // Filter out the main project
   data.projects.nodes = data.projects.nodes.filter(
-    (node) => node.slug !== slug
+    (node) => node.slug !== slug,
   );
   // If there are still 3 projects, remove the last one
   if (data.projects.nodes.length > 2) data.projects.nodes.pop();

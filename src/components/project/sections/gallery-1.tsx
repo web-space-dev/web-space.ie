@@ -8,12 +8,12 @@ import { Col } from "../../global/grid/Col";
 import AnimateInView from "../../global/animation/animateInView";
 
 interface IProps {
-  images: Gallery;
+  images: Gallery | undefined;
 }
 
 export default function Gallery1({ images }: IProps) {
   const isDesktop = useIsDesktop();
-
+  if (!images) return null;
   return (
     <Row>
       <Col span={12}>

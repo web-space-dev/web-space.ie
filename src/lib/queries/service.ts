@@ -1,6 +1,6 @@
-export const GET_PAGE_DATA_QUERY = `
-query PageBySlug($slug: String!) {
-  pageBySlug(slug: $slug) {
+export const GET_SERVICE_DATA_QUERY = `
+query PostBySlug($slug: String!) {
+  serviceBy(slug: $slug) {
     title
     slug
     featuredImage {
@@ -10,73 +10,91 @@ query PageBySlug($slug: String!) {
         placeholderDataURI
       }
     }
-    pageFields {
+    tags {
+      nodes {
+        name
+        slug
+      }
+    }
+    serviceCategories {
+      edges {
+        node {
+          id
+          name
+          slug
+        }
+      }
+    }
+    servicesFields {
       content {
         fieldGroupName
-        ... on PageFieldsContentSubHeroLargeTextLayout {
+        ... on ServicesFieldsContentSubHeroLargeTextLayout {
           __typename
           subHeroLargeText
         }
-        ... on PageFieldsContentSimpleSectionLayout {
+        ... on ServicesFieldsContentSimpleSectionLayout {
           __typename
           title
           pillText
           content
         }
-        ... on PageFieldsContentLargeTextAreaLayout {
+        ... on ServicesFieldsContentLargeTextAreaLayout {
           __typename
           largeTextArea
         }
-        ... on PageFieldsContentGallery1Layout {
+        ... on ServicesFieldsContentGallery1Layout {
           __typename
           gallery1 {
             nodes {
               sourceUrl
               altText
+              placeholderDataURI
             }
           }
         }
-        ... on PageFieldsContentGallery2Layout {
+        ... on ServicesFieldsContentGallery2Layout {
           __typename
           gallery2 {
             nodes {
               sourceUrl
               altText
+              placeholderDataURI
             }
           }
         }
-        ... on PageFieldsContentDynamicTextImageLayout {
+        ... on ServicesFieldsContentDynamicTextImageLayout {
           __typename
           title
           dynamicTextAndImage {
-            ... on PageFieldsContentDynamicTextAndImageTextLayout {
+            ... on ServicesFieldsContentDynamicTextAndImageTextLayout {
               __typename
               text
             }
-            ... on PageFieldsContentDynamicTextAndImageTextAndImageLayout {
+            ... on ServicesFieldsContentDynamicTextAndImageTextAndImageLayout {
               __typename
               text
               image {
                 node {
                   altText
                   sourceUrl
+                  placeholderDataURI
                 }
               }
             }
           }
         }
-        ... on PageFieldsContentParagraphFieldLayout {
+        ... on ServicesFieldsContentParagraphFieldLayout {
           __typename
           paragraphItem {
-            ... on PageFieldsContentParagraphItemTitleLayout {
+            ... on ServicesFieldsContentParagraphItemTitleLayout {
               __typename
               title
             }
-            ... on PageFieldsContentParagraphItemParagraphLayout {
+            ... on ServicesFieldsContentParagraphItemParagraphLayout {
               __typename
               paragraph
             }
-            ... on PageFieldsContentParagraphItemLargeParagraphLayout {
+            ... on ServicesFieldsContentParagraphItemLargeParagraphLayout {
               __typename
               largeParagraph
             }
@@ -86,4 +104,4 @@ query PageBySlug($slug: String!) {
     }
   }
 }
-  `;
+`;

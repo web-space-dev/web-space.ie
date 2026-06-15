@@ -24,6 +24,7 @@ export interface PurpleNode {
 
 export interface HomeFields {
   heroTitle: string;
+  whatWeDoSubtitle: string;
   whatWeDo: WhatWeDo[];
   showcaseTitle: string;
   showcaseProjects: Projects;
@@ -37,12 +38,38 @@ export interface Approach {
 
 export interface WhatWeDo {
   title: string;
+  description: string;
   pills: Pill[];
+  serviceCategory?: ServiceCategory;
+}
+
+export interface ServiceCategory {
+  edges: ServiceCategoryEdge[];
+}
+
+export interface ServiceCategoryEdge {
+  node: ServiceCategoryNode;
+}
+
+export interface ServiceCategoryNode {
+  id: string;
+  name: string;
+  slug: string;
 }
 
 export interface Pill {
   pillText: string;
   id: number;
+  hoverText?: string;
+  service?: PillService;
+}
+
+export interface PillService {
+  nodes: PillServiceNode[];
+}
+
+export interface PillServiceNode {
+  slug: string;
 }
 
 export interface SkillCategories {
@@ -52,6 +79,7 @@ export interface SkillCategories {
 export interface SkillCategoriesNode {
   name: string;
   description: string;
+  slug: string;
   skills: Skills;
 }
 
@@ -67,4 +95,18 @@ export interface SkillsNode {
 
 export interface SkillsFields {
   link?: string;
+  project?: SkillsProject;
+}
+
+export interface SkillsProject {
+  edges: SkillsProjectEdge[];
+}
+
+export interface SkillsProjectEdge {
+  node: SkillsProjectNode;
+}
+
+export interface SkillsProjectNode {
+  id: string;
+  slug: string;
 }
