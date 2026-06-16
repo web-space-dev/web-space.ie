@@ -54,11 +54,11 @@ export default function Layout({
   const isProduction = process.env.NODE_ENV === "production";
 
   // Pages to exclude from coming soon
-  const excludedPages = ["hosting-maintenance-sla", "privacy-policy"];
-  const isExcludedPage = excludedPages.some((page) =>
-    currentPath.includes(page),
-  );
-  const isComingSoon = true && !isExcludedPage;
+  // const excludedPages = ["hosting-maintenance-sla", "privacy-policy"];
+  // const isExcludedPage = excludedPages.some((page) =>
+  //   currentPath.includes(page),
+  // );
+  // const isComingSoon = true && !isExcludedPage;
 
   useEffect(() => {
     // Set current path on mount
@@ -102,25 +102,25 @@ export default function Layout({
     }
   }, []);
 
-  if (isComingSoon) {
-    return (
-      <StyledWrapper>
-        <Wrapper
-          pageTitle={"WEB Space"}
-          pageDescription={pageDescription}
-          siteData={siteData}
-        />
+  // if (isComingSoon) {
+  //   return (
+  //     <StyledWrapper>
+  //       <Wrapper
+  //         pageTitle={"WEB Space"}
+  //         pageDescription={pageDescription}
+  //         siteData={siteData}
+  //       />
 
-        <main id="content">
-          <ComingSoon />
-        </main>
+  //       <main id="content">
+  //         <ComingSoon />
+  //       </main>
 
-        {process.env.NODE_ENV === "production" && gaId && (
-          <GoogleAnalytics gaId={gaId} />
-        )}
-      </StyledWrapper>
-    );
-  }
+  //       {process.env.NODE_ENV === "production" && gaId && (
+  //         <GoogleAnalytics gaId={gaId} />
+  //       )}
+  //     </StyledWrapper>
+  //   );
+  // }
 
   return (
     <StyledWrapper>
