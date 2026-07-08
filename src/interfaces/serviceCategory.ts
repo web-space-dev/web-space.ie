@@ -48,8 +48,10 @@ export interface ContentBody {
 }
 
 export interface ImageList {
-  image: Image;
+  image: Image | null;
   text: string;
+  subText: string;
+  link: string;
 }
 
 export interface Image {
