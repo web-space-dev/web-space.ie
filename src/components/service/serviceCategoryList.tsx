@@ -46,7 +46,7 @@ const StyledHeader = styled(motion.h1)`
 `;
 
 const StyledSubheading = styled(motion.p)`
-  font-size: ${getRemSize(22)};
+  font-size: ${getRemSize(dimensions.textSizes.small.desktop + 10)};
   line-height: 1.4;
   text-align: center;
   margin: 0 auto 60px auto;
@@ -56,14 +56,14 @@ const StyledSubheading = styled(motion.p)`
   letter-spacing: 0.5px;
 
   @media (max-width: ${breakpoints.md}px) {
-    font-size: ${getRemSize(18)};
+    font-size: ${getRemSize(dimensions.textSizes.small.desktop + 5)};
     text-align: left;
     max-width: 100%;
     margin-bottom: 40px;
   }
 
   @media (max-width: ${breakpoints.sm}px) {
-    font-size: ${getRemSize(16)};
+    font-size: ${getRemSize(dimensions.textSizes.small.mobile + 5)};
   }
 `;
 
@@ -99,7 +99,7 @@ const StyledProjectInfo = styled.div`
 const StyledProjectDetails = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 80%;
   gap: 8px;
 
   & h2 {
@@ -113,7 +113,7 @@ const StyledProjectDetails = styled.div`
   & p {
     font-weight: 400;
     margin: 0;
-    font-size: ${getRemSize(dimensions.textSizes.small.desktop)};
+    font-size: ${getRemSize(dimensions.textSizes.small.desktop + 5)};
     line-height: 1.4;
     color: rgba(255, 255, 255, 0.8);
     transition: color 0.2s ease;
@@ -121,11 +121,11 @@ const StyledProjectDetails = styled.div`
 
   @media (max-width: ${breakpoints.md}px) {
     & h2 {
-      font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
+      font-size: ${getRemSize(dimensions.headingSizes.cta.mobile + 5)};
     }
 
     & p {
-      font-size: ${getRemSize(dimensions.textSizes.small.mobile)};
+      font-size: ${getRemSize(dimensions.textSizes.small.mobile + 5)};
     }
   }
 `;

@@ -52,6 +52,7 @@ export interface ImageList {
   text: string;
   subText: string;
   link: string;
+  isLogo?: boolean;
 }
 
 export interface Image {

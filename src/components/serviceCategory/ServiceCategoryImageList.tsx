@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
+import Link from "next/link";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import AnimateInView from "../global/animation/animateInView";
@@ -97,17 +98,19 @@ const imageListItemStyles = `
   }
 `;
 
-const StyledImageListItem = styled.div`
-  ${imageListItemStyles}
-`;
+const StyledImageListItemContent = styled.div``;
 
-const StyledImageListItemLink = styled.a`
+const StyledImageListItemLink = styled(Link)`
   ${imageListItemStyles}
   cursor: pointer;
   text-decoration: none;
 `;
 
-const StyledImageListImage = styled.div`
+const StyledImageListItem = styled.div`
+  ${imageListItemStyles}
+`;
+
+const StyledImageListImage = styled.div<{ isLogo?: boolean }>`
   position: relative;
   width: 96px;
   height: 96px;
@@ -116,8 +119,10 @@ const StyledImageListImage = styled.div`
   flex-shrink: 0;
 
   @media (max-width: ${breakpoints.md}px) {
-    width: 70px;
-    height: 70px;
+    ${(props) =>
+      props.isLogo
+        ? `width: 100px; height: 100px;margin-left: -20px;`
+        : `width: 70px;height: 70px;`}
   }
 `;
 
@@ -175,7 +180,7 @@ const StyledImageListSubText = styled.p`
   }
 
   @media (max-width: ${breakpoints.md}px) {
-    font-size: ${getRemSize(dimensions.textSizes.normal.mobile - 10)};
+    font-size: ${getRemSize(dimensions.textSizes.normal.mobile - 2)};
   }
 `;
 
@@ -193,13 +198,6 @@ const StyledSubTextArrow = styled.span`
   flex-shrink: 0;
   line-height: 0;
   overflow: visible;
-
-  @media (max-width: ${breakpoints.md}px) {
-    svg {
-      width: 16px;
-      height: 16px;
-    }
-  }
 `;
 
 const StyledImageListDivider = styled.div`
@@ -221,8 +219,8 @@ function ImageListRow({ item }: ImageListRowProps) {
   const hasLink = !!item.link;
 
   const rowContent = (
-    <>
-      <StyledImageListImage>
+    <StyledImageListItemContent>
+      <StyledImageListImage isLogo={item.isLogo}>
         {item.image?.node?.sourceUrl ? (
           <Image
             src={item.image.node.sourceUrl}
@@ -250,7 +248,7 @@ function ImageListRow({ item }: ImageListRowProps) {
           </StyledSubTextRow>
         )}
       </StyledImageListTextWrapper>
-    </>
+    </StyledImageListItemContent>
   );
 
   if (!hasLink) {
@@ -258,11 +256,7 @@ function ImageListRow({ item }: ImageListRowProps) {
   }
 
   return (
-    <StyledImageListItemLink
-      href={item.link}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <StyledImageListItemLink href={item.link}>
       {rowContent}
     </StyledImageListItemLink>
   );

@@ -33,6 +33,7 @@ query ServicesCategoryPag($slug: String!) {
             text
             subText
             link
+            isLogo
           }
         }
         ... on ServiceCategoryFieldsContentBodyCtaLayout {
